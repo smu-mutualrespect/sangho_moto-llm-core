@@ -9,6 +9,7 @@ import os
 
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 from typing import Any, Optional
@@ -29,8 +30,15 @@ def call_gpt_api(
     if os.getenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode").lower() == "opencode":
         return _call_opencode(prompt, model=model, timeout=timeout)
 
-    _log_fallback_transport("api", prompt)
-    return _call_openai_responses_api(prompt, model=model, timeout=timeout)
+    start = time.monotonic()
+    _log_fallback_transport("api", "start", prompt)
+    try:
+        result = _call_openai_responses_api(prompt, model=model, timeout=timeout)
+    except Exception:
+        _log_fallback_transport("api", "error", prompt, start)
+        raise
+    _log_fallback_transport("api", "done", prompt, start)
+    return result
 
 
 def _call_openai_responses_api(
@@ -110,7 +118,8 @@ def _call_opencode(
     timeout: float,
 ) -> str:
     repo_root = Path(__file__).resolve().parents[3]
-    _log_fallback_transport("opencode", prompt)
+    start = time.monotonic()
+    _log_fallback_transport("opencode", "start", prompt)
     command = [
         os.getenv("MOTO_LLM_OPENCODE_BIN", "opencode"),
         "run",
@@ -135,6 +144,7 @@ def _call_opencode(
     )
 
     if completed.returncode != 0:
+        _log_fallback_transport("opencode", "error", prompt, start)
         raise RuntimeError(completed.stderr.strip() or completed.stdout.strip())
 
     parts: list[str] = []
@@ -149,8 +159,10 @@ def _call_opencode(
 
     result = "\n".join(parts).strip()
     if not result:
+        _log_fallback_transport("opencode", "error", prompt, start)
         raise ValueError("OpenCode returned no text")
 
+    _log_fallback_transport("opencode", "done", prompt, start)
     return result
 
 
@@ -174,7 +186,12 @@ def _api_model_name(model: str) -> str:
     return model
 
 
-def _log_fallback_transport(transport: str, prompt: str) -> None:
+def _log_fallback_transport(
+    transport: str,
+    event: str,
+    prompt: str,
+    start: Optional[float] = None,
+) -> None:
     source = None
     service = None
     action = None
@@ -196,7 +213,16 @@ def _log_fallback_transport(transport: str, prompt: str) -> None:
         )
         if part
     )
-    print(f"[llm-fallback {transport}] {details}", file=sys.stderr, flush=True)
+    elapsed = ""
+    if start is not None:
+        elapsed_ms = int((time.monotonic() - start) * 1000)
+        elapsed = f" elapsed_ms={elapsed_ms}"
+
+    print(
+        f"[llm-fallback {transport} {event}] {details}{elapsed}",
+        file=sys.stderr,
+        flush=True,
+    )
 
 
 def call_claude_api(

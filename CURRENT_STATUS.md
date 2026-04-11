@@ -221,10 +221,10 @@ aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy
 git@github.com:smu-mutualrespect/sangho_moto-llm-core.git
 ```
 
-마지막으로 push한 커밋:
+마지막 push 상태:
 
 ```text
-2f49cad93 Add protocol-aware LLM fallback formatting
+master branch 최신 커밋까지 smu/master에 반영됨. 정확한 커밋은 git log -1 --oneline으로 확인.
 ```
 
 참고:

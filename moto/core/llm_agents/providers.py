@@ -7,6 +7,10 @@ import json
 import os
 # API 키와 기본 모델명을 환경변수에서 읽기 위해 사용한다.
 
+import subprocess
+import sys
+from pathlib import Path
+
 from typing import Any, Optional
 # 함수 시그니처에 사용하는 타입 힌트를 가져온다.
 
@@ -22,6 +26,21 @@ def call_gpt_api(
 ) -> str:
     # OpenAI Responses API를 호출해서 텍스트 응답을 받아오는 함수다.
 
+    if os.getenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode").lower() == "opencode":
+        return _call_opencode(prompt, model=model, timeout=timeout)
+
+    _log_fallback_transport("api", prompt)
+    return _call_openai_responses_api(prompt, model=model, timeout=timeout)
+
+
+def _call_openai_responses_api(
+    prompt: str,
+    *,
+    model: Optional[str] = None,
+    timeout: float = 20.0,
+) -> str:
+    # OpenAI Responses API를 직접 호출해서 텍스트 응답을 받아오는 함수다.
+
     api_key = os.getenv("OPENAI_API_KEY")
     # OpenAI API 키를 환경변수에서 읽는다.
 
@@ -31,14 +50,18 @@ def call_gpt_api(
 
     payload = {
         # OpenAI API에 보낼 JSON 요청 body를 만든다.
-        "model": model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5-mini"),
+        "model": _api_model_name(
+            model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5.4")
+        ),
         # 호출에 사용할 모델명을 정한다. 인자가 없으면 환경변수, 그것도 없으면 기본값을 쓴다.
+        "instructions": _agent_instructions(),
+        # OpenCode agent와 동일한 agent 지침을 직접 API 호출에도 적용한다.
         "input": [
             # Responses API의 공식 message 배열 형태로 입력을 보낸다.
             {
                 "role": "user",
                 # 이 메시지가 사용자 입력이라는 뜻이다.
-                "content": prompt,
+                "content": _runtime_prompt(prompt),
                 # 실제 프롬프트 문자열을 담는다.
             }
         ],
@@ -78,6 +101,102 @@ def call_gpt_api(
 
     return "\n".join(parts).strip()
     # 여러 텍스트 조각을 하나의 문자열로 합쳐 최종 응답으로 돌려준다.
+
+
+def _call_opencode(
+    prompt: str,
+    *,
+    model: Optional[str] = None,
+    timeout: float,
+) -> str:
+    repo_root = Path(__file__).resolve().parents[3]
+    _log_fallback_transport("opencode", prompt)
+    command = [
+        os.getenv("MOTO_LLM_OPENCODE_BIN", "opencode"),
+        "run",
+        "--agent",
+        os.getenv("MOTO_LLM_OPENCODE_AGENT", "moto-fallback"),
+        "--model",
+        model or os.getenv("MOTO_LLM_OPENCODE_MODEL", "openai/gpt-5.4"),
+        "--variant",
+        os.getenv("MOTO_LLM_OPENCODE_VARIANT", "fast"),
+        "--format",
+        "json",
+        _runtime_prompt(prompt),
+    ]
+
+    completed = subprocess.run(
+        command,
+        cwd=repo_root,
+        text=True,
+        capture_output=True,
+        timeout=timeout,
+        check=False,
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(completed.stderr.strip() or completed.stdout.strip())
+
+    parts: list[str] = []
+    for line in completed.stdout.splitlines():
+        if not line.strip():
+            continue
+        event = json.loads(line)
+        if event.get("type") == "text":
+            text = event.get("part", {}).get("text")
+            if text:
+                parts.append(text)
+
+    result = "\n".join(parts).strip()
+    if not result:
+        raise ValueError("OpenCode returned no text")
+
+    return result
+
+
+def _runtime_prompt(prompt: str) -> str:
+    return (
+        "Runtime Moto LLM fallback request.\n"
+        "Return only the HTTP response body for the AWS CLI caller. "
+        "Do not edit files, do not run tools, do not wrap the answer in Markdown.\n\n"
+        f"{prompt}"
+    )
+
+
+def _agent_instructions() -> str:
+    prompt_path = Path(__file__).with_name("agent.md")
+    return prompt_path.read_text(encoding="utf-8")
+
+
+def _api_model_name(model: str) -> str:
+    if model.startswith("openai/"):
+        return model.split("/", 1)[1]
+    return model
+
+
+def _log_fallback_transport(transport: str, prompt: str) -> None:
+    source = None
+    service = None
+    action = None
+    for line in prompt.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("source="):
+            source = stripped.split("=", 1)[1]
+        elif stripped.startswith("service="):
+            service = stripped.split("=", 1)[1]
+        elif stripped.startswith("action="):
+            action = stripped.split("=", 1)[1]
+
+    details = " ".join(
+        part
+        for part in (
+            f"service={service}" if service else None,
+            f"action={action}" if action else None,
+            f"source={source}" if source else None,
+        )
+        if part
+    )
+    print(f"[llm-fallback {transport}] {details}", file=sys.stderr, flush=True)
 
 
 def call_claude_api(

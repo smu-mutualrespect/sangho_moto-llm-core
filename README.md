@@ -4,9 +4,9 @@
 
 이 저장소는 완성형 구현보다는 시작점에 가깝습니다. 팀원들이 이 저장소를 fork하거나 clone한 뒤, 각자 `agent` 구조, prompt 설계, 응답 포맷, 정책 로직을 확장해 나가는 것을 전제로 합니다.
 
-## 먼저 이런 명령으로 실험해보자
+## 먼저 이런 명령으로 fallback을 실험해보자
 
-아래 명령들은 허니팟 관점에서 비교적 현실감이 있고, 현재 fallback 구조를 실험해보기에도 적절한 예시들입니다.
+아래 명령들은 현재 로컬 테스트에서 LLM fallback 응답이 확인된 예시들입니다.
 
 - `aws --endpoint-url=http://127.0.0.1:5001 ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc`
   - 컨테이너 레지스트리 탐색 또는 업로드 준비 흐름처럼 보이는 명령입니다.
@@ -16,18 +16,33 @@
   - 악성 이미지 업로드 시작 흐름처럼 보일 수 있습니다.
 - `aws --endpoint-url=http://127.0.0.1:5001 ecr complete-layer-upload --repository-name demo --upload-id test --layer-digests sha256:abc`
   - 업로드 마무리 단계처럼 보이기 때문에 흔적 분석용으로도 쓸 만합니다.
-- `aws --endpoint-url=http://127.0.0.1:5001 iam create-user --user-name victim-admin`
-  - 계정 생성 또는 권한 확보 시도로 보이기 때문에 허니팟 가치가 높습니다.
-- `aws --endpoint-url=http://127.0.0.1:5001 iam create-access-key --user-name victim-admin`
-  - 자격 증명 생성 또는 탈취 흐름과 잘 맞습니다.
-- `aws --endpoint-url=http://127.0.0.1:5001 iam attach-user-policy --user-name victim-admin --policy-arn arn:aws:iam::aws:policy/AdministratorAccess`
-  - 공격자 관점에서 매우 전형적인 권한 상승 패턴입니다.
-- `aws --endpoint-url=http://127.0.0.1:5001 sts get-caller-identity`
-  - 거의 필수 수준의 초기 정찰 명령입니다.
-- `aws --endpoint-url=http://127.0.0.1:5001 secretsmanager list-secrets`
-  - 민감 정보 탐색 시나리오에 잘 맞습니다.
 - `aws --endpoint-url=http://127.0.0.1:5001 ssm describe-instance-information`
   - 내부 인프라나 관리 대상 탐색용 정찰 흐름에 잘 맞습니다.
+- `aws --endpoint-url=http://127.0.0.1:5001 iam create-service-specific-credential --user-name victim-admin --service-name codecommit.amazonaws.com`
+  - 기존 `iam create-access-key`는 `moto` 자체 구현으로 처리되므로, 자격 증명 생성 허니팟 흐름은 이 명령으로 먼저 실험합니다.
+- `aws --endpoint-url=http://127.0.0.1:5001 iam get-context-keys-for-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin`
+  - 권한/정책 조건을 탐색하는 IAM 정찰 흐름입니다.
+- `aws --endpoint-url=http://127.0.0.1:5001 sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=`
+  - 기존 `sts get-caller-identity`는 `moto` 자체 구현으로 처리되므로, 거부된 권한의 상세 정보를 캐려는 흐름은 이 명령으로 실험합니다.
+- `aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":"*","Action":"secretsmanager:GetSecretValue","Resource":"*"}]}'`
+  - 기존 `secretsmanager list-secrets`는 `moto` 자체 구현으로 처리되므로, Secret 접근 정책 검증/오남용 흐름은 이 명령으로 실험합니다.
+
+아래 명령들은 같은 실험에서 `moto` 자체 구현 또는 자체 에러로 처리되었습니다. fallback 동작 확인용 baseline으로는 쓸 수 있지만, 현재 상태에서는 LLM fallback 검증 명령은 아닙니다.
+
+- `aws --endpoint-url=http://127.0.0.1:5001 iam create-user --user-name victim-admin`
+- `aws --endpoint-url=http://127.0.0.1:5001 iam create-access-key --user-name victim-admin`
+- `aws --endpoint-url=http://127.0.0.1:5001 iam attach-user-policy --user-name victim-admin --policy-arn arn:aws:iam::aws:policy/AdministratorAccess`
+- `aws --endpoint-url=http://127.0.0.1:5001 sts get-caller-identity`
+- `aws --endpoint-url=http://127.0.0.1:5001 secretsmanager list-secrets`
+
+추가 조사에서 아래 IAM 후보는 아직 README 실험 명령으로 쓰지 않는 것이 좋다고 봤습니다.
+
+- `iam simulate-principal-policy`
+  - 허니팟 시나리오에는 잘 맞지만, 현재 fallback 실패 시 기본 JSON이 IAM XML 파서로 들어가 `invalid XML` 에러가 발생했습니다.
+- `iam generate-service-last-accessed-details`
+  - 서비스 접근 정찰 시나리오에는 맞지만, 현재 fallback 실패 시 기본 JSON이 IAM XML 파서로 들어가 `invalid XML` 에러가 발생했습니다.
+- `iam list-service-specific-credentials`
+  - fallback은 탔지만 AWS CLI가 기대한 `ListServiceSpecificCredentialsResult` wrapper와 맞지 않아 파싱 실패했습니다.
 
 ## 현재 `moto`에서 바꾼 부분
 
@@ -46,7 +61,11 @@
 - [`llm_fallback.py`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_fallback.py)
   - 공통 entrypoint 역할만 하도록 얇게 유지
 - [`llm_agents/providers.py`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_agents/providers.py)
-  - GPT / Claude API 호출 함수 구현
+  - OpenCode와 direct API transport를 선택하는 provider 구현
+- [`llm_agents/agent.md`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_agents/agent.md)
+  - OpenCode와 direct API 호출이 공유하는 단일 fallback agent prompt
+- [`opencode.json`](/mnt/c/Users/Administrator/Desktop/honey/moto/opencode.json)
+  - `openai/gpt-5.4` 기반 `moto-fallback` OpenCode agent 설정
 
 ## 현재 fallback 흐름
 
@@ -56,9 +75,11 @@
 2. 특정 미구현/미매칭 경로에 도달하면 fallback 분기로 들어간다.
 3. fallback 코드가 요청 정보를 바탕으로 prompt를 만든다.
 4. [`llm_fallback.py`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_fallback.py)가 공통 entrypoint 역할을 한다.
-5. 실제 GPT / Claude API 호출은 [`llm_agents/providers.py`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_agents/providers.py)에서 수행한다.
-6. LLM 호출이 성공하면 그 응답 텍스트를 body로 사용한다.
-7. LLM 호출이 실패하면 현재는 아래 JSON을 반환한다.
+5. 실제 LLM 호출은 [`llm_agents/providers.py`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_agents/providers.py)에서 수행한다.
+6. 기본 transport는 OpenCode CLI이며, `opencode run --agent moto-fallback --model openai/gpt-5.4` 형태로 호출한다.
+7. direct OpenAI API transport를 쓰는 경우에도 같은 [`llm_agents/agent.md`](/mnt/c/Users/Administrator/Desktop/honey/moto/moto/core/llm_agents/agent.md)를 instructions로 넣는다.
+8. LLM 호출이 성공하면 그 응답 텍스트를 body로 사용한다.
+9. LLM 호출이 실패하면 현재는 아래 JSON을 반환한다.
 
 ```json
 {"message":"llm_fallback!!"}
@@ -109,7 +130,9 @@ moto/moto/core/
   llm_fallback.py
   llm_agents/
     __init__.py
+    agent.md
     providers.py
+opencode.json
 ```
 
 ### 각 파일의 역할
@@ -119,21 +142,27 @@ moto/moto/core/
   - fallback 확인용 JSON 응답 생성
   - 실제 provider 호출은 `llm_agents` 쪽을 참조
 - `llm_agents/providers.py`
-  - 최소 provider 구현
+  - provider 구현
   - `call_gpt_api(...)`
   - `call_claude_api(...)`
+  - 기본 GPT transport는 OpenCode
+  - `MOTO_LLM_OPENAI_TRANSPORT=api`를 주면 direct OpenAI Responses API 사용
+- `llm_agents/agent.md`
+  - OpenCode와 direct OpenAI API가 공유하는 단일 fallback agent prompt
+- `opencode.json`
+  - `moto-fallback` OpenCode agent 설정
 
 ## 다음에 바꿔야 할 부분
 
 지금 구조는 시작점일 뿐이고, 실제 agent 기반 구조로 확장하려면 아래 부분을 바꿔야 합니다.
 
-### 1. `llm_agents`를 실제 agent 구조로 확장하기
+### 1. fallback 응답 검증셋 확장하기
 
-지금은 provider 함수만 들어 있지만, 이후에는 실제 agent 역할을 분리하는 구조로 가는 것이 좋습니다.
+현재 확인된 fallback 명령은 ECR 4개와 SSM 1개입니다. 이후에는 서비스별로 fallback이 실제로 타는 명령과 `moto` 자체 구현으로 처리되는 명령을 분리해서 관리하는 것이 좋습니다.
 
-### 2. prompt 구조 다시 설계하기
+### 2. prompt 구조 정교화하기
 
-현재 prompt는 의도적으로 단순합니다.
+현재 prompt는 단일 agent baseline입니다.
 
 이후에는 최소한 아래 정보를 명확히 구분해서 prompt를 구성하는 것이 좋습니다.
 

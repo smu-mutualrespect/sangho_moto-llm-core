@@ -157,10 +157,13 @@ aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy
 
 최근 비교 요약:
 
-| 범위 | OpenCode 평균 CLI latency | API nano 평균 CLI latency | OpenCode 평균 LLM latency | API nano 평균 LLM latency | 요약 |
-|---|---:|---:|---:|---:|---|
-| README 9개 전체 | 약 18.4초 | 약 4.2초 | n/a | 약 1.7초 | API nano가 훨씬 빠르지만 IAM/STS 파싱 실패가 늘어남 |
-| ECR 4개 + SSM 1개 | 약 15.5초 | 약 3.4초 | 약 14.1초 | 약 2.0초 | API nano가 end-to-end 약 4.5배, LLM 호출 약 7.1배 빠름 |
+| 범위 | 모델/구조 | 성공률 | 평균 CLI latency | 평균 LLM latency | 요약 |
+|---|---|---:|---:|---:|---|
+| README 9개 전체 | OpenCode | 7/9 | 약 18.4초 | n/a | IAM/STS 일부 parse failure |
+| README 9개 전체 | API nano, XML formatting 전 | 6/9 | 약 4.2초 | 약 1.7초 | 빠르지만 IAM/STS XML parse failure |
+| README 9개 전체 | API nano, XML formatting 후 | 9/9 | 약 3.0초 | 약 2.2초 | IAM/STS parse failure 해결 |
+| README 9개 전체 | API mini, XML formatting 후 | 9/9 | 약 4.0초 | 약 2.2초 | nano보다 CLI 평균은 느렸지만 SecretsManager 품질은 더 나음 |
+| ECR 4개 + SSM 1개 | API nano, XML formatting 후 | 5/5 | 약 3.9초 | 약 2.0초 | 안정 JSON fallback 경로 유지 |
 
 ## 품질 상태
 
@@ -178,16 +181,21 @@ aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy
 
 - `secretsmanager validate-resource-policy`
   - API nano에서는 파싱은 성공하지만 `ValidationErrors` 품질이 낮아질 수 있습니다.
+  - API mini는 이번 run에서 더 구체적인 validation error를 반환했습니다.
 - IAM/STS 계열
-  - 일부 경로에서 AWS CLI가 XML을 기대하는데 LLM이 JSON을 반환해서 파싱 실패가 발생합니다.
+  - protocol-aware XML formatting 이후 README 대상 3개 명령은 AWS CLI parse 성공으로 바뀌었습니다.
+  - LLM이 credential-looking 값을 만들 수 있으므로 `ServicePassword`는 formatter에서 항상 redaction합니다.
 
 현재 문제 예:
 
 - `iam create-service-specific-credential`
+  - XML wrapper + password redaction 적용됨
 - `iam get-context-keys-for-principal-policy`
+  - XML wrapper 적용됨
 - `sts decode-authorization-message`
+  - XML wrapper 적용됨
 
-이들은 prompt만으로 해결하기보다 protocol-aware response formatting이 필요해 보입니다.
+남은 문제는 파싱보다 응답 품질과 latency 편차입니다.
 
 ## 로그 파일
 
@@ -216,7 +224,7 @@ git@github.com:smu-mutualrespect/sangho_moto-llm-core.git
 마지막으로 push한 커밋:
 
 ```text
-c92255068 Add OpenCode honeypot fallback agent
+b97564fc3 Document latency status and env handling
 ```
 
 참고:
@@ -228,19 +236,23 @@ c92255068 Add OpenCode honeypot fallback agent
 
 다음 파일은 이전부터 로컬에 남아 있었고, 의도적으로 push에 포함하지 않았습니다.
 
-- `moto/core/responses.py`
-  - 중복 `return 200, headers, fallback_body` 1줄
 - `moto/core/llm_agents/PLAN.md`
   - untracked 설계 문서
 
 최근 추가로 수정된 내용 중 아직 push하지 않은 것:
 
-- `providers.py`
-  - fallback latency 로그에 `start/done/error`와 `elapsed_ms`를 찍도록 변경
-- `.gitignore`
-  - `.env`, `.env.*` ignore 추가
+- `moto/core/llm_fallback.py`
+  - IAM/STS protocol-aware XML formatter 추가
+  - `ServicePassword` redaction 강제
+- `moto/core/responses.py`
+  - fallback 응답에 formatter 연결
+  - 중복 `return 200, headers, fallback_body` 1줄 제거
+- `moto/core/botocore_stubber.py`
+  - fallback 응답에 formatter 연결
+- `moto/core/custom_responses_mock.py`
+  - fallback 응답에 formatter 연결
 - `fallback_response_log.md`
-  - API nano latency 비교 결과 추가
+  - XML formatting 후 nano/mini latency 비교 결과 추가
 - `CURRENT_STATUS.md`
   - 이 문서
 

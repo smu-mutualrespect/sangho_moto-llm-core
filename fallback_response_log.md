@@ -55,3 +55,54 @@
 |---|---:|---:|---:|---:|---|
 | All 9 README fallback commands | 18380 | 4183 | n/a | 1746 | API nano was much faster, but 3/9 commands failed parsing vs 2/9 for OpenCode in the prior run. |
 | ECR 4 commands + SSM command | 15504 | 3417 | 14083 | 1985 | API nano was about 4.5x faster end-to-end and about 7.1x faster in LLM call time for the most stable command set. |
+
+## Latency Run: Direct API gpt-5.4-nano with protocol-aware XML formatting
+
+Timestamp: 2026-04-12 08:13 KST
+
+| Scope | Model | Success | Avg CLI ms | Avg LLM ms | Result |
+|---|---|---:|---:|---:|---|
+| README 9 fallback commands | `gpt-5.4-nano` | 9/9 | 3021 | 2194 | IAM/STS XML parse failures fixed by protocol-aware formatting. |
+| ECR 4 commands + SSM command | `gpt-5.4-nano` | 5/5 | 3896 | 1990 | Stable JSON fallback path still works. |
+
+Per-command README 9 run:
+
+| Command family | Exit | CLI elapsed ms | LLM elapsed ms | Result |
+|---|---:|---:|---:|---|
+| ECR `batch-check-layer-availability` | 0 | 1580 | 1084 | Parsed JSON response |
+| ECR `get-download-url-for-layer` | 0 | 1641 | 1156 | Parsed JSON response |
+| ECR `initiate-layer-upload` | 0 | 1362 | 868 | Parsed JSON response |
+| ECR `complete-layer-upload` | 0 | 1680 | 1188 | Parsed JSON response |
+| SSM `describe-instance-information` | 0 | 2518 | 2011 | Parsed JSON response |
+| IAM `create-service-specific-credential` | 0 | 4491 | 1497 | Parsed XML-wrapped query response; service password redacted |
+| IAM `get-context-keys-for-principal-policy` | 0 | 7423 | 6923 | Parsed XML-wrapped query response |
+| STS `decode-authorization-message` | 0 | 4492 | 1530 | Parsed XML-wrapped query response |
+| SecretsManager `validate-resource-policy` | 0 | 2003 | 1492 | Parsed JSON response; validation detail quality still varies |
+
+## Latency Run: Direct API gpt-5.4-mini with protocol-aware XML formatting
+
+Timestamp: 2026-04-12 08:15 KST
+
+| Scope | Model | Success | Avg CLI ms | Avg LLM ms | Result |
+|---|---|---:|---:|---:|---|
+| README 9 fallback commands | `gpt-5.4-mini` | 9/9 | 4030 | 2168 | IAM/STS XML parse failures fixed; SecretsManager validation detail was better than nano in this run. |
+
+Per-command README 9 run:
+
+| Command family | Exit | CLI elapsed ms | LLM elapsed ms | Result |
+|---|---:|---:|---:|---|
+| ECR `batch-check-layer-availability` | 0 | 3203 | 989 | Parsed JSON response |
+| ECR `get-download-url-for-layer` | 0 | 3018 | 2526 | Parsed JSON response |
+| ECR `initiate-layer-upload` | 0 | 1452 | 962 | Parsed JSON response |
+| ECR `complete-layer-upload` | 0 | 2557 | 2076 | Parsed JSON response |
+| SSM `describe-instance-information` | 0 | 6714 | 1035 | Parsed JSON response |
+| IAM `create-service-specific-credential` | 0 | 5495 | 2333 | Parsed XML-wrapped query response; service password redacted |
+| IAM `get-context-keys-for-principal-policy` | 0 | 4919 | 4417 | Parsed XML-wrapped query response |
+| STS `decode-authorization-message` | 0 | 6399 | 3170 | Parsed XML-wrapped query response |
+| SecretsManager `validate-resource-policy` | 0 | 2513 | 2004 | Parsed JSON response with concrete validation errors |
+
+### Comparison: nano vs mini after protocol-aware XML formatting
+
+| Scope | nano success | mini success | nano avg CLI ms | mini avg CLI ms | nano avg LLM ms | mini avg LLM ms | Quality note |
+|---|---:|---:|---:|---:|---:|---:|---|
+| README 9 fallback commands | 9/9 | 9/9 | 3021 | 4030 | 2194 | 2168 | nano was faster end-to-end in this run; mini produced better SecretsManager validation detail. |

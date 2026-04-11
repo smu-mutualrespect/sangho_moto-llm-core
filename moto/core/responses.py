@@ -31,6 +31,7 @@ from moto.core.llm_fallback import (
     build_llm_fallback_json,
     call_claude_api,
     call_gpt_api,
+    format_llm_fallback_response,
 )
 from moto.core.model import OperationModel, ServiceModel
 from moto.core.parse import PROTOCOL_PARSERS, XFormedDict
@@ -627,7 +628,11 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
                         fallback_text = call_claude_api(prompt)
                     else:
                         fallback_text = call_gpt_api(prompt)
-                    return 200, headers, fallback_text
+                    fallback_headers, fallback_body = format_llm_fallback_response(
+                        self.service_name, action, fallback_text
+                    )
+                    headers.update(fallback_headers)
+                    return 200, headers, fallback_body
                 except Exception:
                     # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
                     fallback_headers, fallback_body = build_llm_fallback_json()
@@ -662,7 +667,11 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
                     fallback_text = call_claude_api(prompt)
                 else:
                     fallback_text = call_gpt_api(prompt)
-                return 200, headers, fallback_text
+                fallback_headers, fallback_body = format_llm_fallback_response(
+                    self.service_name, None, fallback_text
+                )
+                headers.update(fallback_headers)
+                return 200, headers, fallback_body
             except Exception:
                 # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
                 fallback_headers, fallback_body = build_llm_fallback_json()
@@ -684,7 +693,11 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
                 fallback_text = call_claude_api(prompt)
             else:
                 fallback_text = call_gpt_api(prompt)
-            return 200, headers, fallback_text
+            fallback_headers, fallback_body = format_llm_fallback_response(
+                self.service_name, action, fallback_text
+            )
+            headers.update(fallback_headers)
+            return 200, headers, fallback_body
         except Exception:
             # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
             fallback_headers, fallback_body = build_llm_fallback_json()

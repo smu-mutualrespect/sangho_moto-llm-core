@@ -14,6 +14,7 @@ from moto.core.llm_fallback import (
     build_llm_fallback_json,
     call_claude_api,
     call_gpt_api,
+    format_llm_fallback_response,
 )
 from moto.core.utils import get_equivalent_url_in_aws_domain
 
@@ -117,7 +118,10 @@ source=botocore_stubber.process_request.no_backend_match
                     fallback_text = call_claude_api(prompt)
                 else:
                     fallback_text = call_gpt_api(prompt)
-                return 200, {}, fallback_text
+                fallback_headers, fallback_body = format_llm_fallback_response(
+                    None, None, fallback_text
+                )
+                return 200, fallback_headers, fallback_body
             except Exception:
                 # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
                 fallback_headers, fallback_body = build_llm_fallback_json()

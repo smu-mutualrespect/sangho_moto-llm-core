@@ -224,7 +224,7 @@ git@github.com:smu-mutualrespect/sangho_moto-llm-core.git
 마지막으로 push한 커밋:
 
 ```text
-b97564fc3 Document latency status and env handling
+2f49cad93 Add protocol-aware LLM fallback formatting
 ```
 
 참고:
@@ -239,7 +239,7 @@ b97564fc3 Document latency status and env handling
 - `moto/core/llm_agents/PLAN.md`
   - untracked 설계 문서
 
-최근 추가로 수정된 내용 중 아직 push하지 않은 것:
+최근 push한 내용:
 
 - `moto/core/llm_fallback.py`
   - IAM/STS protocol-aware XML formatter 추가

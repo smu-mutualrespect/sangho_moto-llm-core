@@ -85,6 +85,45 @@
 {"message":"llm_fallback!!"}
 ```
 
+## 단일 에이전트로 효율을 뽑는 기준
+
+지금 구조에서 중요한 것은 agent 수를 늘리는 것이 아니라, 단일 runtime agent가 매 요청에서 얼마나 짧은 문맥으로 얼마나 그럴듯한 응답을 내느냐입니다.
+
+단일 agent baseline에서 우선순위는 아래 순서가 맞습니다.
+
+1. latency를 줄이기 위해 prompt를 짧게 유지한다.
+2. quality를 올리기 위해 응답 shape를 서비스별로 강하게 제한한다.
+3. consistency를 유지하기 위해 동일 입력에는 최대한 같은 출력이 나오게 한다.
+4. 미구현 API 전체를 커버하려고 하기보다 공격자가 실제로 많이 두드릴 API부터 맞춘다.
+
+즉, `README.md`에 적어둔 실험 명령을 많이 아는 agent보다, 실제 AWS 허니팟 요청에서 필요한 최소 필드만 보고 바로 AWS-like body를 뱉는 agent가 더 낫습니다.
+
+### 단일 agent에서 latency를 줄이는 방법
+
+- provider에 넘기는 request context를 compact하게 유지한다.
+- header/body는 전부 넘기지 말고, 필요한 키만 남기거나 길이를 잘라낸다.
+- `agent.md`는 설명형 문서가 아니라 runtime 규격 문서처럼 짧고 강하게 유지한다.
+- 가능하면 OpenCode subprocess 비용보다 direct API transport가 유리한지 별도로 측정한다.
+- 서비스별 실패 유형을 많이 아는 것보다, `service/action/source/reason/body` 정도의 핵심 정보로 바로 분기하는 편이 빠르다.
+
+### 단일 agent에서 quality를 올리는 방법
+
+- 자유서술을 줄이고 서비스별 response schema를 강하게 강제한다.
+- reconnaissance 계열은 빈 리스트 또는 희소한 결과를 우선한다.
+- privilege/credential 계열은 decoy metadata만 반환하고 실제 capability는 주지 않는다.
+- IAM/XML 계열은 CLI parser가 기대하는 wrapper를 먼저 맞춘다.
+- 같은 리소스 이름이나 digest가 들어오면 응답 shape가 흔들리지 않도록 한다.
+
+### 실제로 확인해야 하는 것
+
+단일 agent 최적화는 결국 아래 세 개를 같이 봐야 합니다.
+
+- `p50/p95 fallback latency`
+- AWS CLI parser 통과율
+- 동일 요청 재실행 시 응답 일관성
+
+이 세 개가 안 맞으면 agent가 똑똑해 보여도 허니팟 운영 품질은 떨어집니다.
+
 ## 지금 fallback이 걸리는 지점
 
 ### 1. 핸들러는 있는데 내부 구현이 비어 있는 경우

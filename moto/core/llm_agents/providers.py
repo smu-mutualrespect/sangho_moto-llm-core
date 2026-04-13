@@ -10,6 +10,7 @@ import os
 import subprocess
 import sys
 import time
+from functools import lru_cache
 from pathlib import Path
 
 from typing import Any, Optional
@@ -169,15 +170,121 @@ def _call_opencode(
 def _runtime_prompt(prompt: str) -> str:
     return (
         "Runtime Moto LLM fallback request.\n"
-        "Return only the HTTP response body for the AWS CLI caller. "
+        "Return only the HTTP response body for the AWS CLI caller.\n"
+        "Use the compact request context below. "
         "Do not edit files, do not run tools, do not wrap the answer in Markdown.\n\n"
-        f"{prompt}"
+        f"{_compact_runtime_context(prompt)}"
     )
 
 
+@lru_cache(maxsize=1)
 def _agent_instructions() -> str:
     prompt_path = Path(__file__).with_name("agent.md")
     return prompt_path.read_text(encoding="utf-8")
+
+
+def _compact_runtime_context(prompt: str) -> str:
+    ordered_keys = (
+        "service",
+        "action",
+        "source",
+        "reason",
+        "method",
+        "url",
+        "region",
+        "read_only",
+        "expected_format",
+        "headers",
+        "body",
+    )
+    parsed: dict[str, str] = {}
+
+    for line in prompt.splitlines():
+        stripped = line.strip()
+        if not stripped or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        parsed[key.strip()] = _compact_prompt_value(key.strip(), value.strip())
+
+    lines: list[str] = []
+    for key in ordered_keys:
+        value = parsed.get(key)
+        if value:
+            lines.append(f"{key}={value}")
+
+    for key, value in parsed.items():
+        if key not in ordered_keys:
+            lines.append(f"{key}={value}")
+
+    return "\n".join(lines)
+
+
+def _compact_prompt_value(key: str, value: str) -> str:
+    compacted = " ".join(value.split())
+
+    if key == "headers":
+        compacted = _compact_headers(compacted)
+        return _truncate(compacted, 1200)
+
+    if key == "body":
+        return _truncate(compacted, 1800)
+
+    if key == "reason":
+        return _truncate(compacted, 240)
+
+    return _truncate(compacted, 320)
+
+
+def _compact_headers(value: str) -> str:
+    hidden_tokens = (
+        "authorization",
+        "x-amz-security-token",
+        "x-amz-date",
+        "x-amzn-trace-id",
+        "x-forwarded-for",
+        "cookie",
+    )
+    lowered = value.lower()
+
+    if not any(token in lowered for token in hidden_tokens):
+        return value
+
+    sanitized = value
+    for token in hidden_tokens:
+        sanitized = _replace_header_value(sanitized, token)
+    return sanitized
+
+
+def _replace_header_value(headers_text: str, header_name: str) -> str:
+    marker = f"'{header_name}'"
+    lowered = headers_text.lower()
+    start = lowered.find(marker)
+    if start == -1:
+        return headers_text
+
+    colon = headers_text.find(":", start)
+    if colon == -1:
+        return headers_text
+
+    quote_start = headers_text.find("'", colon)
+    if quote_start == -1:
+        return headers_text
+
+    quote_end = headers_text.find("'", quote_start + 1)
+    if quote_end == -1:
+        return headers_text
+
+    return (
+        headers_text[: quote_start + 1]
+        + "<redacted>"
+        + headers_text[quote_end:]
+    )
+
+
+def _truncate(value: str, limit: int) -> str:
+    if len(value) <= limit:
+        return value
+    return f"{value[: limit - 15]}...[truncated]"
 
 
 def _api_model_name(model: str) -> str:

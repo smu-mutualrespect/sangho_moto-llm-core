@@ -1,0 +1,528 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b04_s01",
+        "batch": 4,
+        "label": "logs describe-log-groups",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 logs describe-log-groups --limit 5",
+        "service": "logs",
+        "action": "DescribeLogGroups",
+        "url": "https://logs.ap-northeast-2.amazonaws.com/",
+        "body": "{\"limit\":5}",
+        "headers": [
+          "X-Amz-Target=Logs_20140328.DescribeLogGroups",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "limit"
+        ]
+      },
+      "response_body": "{\"logGroups\": [{\"logGroupName\": \"logs-describeloggroups\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/0065218c\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-9a953d62\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6eaac738\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}, {\"logGroupName\": \"logs-describeloggroups-1\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/dfcc8c54\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-0b7ff0d3\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6948ca52\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:43:50.105147+00:00",
+          "finished_at": "2026-04-16T02:44:02.724869+00:00"
+        },
+        "request": {
+          "service": "logs",
+          "action": "DescribeLogGroups",
+          "url": "https://logs.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Logs_20140328.DescribeLogGroups",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"limit\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "logs",
+            "operation": "DescribeLogGroups",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeLogGroups"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"logGroups\": [{\"logGroupName\": \"logs-describeloggroups\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/0065218c\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-9a953d62\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6eaac738\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}, {\"logGroupName\": \"logs-describeloggroups-1\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/dfcc8c54\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-0b7ff0d3\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6948ca52\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 12619.748,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:02.722884+00:00",
+            "finished_at": "2026-04-16T02:44:02.723530+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "limit"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b04_s02",
+        "batch": 4,
+        "label": "logs describe-log-streams",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 logs describe-log-streams --log-group-name /aws/lambda/prod-payments --limit 5",
+        "service": "logs",
+        "action": "DescribeLogStreams",
+        "url": "https://logs.ap-northeast-2.amazonaws.com/",
+        "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+        "headers": [
+          "X-Amz-Target=Logs_20140328.DescribeLogStreams",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "logGroupName",
+          "limit"
+        ]
+      },
+      "response_body": "{\"logStreams\": [{\"logStreamName\": \"logs-describelogstreams\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/15efe317\", \"storedBytes\": 1}, {\"logStreamName\": \"logs-describelogstreams-1\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/d972b626\", \"storedBytes\": 1}], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:02.795821+00:00",
+          "finished_at": "2026-04-16T02:44:02.798233+00:00"
+        },
+        "request": {
+          "service": "logs",
+          "action": "DescribeLogStreams",
+          "url": "https://logs.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Logs_20140328.DescribeLogStreams",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "logs",
+            "operation": "DescribeLogStreams",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeLogStreams"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "logGroupName": "/aws/lambda/prod-payments"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"logStreams\": [{\"logStreamName\": \"logs-describelogstreams\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/15efe317\", \"storedBytes\": 1}, {\"logStreamName\": \"logs-describelogstreams-1\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/d972b626\", \"storedBytes\": 1}], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 2.433,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:02.796420+00:00",
+            "finished_at": "2026-04-16T02:44:02.797310+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 2,
+        "echoed": [
+          "limit"
+        ],
+        "missing_echo": [
+          "logGroupName"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b04_s03",
+        "batch": 4,
+        "label": "cloudtrail lookup-events",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 cloudtrail lookup-events --max-results 5",
+        "service": "cloudtrail",
+        "action": "LookupEvents",
+        "url": "https://cloudtrail.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.LookupEvents",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"Events\": [{\"EventId\": \"cloudtrail-b71fa03d\", \"EventName\": \"cloudtrail-lookupevents\", \"ReadOnly\": \"ReadOnly\", \"AccessKeyId\": \"cloudtrail-76614dde\", \"EventTime\": 1776307450, \"EventSource\": \"EventSource\", \"Username\": \"victim-admin\", \"Resources\": [{\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents\"}, {\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents-1\"}], \"CloudTrailEvent\": \"CloudTrailEvent\"}, {\"EventId\": \"cloudtrail-f3008f12\", \"EventName\": \"cloudtrail-lookupevents-1\", \"ReadOnly\": \"ReadOnly\", \"AccessKeyId\": \"cloudtrail-d61b3055\", \"EventTime\": 1776307450, \"EventSource\": \"EventSource\", \"Username\": \"victim-admin-1\", \"Resources\": [{\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents\"}, {\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents-1\"}], \"CloudTrailEvent\": \"CloudTrailEvent\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:02.862941+00:00",
+          "finished_at": "2026-04-16T02:44:10.858413+00:00"
+        },
+        "request": {
+          "service": "cloudtrail",
+          "action": "LookupEvents",
+          "url": "https://cloudtrail.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.LookupEvents",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "cloudtrail",
+            "operation": "LookupEvents",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "LookupEvents"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Events\": [{\"EventId\": \"cloudtrail-b71fa03d\", \"EventName\": \"cloudtrail-lookupevents\", \"ReadOnly\": \"ReadOnly\", \"AccessKeyId\": \"cloudtrail-76614dde\", \"EventTime\": 1776307450, \"EventSource\": \"EventSource\", \"Username\": \"victim-admin\", \"Resources\": [{\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents\"}, {\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents-1\"}], \"CloudTrailEvent\": \"CloudTrailEvent\"}, {\"EventId\": \"cloudtrail-f3008f12\", \"EventName\": \"cloudtrail-lookupevents-1\", \"ReadOnly\": \"ReadOnly\", \"AccessKeyId\": \"cloudtrail-d61b3055\", \"EventTime\": 1776307450, \"EventSource\": \"EventSource\", \"Username\": \"victim-admin-1\", \"Resources\": [{\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents\"}, {\"ResourceType\": \"ResourceType\", \"ResourceName\": \"cloudtrail-lookupevents-1\"}], \"CloudTrailEvent\": \"CloudTrailEvent\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 9027.064,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:10.856447+00:00",
+            "finished_at": "2026-04-16T02:44:10.856924+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b04_s04",
+        "batch": 4,
+        "label": "events list-rules",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 events list-rules --limit 5",
+        "service": "events",
+        "action": "ListRules",
+        "url": "https://events.ap-northeast-2.amazonaws.com/",
+        "body": "{\"Limit\":5}",
+        "headers": [
+          "X-Amz-Target=AWSEvents.ListRules",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "Limit"
+        ]
+      },
+      "response_body": "{\"Rules\": [{\"Name\": \"events-listrules\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/3fb7b1b1\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/c5ef7e0a\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules\"}, {\"Name\": \"events-listrules-1\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/42f8ba79\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/263032c9\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules-1\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:10.900740+00:00",
+          "finished_at": "2026-04-16T02:44:16.934925+00:00"
+        },
+        "request": {
+          "service": "events",
+          "action": "ListRules",
+          "url": "https://events.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSEvents.ListRules",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"Limit\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "events",
+            "operation": "ListRules",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListRules"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Rules\": [{\"Name\": \"events-listrules\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/3fb7b1b1\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/c5ef7e0a\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules\"}, {\"Name\": \"events-listrules-1\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/42f8ba79\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/263032c9\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules-1\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 6034.203,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:16.932742+00:00",
+            "finished_at": "2026-04-16T02:44:16.933904+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "Limit"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b04_s05",
+        "batch": 4,
+        "label": "events list-targets-by-rule",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 events list-targets-by-rule --rule suspicious-rule",
+        "service": "events",
+        "action": "ListTargetsByRule",
+        "url": "https://events.ap-northeast-2.amazonaws.com/",
+        "body": "{\"Rule\":\"suspicious-rule\"}",
+        "headers": [
+          "X-Amz-Target=AWSEvents.ListTargetsByRule",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "Rule"
+        ]
+      },
+      "response_body": "{\"Targets\": [{\"Id\": \"events-e0feaccc\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/4b3e7dd6\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/f4ae164f\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/364fa3ce\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-c2ea2dcf\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-6362ed1a\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/525249b1\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/1678eec2\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}, {\"Id\": \"events-440f1fa9\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/2aa07b69\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/0659e6b5\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/e36f5b6a\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-0c0b6866\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-2798a27f\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/7d35381d\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/d64d247b\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:16.960893+00:00",
+          "finished_at": "2026-04-16T02:44:16.964841+00:00"
+        },
+        "request": {
+          "service": "events",
+          "action": "ListTargetsByRule",
+          "url": "https://events.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSEvents.ListTargetsByRule",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"Rule\":\"suspicious-rule\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "events",
+            "operation": "ListTargetsByRule",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListTargetsByRule"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Targets\": [{\"Id\": \"events-e0feaccc\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/4b3e7dd6\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/f4ae164f\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/364fa3ce\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-c2ea2dcf\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-6362ed1a\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/525249b1\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/1678eec2\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}, {\"Id\": \"events-440f1fa9\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/2aa07b69\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/0659e6b5\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/e36f5b6a\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-0c0b6866\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-2798a27f\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/7d35381d\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/d64d247b\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 3.964,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:16.961192+00:00",
+            "finished_at": "2026-04-16T02:44:16.961626+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "Rule"
+        ],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 2,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 5
+  }
+}

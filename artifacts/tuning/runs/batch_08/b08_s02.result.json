@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b08_s02",
+    "batch": 8,
+    "label": "inspector2 list-findings",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 inspector2 list-findings --max-results 5",
+    "service": "inspector2",
+    "action": "ListFindings",
+    "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+    "body": "{\"maxResults\":5}",
+    "headers": [
+      "X-Amz-Target=Inspector2.ListFindings",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "maxResults"
+    ]
+  },
+  "response_body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/76e070aa\", \"awsAccountId\": \"inspector2-916d75c3\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/3c067376a8da\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-b96592f5\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-8cd75d24\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-0a28ece0\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/d2ed9f15397e\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/2ac4105b846c\", \"mock://inspector2/listfindings/ff36a1d85d94\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/42bda1740bd3\", \"mock://inspector2/listfindings/956527cec3f7\"], \"ruleId\": \"inspector2-0d5cd713\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/34342c28\", \"detectorId\": \"inspector2-eae84f91\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/5dd59464\", \"awsAccountId\": \"inspector2-48b49e56\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/02143dd9e0ab\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-696d8a0e\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-5a55179c\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-7ec3bbec\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/a00e1c9b82b4\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/17b4d42448b9\", \"mock://inspector2/listfindings/713bef27a5f5\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/ae86a0dd82a5\", \"mock://inspector2/listfindings/0d5f4a733d09\"], \"ruleId\": \"inspector2-9791d8c0\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/e38c6fb5\", \"detectorId\": \"inspector2-376156c8\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:25.941251+00:00",
+      "finished_at": "2026-04-16T02:45:30.753069+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListFindings",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListFindings",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListFindings",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListFindings"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/76e070aa\", \"awsAccountId\": \"inspector2-916d75c3\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/3c067376a8da\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-b96592f5\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-8cd75d24\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-0a28ece0\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/d2ed9f15397e\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/2ac4105b846c\", \"mock://inspector2/listfindings/ff36a1d85d94\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/42bda1740bd3\", \"mock://inspector2/listfindings/956527cec3f7\"], \"ruleId\": \"inspector2-0d5cd713\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/34342c28\", \"detectorId\": \"inspector2-eae84f91\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/5dd59464\", \"awsAccountId\": \"inspector2-48b49e56\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/02143dd9e0ab\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-696d8a0e\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-5a55179c\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-7ec3bbec\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/a00e1c9b82b4\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/17b4d42448b9\", \"mock://inspector2/listfindings/713bef27a5f5\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/ae86a0dd82a5\", \"mock://inspector2/listfindings/0d5f4a733d09\"], \"ruleId\": \"inspector2-9791d8c0\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/e38c6fb5\", \"detectorId\": \"inspector2-376156c8\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4811.835,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:30.745635+00:00",
+        "finished_at": "2026-04-16T02:45:30.746145+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "maxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

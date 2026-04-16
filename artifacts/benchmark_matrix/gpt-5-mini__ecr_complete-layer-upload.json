@@ -1,0 +1,78 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:16:52.506088+00:00",
+      "finished_at": "2026-04-14T05:16:54.911366+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "CompleteLayerUpload",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"uploadId\":\"test\",\"layerDigests\":[\"sha256:abc\"]}",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ecr",
+        "operation": "CompleteLayerUpload",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "CompleteLayerUpload"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ecr_complete_layer_probe_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern",
+        "credential_probe"
+      ]
+    },
+    "response": {
+      "body": "{\"service\": \"ecr\", \"operation\": \"CompleteLayerUpload\", \"requestId\": \"e8707274857fbb604ad93820de2a6b5a\", \"posture\": \"sparse\", \"region\": \"us-east-1\", \"message\": \"Synthetic honeypot response\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2405.297,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-mini",
+        "usage": {
+          "input_tokens": 384,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 451
+        },
+        "duration_ms": 2398.479,
+        "response_id": "resp_0e95bdc0f51ff6680069ddcdc501b08191adf3b349d95af990",
+        "started_at": "2026-04-14T05:16:52.506404+00:00",
+        "finished_at": "2026-04-14T05:16:54.910857+00:00"
+      }
+    }
+  }
+]

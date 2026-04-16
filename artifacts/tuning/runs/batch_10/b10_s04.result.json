@@ -1,0 +1,105 @@
+{
+  "scenario": {
+    "id": "b10_s04",
+    "batch": 10,
+    "label": "backup list-recovery-points-by-backup-vault",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 backup list-recovery-points-by-backup-vault --backup-vault-name Default",
+    "service": "backup",
+    "action": "ListRecoveryPointsByBackupVault",
+    "url": "https://backup.ap-northeast-2.amazonaws.com/",
+    "body": "{\"BackupVaultName\":\"Default\"}",
+    "headers": [
+      "X-Amz-Target=BackupStorage.ListRecoveryPointsByBackupVault",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "BackupVaultName"
+    ]
+  },
+  "response_body": "{\"NextToken\": \"\", \"RecoveryPoints\": [{\"RecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/4ac01940\", \"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/ec2f2286\", \"SourceBackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/d9fe45e5\", \"ResourceArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/3c25aec6\", \"ResourceType\": \"EBS\", \"CreatedBy\": {\"BackupPlanId\": \"backup-9d0a5937\", \"BackupPlanArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/eccf5d1b\", \"BackupPlanName\": \"BackupPlanName\", \"BackupPlanVersion\": \"1\", \"BackupRuleId\": \"backup-7145d3d8\", \"BackupRuleName\": \"BackupRuleName\", \"BackupRuleCron\": \"cron(0 3 * * ? *)\", \"BackupRuleTimezone\": \"UTC\"}, \"IamRoleArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/3f6aacfd\", \"Status\": \"AVAILABLE\", \"StatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"CreationDate\": 1776308386, \"InitiationDate\": 1776308386, \"CompletionDate\": 1776308386, \"BackupSizeInBytes\": 1, \"CalculatedLifecycle\": {\"MoveToColdStorageAt\": 1776308386, \"DeleteAt\": 1776308386}, \"Lifecycle\": {\"MoveToColdStorageAfterDays\": 1, \"DeleteAfterDays\": 1, \"OptInToArchiveForSupportedResources\": false, \"DeleteAfterEvent\": \"DELETE_AFTER_COPY\"}, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/4a475537\", \"IsEncrypted\": false, \"LastRestoreTime\": 1776308386, \"ParentRecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/032e3e84\", \"CompositeMemberIdentifier\": \"CompositeMemberIdentifier\", \"IsParent\": false, \"ResourceName\": \"ResourceName\", \"VaultType\": \"BACKUP_VAULT\", \"IndexStatus\": \"PENDING\", \"IndexStatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\", \"AggregatedScanResult\": {\"FailedScan\": false, \"Findings\": [\"MALWARE\", \"MALWARE\"], \"LastComputed\": 1776308386}}, {\"RecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/33b20c4d\", \"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/5dc74475\", \"SourceBackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/718404dc\", \"ResourceArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/7d373334\", \"ResourceType\": \"EBS\", \"CreatedBy\": {\"BackupPlanId\": \"backup-58cfa43f\", \"BackupPlanArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/98135b27\", \"BackupPlanName\": \"BackupPlanName\", \"BackupPlanVersion\": \"1\", \"BackupRuleId\": \"backup-e9bf02ca\", \"BackupRuleName\": \"BackupRuleName\", \"BackupRuleCron\": \"cron(0 3 * * ? *)\", \"BackupRuleTimezone\": \"UTC\"}, \"IamRoleArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/c2a01240\", \"Status\": \"AVAILABLE\", \"StatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"CreationDate\": 1776308386, \"InitiationDate\": 1776308386, \"CompletionDate\": 1776308386, \"BackupSizeInBytes\": 1, \"CalculatedLifecycle\": {\"MoveToColdStorageAt\": 1776308386, \"DeleteAt\": 1776308386}, \"Lifecycle\": {\"MoveToColdStorageAfterDays\": 1, \"DeleteAfterDays\": 1, \"OptInToArchiveForSupportedResources\": false, \"DeleteAfterEvent\": \"DELETE_AFTER_COPY\"}, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/e7c02c0a\", \"IsEncrypted\": false, \"LastRestoreTime\": 1776308386, \"ParentRecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/8e48aae5\", \"CompositeMemberIdentifier\": \"CompositeMemberIdentifier\", \"IsParent\": false, \"ResourceName\": \"ResourceName\", \"VaultType\": \"BACKUP_VAULT\", \"IndexStatus\": \"PENDING\", \"IndexStatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\", \"AggregatedScanResult\": {\"FailedScan\": false, \"Findings\": [\"MALWARE\", \"MALWARE\"], \"LastComputed\": 1776308386}}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:42.424444+00:00",
+      "finished_at": "2026-04-16T02:59:46.015599+00:00"
+    },
+    "request": {
+      "service": "backup",
+      "action": "ListRecoveryPointsByBackupVault",
+      "url": "https://backup.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "BackupStorage.ListRecoveryPointsByBackupVault",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"BackupVaultName\":\"Default\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "backup",
+        "operation": "ListRecoveryPointsByBackupVault",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListRecoveryPointsByBackupVault"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "BackupVaultName": "Default"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"NextToken\": \"\", \"RecoveryPoints\": [{\"RecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/4ac01940\", \"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/ec2f2286\", \"SourceBackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/d9fe45e5\", \"ResourceArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/3c25aec6\", \"ResourceType\": \"EBS\", \"CreatedBy\": {\"BackupPlanId\": \"backup-9d0a5937\", \"BackupPlanArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/eccf5d1b\", \"BackupPlanName\": \"BackupPlanName\", \"BackupPlanVersion\": \"1\", \"BackupRuleId\": \"backup-7145d3d8\", \"BackupRuleName\": \"BackupRuleName\", \"BackupRuleCron\": \"cron(0 3 * * ? *)\", \"BackupRuleTimezone\": \"UTC\"}, \"IamRoleArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/3f6aacfd\", \"Status\": \"AVAILABLE\", \"StatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"CreationDate\": 1776308386, \"InitiationDate\": 1776308386, \"CompletionDate\": 1776308386, \"BackupSizeInBytes\": 1, \"CalculatedLifecycle\": {\"MoveToColdStorageAt\": 1776308386, \"DeleteAt\": 1776308386}, \"Lifecycle\": {\"MoveToColdStorageAfterDays\": 1, \"DeleteAfterDays\": 1, \"OptInToArchiveForSupportedResources\": false, \"DeleteAfterEvent\": \"DELETE_AFTER_COPY\"}, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/4a475537\", \"IsEncrypted\": false, \"LastRestoreTime\": 1776308386, \"ParentRecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/032e3e84\", \"CompositeMemberIdentifier\": \"CompositeMemberIdentifier\", \"IsParent\": false, \"ResourceName\": \"ResourceName\", \"VaultType\": \"BACKUP_VAULT\", \"IndexStatus\": \"PENDING\", \"IndexStatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\", \"AggregatedScanResult\": {\"FailedScan\": false, \"Findings\": [\"MALWARE\", \"MALWARE\"], \"LastComputed\": 1776308386}}, {\"RecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/33b20c4d\", \"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/5dc74475\", \"SourceBackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/718404dc\", \"ResourceArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/7d373334\", \"ResourceType\": \"EBS\", \"CreatedBy\": {\"BackupPlanId\": \"backup-58cfa43f\", \"BackupPlanArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/98135b27\", \"BackupPlanName\": \"BackupPlanName\", \"BackupPlanVersion\": \"1\", \"BackupRuleId\": \"backup-e9bf02ca\", \"BackupRuleName\": \"BackupRuleName\", \"BackupRuleCron\": \"cron(0 3 * * ? *)\", \"BackupRuleTimezone\": \"UTC\"}, \"IamRoleArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/c2a01240\", \"Status\": \"AVAILABLE\", \"StatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"CreationDate\": 1776308386, \"InitiationDate\": 1776308386, \"CompletionDate\": 1776308386, \"BackupSizeInBytes\": 1, \"CalculatedLifecycle\": {\"MoveToColdStorageAt\": 1776308386, \"DeleteAt\": 1776308386}, \"Lifecycle\": {\"MoveToColdStorageAfterDays\": 1, \"DeleteAfterDays\": 1, \"OptInToArchiveForSupportedResources\": false, \"DeleteAfterEvent\": \"DELETE_AFTER_COPY\"}, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/e7c02c0a\", \"IsEncrypted\": false, \"LastRestoreTime\": 1776308386, \"ParentRecoveryPointArn\": \"arn:aws:backup:us-east-1:123456789012:listrecoverypointsbybackupvault/8e48aae5\", \"CompositeMemberIdentifier\": \"CompositeMemberIdentifier\", \"IsParent\": false, \"ResourceName\": \"ResourceName\", \"VaultType\": \"BACKUP_VAULT\", \"IndexStatus\": \"PENDING\", \"IndexStatusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic backup:ListRecoveryPointsByBackupVault\\\"}\", \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\", \"AggregatedScanResult\": {\"FailedScan\": false, \"Findings\": [\"MALWARE\", \"MALWARE\"], \"LastComputed\": 1776308386}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 3591.167,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:46.012238+00:00",
+        "finished_at": "2026-04-16T02:59:46.012610+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "BackupVaultName"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

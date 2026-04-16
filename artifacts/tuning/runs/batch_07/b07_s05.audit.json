@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:17.287063+00:00",
+      "finished_at": "2026-04-16T02:45:21.542362+00:00"
+    },
+    "request": {
+      "service": "resourcegroupstaggingapi",
+      "action": "GetResources",
+      "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetResources",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"ResourcesPerPage\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "resourcegroupstaggingapi",
+        "operation": "GetResources",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResources"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PaginationToken\": \"\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/1071cf79\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}, {\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/26509e29\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4255.312,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:21.541102+00:00",
+        "finished_at": "2026-04-16T02:45:21.541522+00:00"
+      }
+    }
+  }
+]

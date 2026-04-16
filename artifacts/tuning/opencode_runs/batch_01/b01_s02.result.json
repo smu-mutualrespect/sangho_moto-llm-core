@@ -1,0 +1,109 @@
+{
+  "scenario": {
+    "id": "b01_s02",
+    "batch": 1,
+    "label": "iam get-access-key-last-used",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam get-access-key-last-used --access-key-id AKIAIOSFODNN7EXAMPLE",
+    "service": "iam",
+    "action": "GetAccessKeyLastUsed",
+    "url": "https://iam.amazonaws.com/",
+    "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>ops-readonly</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-11T09:22:14Z</LastUsedDate><ServiceName>iam</ServiceName><Region>us-east-1</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:46:46.529812+00:00",
+      "finished_at": "2026-04-16T07:47:06.857099+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetAccessKeyLastUsed",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetAccessKeyLastUsed",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAccessKeyLastUsed"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "iam_accesskeylastused_sparse_01",
+      "risk_delta": 0.08,
+      "reason_tags": [
+        "credential_probe",
+        "permission_test",
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "user_name": "ops-readonly",
+          "access_key_id": "AKIAIOSFODNN7EXAMPLE"
+        },
+        "field_hints": {
+          "UserName": "ops-readonly",
+          "AccessKeyLastUsed": {
+            "LastUsedDate": "2026-04-11T09:22:14Z",
+            "ServiceName": "iam",
+            "Region": "us-east-1"
+          }
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>ops-readonly</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-11T09:22:14Z</LastUsedDate><ServiceName>iam</ServiceName><Region>us-east-1</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GetAccessKeyLastUsedResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 20327.3,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 20317.455,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:46:46.529952+00:00",
+        "finished_at": "2026-04-16T07:47:06.855800+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

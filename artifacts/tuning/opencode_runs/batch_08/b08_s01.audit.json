@@ -1,0 +1,83 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:58:36.450538+00:00",
+      "finished_at": "2026-04-16T07:58:54.673422+00:00"
+    },
+    "request": {
+      "service": "guardduty",
+      "action": "ListDetectors",
+      "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "GuardDuty.ListDetectors",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "guardduty",
+        "operation": "ListDetectors",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDetectors"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "guardduty_listdetectors_enum",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "detector_count": 1,
+          "detector_ids": [
+            "12abc34d567e8f9012g3h456789i0jkl"
+          ]
+        },
+        "field_hints": {
+          "DetectorIds": [
+            "12abc34d567e8f9012g3h456789i0jkl"
+          ]
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"detectorIds\": [\"12abc34d567e8f9012g3h456789i0jkl\"], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 19067.072,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16018.066,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:58:39.491138+00:00",
+        "finished_at": "2026-04-16T07:58:54.672459+00:00"
+      }
+    }
+  }
+]

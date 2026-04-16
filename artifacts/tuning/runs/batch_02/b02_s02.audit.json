@@ -1,0 +1,212 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:28.523804+00:00",
+      "finished_at": "2026-04-16T02:43:28.538500+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "DescribeAutomationExecutions",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeAutomationExecutions&MaxResults=5&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "DescribeAutomationExecutions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeAutomationExecutions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"AutomationExecutionMetadataList\": [{\"AutomationExecutionId\": \"ssm-72a08b94\", \"DocumentName\": \"ssm-describeautomationexecutions\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776307408, \"ExecutionEndTime\": 1776307408, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-c0e67b8e\", \"CurrentStepName\": \"ssm-describeautomationexecutions\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-describeautomationexecutions-1\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/9ad5cca10b75\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776307408, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/fa67b612\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/b8df3d0c-1\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions-1\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-0fa73661\", \"AssociationId\": \"ssm-3fb960f1\", \"ChangeRequestName\": \"ssm-describeautomationexecutions\"}, {\"AutomationExecutionId\": \"ssm-287b0820\", \"DocumentName\": \"ssm-describeautomationexecutions-1\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776307408, \"ExecutionEndTime\": 1776307408, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-14b5a6ab\", \"CurrentStepName\": \"ssm-describeautomationexecutions-1\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"ssm-describeautomationexecutions-1\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-describeautomationexecutions-1\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/805fd076c276\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776307408, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/24f960dc\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/978573df-1\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions-1\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-6201360e\", \"AssociationId\": \"ssm-a95481fb\", \"ChangeRequestName\": \"ssm-describeautomationexecutions-1\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 14.723,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:43:28.526373+00:00",
+        "finished_at": "2026-04-16T02:43:28.527602+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:39.741370+00:00",
+      "finished_at": "2026-04-16T02:57:39.763766+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "DescribeAutomationExecutions",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeAutomationExecutions&MaxResults=5&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "DescribeAutomationExecutions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeAutomationExecutions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"AutomationExecutionMetadataList\": [{\"AutomationExecutionId\": \"ssm-04890f60\", \"DocumentName\": \"ssm-describeautomationexecutions\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776308259, \"ExecutionEndTime\": 1776308259, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-5b20235a\", \"CurrentStepName\": \"ssm-describeautomationexecutions\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/f7dfd9120f3b\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776308259, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/ba756d53\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/12012001\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-6f64623e\", \"AssociationId\": \"ssm-9e38c406\", \"ChangeRequestName\": \"ssm-describeautomationexecutions\"}, {\"AutomationExecutionId\": \"ssm-005df828\", \"DocumentName\": \"ssm-describeautomationexecutions\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776308259, \"ExecutionEndTime\": 1776308259, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-58bdeb16\", \"CurrentStepName\": \"ssm-describeautomationexecutions\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-describeautomationexecutions\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/1b624869bcbc\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776308259, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/40973a9b\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/377f5f58\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"ssm-describeautomationexecutions\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-db592b9b\", \"AssociationId\": \"ssm-4bfae0bf\", \"ChangeRequestName\": \"ssm-describeautomationexecutions\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 22.438,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:39.742014+00:00",
+        "finished_at": "2026-04-16T02:57:39.743064+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:33.066625+00:00",
+      "finished_at": "2026-04-16T02:59:33.072203+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "DescribeAutomationExecutions",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeAutomationExecutions&MaxResults=5&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "DescribeAutomationExecutions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeAutomationExecutions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"AutomationExecutionMetadataList\": [{\"AutomationExecutionId\": \"ssm-0d234992\", \"DocumentName\": \"DocumentName\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776308373, \"ExecutionEndTime\": 1776308373, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-bbb537ab\", \"CurrentStepName\": \"CurrentStepName\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ip-10-42-8-199\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ip-10-42-8-51\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/e011f9e288b6\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776308373, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/acc28a71\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/6251a388\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-5e483eee\", \"AssociationId\": \"ssm-5320d78f\", \"ChangeRequestName\": \"ChangeRequestName\"}, {\"AutomationExecutionId\": \"ssm-f5188711\", \"DocumentName\": \"DocumentName\", \"DocumentVersion\": \"1\", \"AutomationExecutionStatus\": \"Pending\", \"ExecutionStartTime\": 1776308373, \"ExecutionEndTime\": 1776308373, \"ExecutedBy\": \"ExecutedBy\", \"LogFile\": \"LogFile\", \"Outputs\": {}, \"Mode\": \"Auto\", \"ParentAutomationExecutionId\": \"ssm-55bd9c92\", \"CurrentStepName\": \"CurrentStepName\", \"CurrentAction\": \"CurrentAction\", \"FailureMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ssm:DescribeAutomationExecutions\\\"}\", \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"TargetMaps\": [{}, {}], \"ResolvedTargets\": {\"ParameterValues\": [\"ParameterValue\", \"ParameterValue\"], \"Truncated\": false}, \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"Target\": \"Target\", \"AutomationType\": \"CrossAccount\", \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{}, {}]}, \"TriggeredAlarms\": [{\"Name\": \"ip-10-42-2-117\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ip-10-42-4-77\", \"State\": \"UNKNOWN\"}], \"TargetLocationsURL\": \"mock://ssm/describeautomationexecutions/509da32a535e\", \"AutomationSubtype\": \"ChangeRequest\", \"ScheduledTime\": 1776308373, \"Runbooks\": [{\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/0b193473\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}, {\"DocumentName\": \"arn:aws:ssm:us-east-1:123456789012:describeautomationexecutions/a95cd38e\", \"DocumentVersion\": \"1\", \"Parameters\": {}, \"TargetParameterName\": \"TargetParameterName\", \"Targets\": [{}, {}], \"TargetMaps\": [{}, {}], \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetLocations\": [{}, {}]}], \"OpsItemId\": \"ssm-6375a469\", \"AssociationId\": \"ssm-5c79752b\", \"ChangeRequestName\": \"ChangeRequestName\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5.593,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:33.066932+00:00",
+        "finished_at": "2026-04-16T02:59:33.067362+00:00"
+      }
+    }
+  }
+]

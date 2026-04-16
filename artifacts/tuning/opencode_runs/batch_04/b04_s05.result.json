@@ -1,0 +1,117 @@
+{
+  "scenario": {
+    "id": "b04_s05",
+    "batch": 4,
+    "label": "events list-targets-by-rule",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 events list-targets-by-rule --rule suspicious-rule",
+    "service": "events",
+    "action": "ListTargetsByRule",
+    "url": "https://events.ap-northeast-2.amazonaws.com/",
+    "body": "{\"Rule\":\"suspicious-rule\"}",
+    "headers": [
+      "X-Amz-Target=AWSEvents.ListTargetsByRule",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "Rule"
+    ]
+  },
+  "response_body": "{\"Targets\": [{\"Id\": \"tgt-logs-01\", \"Arn\": \"arn:aws:logs:us-east-1:123456789012:log-group:/aws/events/suspicious-rule\"}, {\"Id\": \"tgt-lambda-01\", \"Arn\": \"arn:aws:lambda:us-east-1:123456789012:function:evt-suspicious-handler\"}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:53:02.218878+00:00",
+      "finished_at": "2026-04-16T07:53:18.587622+00:00"
+    },
+    "request": {
+      "service": "events",
+      "action": "ListTargetsByRule",
+      "url": "https://events.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSEvents.ListTargetsByRule",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Rule\":\"suspicious-rule\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "events",
+        "operation": "ListTargetsByRule",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListTargetsByRule"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "events_targets_rule_sparse",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "rule_name": "suspicious-rule",
+          "target_count": 2
+        },
+        "field_hints": {
+          "Targets": [
+            {
+              "Id": "tgt-logs-01",
+              "Arn": "arn:aws:logs:us-east-1:123456789012:log-group:/aws/events/suspicious-rule"
+            },
+            {
+              "Id": "tgt-lambda-01",
+              "Arn": "arn:aws:lambda:us-east-1:123456789012:function:evt-suspicious-handler"
+            }
+          ]
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Targets\": [{\"Id\": \"tgt-logs-01\", \"Arn\": \"arn:aws:logs:us-east-1:123456789012:log-group:/aws/events/suspicious-rule\"}, {\"Id\": \"tgt-lambda-01\", \"Arn\": \"arn:aws:lambda:us-east-1:123456789012:function:evt-suspicious-handler\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 16368.75,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16361.047,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:53:02.219033+00:00",
+        "finished_at": "2026-04-16T07:53:18.587272+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [
+      "Rule"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

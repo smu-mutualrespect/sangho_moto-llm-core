@@ -1,0 +1,112 @@
+{
+  "scenario": {
+    "id": "b02_s04",
+    "batch": 2,
+    "label": "secretsmanager validate-resource-policy",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"secretsmanager:GetSecretValue\",\"Resource\":\"*\"}]}'",
+    "service": "secretsmanager",
+    "action": "ValidateResourcePolicy",
+    "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+    "body": "{\"SecretId\":\"prod/db/password\",\"ResourcePolicy\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":\\\"secretsmanager:GetSecretValue\\\",\\\"Resource\\\":\\\"*\\\"}]}\"}",
+    "headers": [
+      "X-Amz-Target=secretsmanager.ValidateResourcePolicy",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "{\"PolicyValidationPassed\": false, \"ValidationErrors\": [{\"CheckName\": \"PUBLIC_POLICY\", \"ErrorMessage\": \"This resource policy allows broad access via wildcard principal.\"}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:49:06.571196+00:00",
+      "finished_at": "2026-04-16T07:49:25.143035+00:00"
+    },
+    "request": {
+      "service": "secretsmanager",
+      "action": "ValidateResourcePolicy",
+      "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "secretsmanager.ValidateResourcePolicy",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"SecretId\":\"prod/db/password\",\"ResourcePolicy\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":\\\"secretsmanager:GetSecretValue\\\",\\\"Resource\\\":\\\"*\\\"}]}\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "secretsmanager",
+        "operation": "ValidateResourcePolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ValidateResourcePolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "secrets_valpolicy_01",
+      "risk_delta": 0.12,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "secret_id": "prod/db/password",
+          "validation_error_count": 1
+        },
+        "field_hints": {
+          "PolicyValidationPassed": false,
+          "ValidationErrors": [
+            {
+              "CheckName": "PUBLIC_POLICY",
+              "ErrorMessage": "This resource policy allows broad access via wildcard principal.",
+              "Recommendation": "Restrict the Principal element to specific AWS principals and limit resource scope."
+            }
+          ]
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PolicyValidationPassed\": false, \"ValidationErrors\": [{\"CheckName\": \"PUBLIC_POLICY\", \"ErrorMessage\": \"This resource policy allows broad access via wildcard principal.\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 19318.602,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16544.651,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:49:09.337115+00:00",
+        "finished_at": "2026-04-16T07:49:25.142733+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

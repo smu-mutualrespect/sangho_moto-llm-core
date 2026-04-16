@@ -1,0 +1,78 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:16:44.795608+00:00",
+      "finished_at": "2026-04-14T05:16:53.079015+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "InitiateLayerUpload",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\"}",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ecr",
+        "operation": "InitiateLayerUpload",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "InitiateLayerUpload"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "ecr_initiate_layer_upload_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ]
+    },
+    "response": {
+      "body": "{\"service\": \"ecr\", \"operation\": \"InitiateLayerUpload\", \"requestId\": \"4cecfc778ea8777bd4686147b14e68b8\", \"posture\": \"normal\", \"region\": \"us-east-1\", \"message\": \"Synthetic honeypot response\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2728.972,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-mini",
+        "usage": {
+          "input_tokens": 386,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 87,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 473
+        },
+        "duration_ms": 2724.276,
+        "response_id": "resp_048541a35da71ec00069ddcdbd1d988191b41729e6a2de3032",
+        "started_at": "2026-04-14T05:16:44.795910+00:00",
+        "finished_at": "2026-04-14T05:16:53.078404+00:00"
+      }
+    }
+  }
+]

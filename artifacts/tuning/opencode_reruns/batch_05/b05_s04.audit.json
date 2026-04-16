@@ -1,0 +1,95 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T09:24:19.983747+00:00",
+      "finished_at": "2026-04-16T09:24:42.652313+00:00"
+    },
+    "request": {
+      "service": "ec2",
+      "action": "DescribeImages",
+      "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ec2",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ec2_describeimages_self_recon",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "image_count": 1,
+          "owners": [
+            "123456789012"
+          ],
+          "image_ids": [
+            "ami-0c7f4d6a2b1e9f38c"
+          ]
+        },
+        "field_hints": {
+          "Images[].ImageId": "ami-0c7f4d6a2b1e9f38c",
+          "Images[].ImageLocation": "123456789012/prod-al2-base-2026-03",
+          "Images[].OwnerId": "123456789012",
+          "Images[].State": "available",
+          "Images[].Public": false,
+          "Images[].Name": "prod-al2-base-2026-03",
+          "Images[].RootDeviceType": "ebs",
+          "Images[].Architecture": "x86_64",
+          "Images[].VirtualizationType": "hvm",
+          "Images[].PlatformDetails": "Linux/UNIX",
+          "Images[].CreationDate": "2026-03-18T11:24:09.000Z"
+        },
+        "omit_fields": [
+          "NextToken"
+        ]
+      }
+    },
+    "response": {
+      "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-3c324457</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-6c678f5b</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-0f3ab073</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-e54b2971</imageOwnerId><creationDate>2026-04-16T09:24:42Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-047519dd</productCode><type>devpay</type></item><item><productCode>ec2-1c17bb2a</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-fff6a67a</kernelId><ramdiskId>ec2-a7b6663a</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-f676aec2</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-dd84d616</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-315e661b</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-3a520f66</imageOwnerId><creationDate>2026-04-16T09:24:42Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-0211551a</productCode><type>devpay</type></item><item><productCode>ec2-5beb4261</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-0e26c7ca</kernelId><ramdiskId>ec2-d2916719</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DescribeImagesResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 22668.581,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 19479.077,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T09:24:23.152932+00:00",
+        "finished_at": "2026-04-16T09:24:42.647736+00:00"
+      }
+    }
+  }
+]

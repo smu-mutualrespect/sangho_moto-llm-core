@@ -1,0 +1,105 @@
+{
+  "scenario": {
+    "id": "b05_s03",
+    "batch": 5,
+    "label": "eks describe-cluster",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 eks describe-cluster --name prod-cluster",
+    "service": "eks",
+    "action": "DescribeCluster",
+    "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+    "body": "{\"name\":\"prod-cluster\"}",
+    "headers": [
+      "X-Amz-Target=DescribeCluster",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "name"
+    ]
+  },
+  "response_body": "{\"cluster\": {\"name\": \"prod-cluster\", \"arn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/87f94de5\", \"createdAt\": 1776307474, \"version\": \"1\", \"endpoint\": \"endpoint\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/67f3daa1\", \"resourcesVpcConfig\": {\"subnetIds\": [\"eks-31a40ca5\", \"eks-da3d428f\"], \"securityGroupIds\": [\"eks-a6238f10\", \"eks-ac31be3b\"], \"clusterSecurityGroupId\": \"eks-bcd568d6\", \"vpcId\": \"eks-ada87736\", \"endpointPublicAccess\": false, \"endpointPrivateAccess\": false, \"publicAccessCidrs\": [\"publicAccessCidr\", \"publicAccessCidr\"]}, \"kubernetesNetworkConfig\": {\"serviceIpv4Cidr\": \"serviceIpv4Cidr\", \"serviceIpv6Cidr\": \"serviceIpv6Cidr\", \"ipFamily\": \"ipv4\", \"elasticLoadBalancing\": {\"enabled\": true}}, \"logging\": {\"clusterLogging\": [{\"types\": [\"api\", \"api\"], \"enabled\": true}, {\"types\": [\"api\", \"api\"], \"enabled\": true}]}, \"identity\": {\"oidc\": {\"issuer\": \"issuer\"}}, \"status\": \"CREATING\", \"certificateAuthority\": {\"data\": \"data\"}, \"clientRequestToken\": \"\", \"platformVersion\": \"2\", \"tags\": {}, \"encryptionConfig\": [{\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/ea1ba183\"}}, {\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/cc320d3b\"}}], \"connectorConfig\": {\"activationId\": \"eks-5a1ade8a\", \"activationCode\": \"activationCode\", \"activationExpiry\": 1776307474, \"provider\": \"provider\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8cb43608\"}, \"id\": \"eks-5568676c\", \"health\": {\"issues\": [{\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-36841e21\", \"eks-a1a277f5\"]}, {\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-65483762\", \"eks-9ce88688\"]}]}, \"outpostConfig\": {\"outpostArns\": [\"arn:aws:eks:us-east-1:123456789012:describecluster/da46da42\", \"arn:aws:eks:us-east-1:123456789012:describecluster/cfc854b4\"], \"controlPlaneInstanceType\": \"t3.medium\", \"controlPlanePlacement\": {\"groupName\": \"eks-describecluster\"}}, \"accessConfig\": {\"bootstrapClusterCreatorAdminPermissions\": false, \"authenticationMode\": \"API\"}, \"upgradePolicy\": {\"supportType\": \"STANDARD\"}, \"zonalShiftConfig\": {\"enabled\": true}, \"remoteNetworkConfig\": {\"remoteNodeNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}], \"remotePodNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}]}, \"computeConfig\": {\"enabled\": true, \"nodePools\": [\"nodePool\", \"nodePool\"], \"nodeRoleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/eb027a34\"}, \"storageConfig\": {\"blockStorage\": {\"enabled\": true}}, \"deletionProtection\": false, \"controlPlaneScalingConfig\": {\"tier\": \"standard\"}}}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:28.078744+00:00",
+      "finished_at": "2026-04-16T02:44:34.741919+00:00"
+    },
+    "request": {
+      "service": "eks",
+      "action": "DescribeCluster",
+      "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+      "headers": {
+        "X-Amz-Target": "DescribeCluster",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"name\":\"prod-cluster\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "eks",
+        "operation": "DescribeCluster",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeCluster"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "name": "prod-cluster"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"cluster\": {\"name\": \"prod-cluster\", \"arn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/87f94de5\", \"createdAt\": 1776307474, \"version\": \"1\", \"endpoint\": \"endpoint\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/67f3daa1\", \"resourcesVpcConfig\": {\"subnetIds\": [\"eks-31a40ca5\", \"eks-da3d428f\"], \"securityGroupIds\": [\"eks-a6238f10\", \"eks-ac31be3b\"], \"clusterSecurityGroupId\": \"eks-bcd568d6\", \"vpcId\": \"eks-ada87736\", \"endpointPublicAccess\": false, \"endpointPrivateAccess\": false, \"publicAccessCidrs\": [\"publicAccessCidr\", \"publicAccessCidr\"]}, \"kubernetesNetworkConfig\": {\"serviceIpv4Cidr\": \"serviceIpv4Cidr\", \"serviceIpv6Cidr\": \"serviceIpv6Cidr\", \"ipFamily\": \"ipv4\", \"elasticLoadBalancing\": {\"enabled\": true}}, \"logging\": {\"clusterLogging\": [{\"types\": [\"api\", \"api\"], \"enabled\": true}, {\"types\": [\"api\", \"api\"], \"enabled\": true}]}, \"identity\": {\"oidc\": {\"issuer\": \"issuer\"}}, \"status\": \"CREATING\", \"certificateAuthority\": {\"data\": \"data\"}, \"clientRequestToken\": \"\", \"platformVersion\": \"2\", \"tags\": {}, \"encryptionConfig\": [{\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/ea1ba183\"}}, {\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/cc320d3b\"}}], \"connectorConfig\": {\"activationId\": \"eks-5a1ade8a\", \"activationCode\": \"activationCode\", \"activationExpiry\": 1776307474, \"provider\": \"provider\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8cb43608\"}, \"id\": \"eks-5568676c\", \"health\": {\"issues\": [{\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-36841e21\", \"eks-a1a277f5\"]}, {\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-65483762\", \"eks-9ce88688\"]}]}, \"outpostConfig\": {\"outpostArns\": [\"arn:aws:eks:us-east-1:123456789012:describecluster/da46da42\", \"arn:aws:eks:us-east-1:123456789012:describecluster/cfc854b4\"], \"controlPlaneInstanceType\": \"t3.medium\", \"controlPlanePlacement\": {\"groupName\": \"eks-describecluster\"}}, \"accessConfig\": {\"bootstrapClusterCreatorAdminPermissions\": false, \"authenticationMode\": \"API\"}, \"upgradePolicy\": {\"supportType\": \"STANDARD\"}, \"zonalShiftConfig\": {\"enabled\": true}, \"remoteNetworkConfig\": {\"remoteNodeNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}], \"remotePodNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}]}, \"computeConfig\": {\"enabled\": true, \"nodePools\": [\"nodePool\", \"nodePool\"], \"nodeRoleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/eb027a34\"}, \"storageConfig\": {\"blockStorage\": {\"enabled\": true}}, \"deletionProtection\": false, \"controlPlaneScalingConfig\": {\"tier\": \"standard\"}}}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6663.188,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:34.738086+00:00",
+        "finished_at": "2026-04-16T02:44:34.738511+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "name"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

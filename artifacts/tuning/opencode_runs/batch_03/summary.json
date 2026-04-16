@@ -1,0 +1,496 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b03_s01",
+        "batch": 3,
+        "label": "ecr batch-check-layer-availability",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+        "service": "ecr",
+        "action": "BatchCheckLayerAvailability",
+        "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+        "body": "{\"repositoryName\":\"demo\",\"layerDigests\":[\"sha256:abc\"]}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "layerDigests"
+        ]
+      },
+      "response_body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"UNAVAILABLE\", \"layerSize\": 0}], \"failures\": []}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:49:49.297472+00:00",
+          "finished_at": "2026-04-16T07:50:16.015516+00:00"
+        },
+        "request": {
+          "service": "ecr",
+          "action": "BatchCheckLayerAvailability",
+          "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"repositoryName\":\"demo\",\"layerDigests\":[\"sha256:abc\"]}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ecr",
+            "operation": "BatchCheckLayerAvailability",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "BatchCheckLayerAvailability"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ecr_layer_probe_demo",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "repositoryName": "demo",
+              "layers_count": 1,
+              "failures_count": 0
+            },
+            "field_hints": {
+              "layers": [
+                {
+                  "layerDigest": "sha256:abc",
+                  "layerAvailability": "UNAVAILABLE",
+                  "layerSize": 0
+                }
+              ],
+              "failures": []
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"UNAVAILABLE\", \"layerSize\": 0}], \"failures\": []}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 27614.013,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 24763.063,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:49:51.243462+00:00",
+            "finished_at": "2026-04-16T07:50:16.015100+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "layerDigests"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b03_s02",
+        "batch": 3,
+        "label": "ecr get-download-url-for-layer",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr get-download-url-for-layer --repository-name demo --layer-digest sha256:abc",
+        "service": "ecr",
+        "action": "GetDownloadUrlForLayer",
+        "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+        "body": "{\"repositoryName\":\"demo\",\"layerDigest\":\"sha256:abc\"}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "layerDigest"
+        ]
+      },
+      "response_body": "{\"downloadUrl\": \"mock://ecr/demo/blobs/sha256/abc\", \"layerDigest\": \"sha256:abc\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:50:16.032403+00:00",
+          "finished_at": "2026-04-16T07:50:36.909067+00:00"
+        },
+        "request": {
+          "service": "ecr",
+          "action": "GetDownloadUrlForLayer",
+          "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"repositoryName\":\"demo\",\"layerDigest\":\"sha256:abc\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ecr",
+            "operation": "GetDownloadUrlForLayer",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetDownloadUrlForLayer"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ecr_layer_probe_demo",
+          "risk_delta": 0.05,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "repositoryName": "demo",
+              "layerDigest": "sha256:abc",
+              "result_count": 1
+            },
+            "field_hints": {
+              "downloadUrl": "mock://ecr/demo/blobs/sha256/abc",
+              "layerDigest": "sha256:abc"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"downloadUrl\": \"mock://ecr/demo/blobs/sha256/abc\", \"layerDigest\": \"sha256:abc\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 21715.773,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 21707.769,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:50:16.032540+00:00",
+            "finished_at": "2026-04-16T07:50:36.908726+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "layerDigest"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b03_s03",
+        "batch": 3,
+        "label": "ecr initiate-layer-upload",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr initiate-layer-upload --repository-name demo",
+        "service": "ecr",
+        "action": "InitiateLayerUpload",
+        "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+        "body": "{\"repositoryName\":\"demo\"}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"uploadId\": \"upload-demo-7f3c2a1e\", \"partSize\": 20971520}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:50:36.926842+00:00",
+          "finished_at": "2026-04-16T07:50:56.280325+00:00"
+        },
+        "request": {
+          "service": "ecr",
+          "action": "InitiateLayerUpload",
+          "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"repositoryName\":\"demo\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ecr",
+            "operation": "InitiateLayerUpload",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "InitiateLayerUpload"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ecr_upload_probe_demo",
+          "risk_delta": 0.06,
+          "reason_tags": [
+            "enum_pattern",
+            "rare_api_chain"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "repositoryName": "demo"
+            },
+            "field_hints": {
+              "uploadId": "upload-demo-7f3c2a1e",
+              "partSize": 20971520
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"uploadId\": \"upload-demo-7f3c2a1e\", \"partSize\": 20971520}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 20239.517,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 20233.044,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:50:36.926970+00:00",
+            "finished_at": "2026-04-16T07:50:56.280089+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b03_s04",
+        "batch": 3,
+        "label": "ecr complete-layer-upload",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr complete-layer-upload --repository-name demo --upload-id test --layer-digests sha256:abc",
+        "service": "ecr",
+        "action": "CompleteLayerUpload",
+        "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+        "body": "{\"repositoryName\":\"demo\",\"uploadId\":\"test\",\"layerDigests\":[\"sha256:abc\"]}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "repositoryName",
+          "uploadId",
+          "layerDigests"
+        ]
+      },
+      "response_body": "{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"uploadId\": \"test\", \"layerDigest\": \"sha256:abc\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:50:56.297586+00:00",
+          "finished_at": "2026-04-16T07:51:20.359479+00:00"
+        },
+        "request": {
+          "service": "ecr",
+          "action": "CompleteLayerUpload",
+          "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"repositoryName\":\"demo\",\"uploadId\":\"test\",\"layerDigests\":[\"sha256:abc\"]}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ecr",
+            "operation": "CompleteLayerUpload",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "CompleteLayerUpload"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ecr_upload_path_v1",
+          "risk_delta": 0.08,
+          "reason_tags": [
+            "enum_pattern",
+            "rare_api_chain"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "registryId": "123456789012",
+              "repositoryName": "demo",
+              "uploadId": "test",
+              "layerDigest": "sha256:abc"
+            },
+            "field_hints": {
+              "registryId": "123456789012",
+              "repositoryName": "demo",
+              "uploadId": "test",
+              "layerDigest": "sha256:abc"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"uploadId\": \"test\", \"layerDigest\": \"sha256:abc\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 24061.899,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 24054.443,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:50:56.297725+00:00",
+            "finished_at": "2026-04-16T07:51:20.359239+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 3,
+        "echoed": [
+          "repositoryName",
+          "uploadId",
+          "layerDigests"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b03_s05",
+        "batch": 3,
+        "label": "ecr describe-images",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr describe-images --repository-name demo --max-results 5",
+        "service": "ecr",
+        "action": "DescribeImages",
+        "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+        "body": "{\"repositoryName\":\"demo\",\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.DescribeImages",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "repositoryName",
+          "maxResults"
+        ]
+      },
+      "response_body": "",
+      "audit": {},
+      "heuristics": {
+        "validation_passed": false,
+        "safe_fallback": false,
+        "llm_error": "runner_exception",
+        "expected_echo_count": 2,
+        "echoed": [],
+        "missing_echo": [
+          "repositoryName",
+          "maxResults"
+        ],
+        "placeholder_hits": [],
+        "exception": "ValueError: Invalid timestamp \"recent\": Unknown string format: recent"
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 4,
+    "safe_fallback": 0,
+    "missing_echo_total": 2,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 0
+  }
+}

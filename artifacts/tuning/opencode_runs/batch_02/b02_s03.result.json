@@ -1,0 +1,116 @@
+{
+  "scenario": {
+    "id": "b02_s03",
+    "batch": 2,
+    "label": "ssm get-inventory",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm get-inventory --max-results 5",
+    "service": "ssm",
+    "action": "GetInventory",
+    "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+    "body": "Action=GetInventory&MaxResults=5&Version=2014-11-06",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"Entities\": [{\"Id\": \"ssm-8086c3c0\", \"Data\": {}}, {\"Id\": \"ssm-a4138d5e\", \"Data\": {}}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:48:49.695023+00:00",
+      "finished_at": "2026-04-16T07:49:06.548494+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "GetInventory",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetInventory&MaxResults=5&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "GetInventory",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetInventory"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ssm_inventory_recon_a1",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern",
+        "high_rate"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "InventoryResultEntityList": {
+            "count": 2,
+            "identifiers": [
+              "i-e44ae4839227db8f2",
+              "ssm-f4c03176"
+            ]
+          }
+        },
+        "field_hints": {
+          "NextToken": null,
+          "entity_type": "AWS:InstanceInformation",
+          "platform_name": "Amazon Linux",
+          "platform_version": "2",
+          "agent_version": "3.2.700.0"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Entities\": [{\"Id\": \"ssm-8086c3c0\", \"Data\": {}}, {\"Id\": \"ssm-a4138d5e\", \"Data\": {}}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 16853.48,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16846.509,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:48:49.695264+00:00",
+        "finished_at": "2026-04-16T07:49:06.548103+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [
+      "MaxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

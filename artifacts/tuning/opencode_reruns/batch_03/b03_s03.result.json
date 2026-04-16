@@ -1,0 +1,106 @@
+{
+  "scenario": {
+    "id": "b03_s03",
+    "batch": 3,
+    "label": "ecr initiate-layer-upload",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr initiate-layer-upload --repository-name demo",
+    "service": "ecr",
+    "action": "InitiateLayerUpload",
+    "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+    "body": "{\"repositoryName\":\"demo\"}",
+    "headers": [
+      "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "{\"uploadId\": \"demo-upload-7f3c2a91\", \"partSize\": 5242880}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T09:23:13.141683+00:00",
+      "finished_at": "2026-04-16T09:23:26.258231+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "InitiateLayerUpload",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecr",
+        "operation": "InitiateLayerUpload",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "InitiateLayerUpload"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ecr_upload_probe_demo",
+      "risk_delta": 0.08,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "repositoryName": "demo",
+          "uploadCount": 1
+        },
+        "field_hints": {
+          "uploadId": "demo-upload-7f3c2a91",
+          "partSize": 5242880
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"uploadId\": \"demo-upload-7f3c2a91\", \"partSize\": 5242880}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 14006.969,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 13981.965,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T09:23:13.141902+00:00",
+        "finished_at": "2026-04-16T09:23:26.258028+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

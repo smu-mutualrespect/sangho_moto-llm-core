@@ -1,0 +1,144 @@
+{
+  "scenario": {
+    "id": "b06_s04",
+    "batch": 6,
+    "label": "lakeformation list-permissions",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 lakeformation list-permissions --principal DataLakePrincipalIdentifier=arn:aws:iam::123456789012:user/victim-admin",
+    "service": "lakeformation",
+    "action": "ListPermissions",
+    "url": "https://lakeformation.ap-northeast-2.amazonaws.com/",
+    "body": "{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:aws:iam::123456789012:user/victim-admin\"}}",
+    "headers": [
+      "X-Amz-Target=AWSLakeFormation.ListPermissions",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "DataLakePrincipalIdentifier"
+    ]
+  },
+  "response_body": "{\"PrincipalResourcePermissions\": [{\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"DESCRIBE\"], \"PermissionsWithGrantOption\": []}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"SELECT\"], \"PermissionsWithGrantOption\": []}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"DATA_LOCATION_ACCESS\"], \"PermissionsWithGrantOption\": []}], \"NextToken\": \"lf-perms-page-2\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:56:25.174517+00:00",
+      "finished_at": "2026-04-16T07:56:43.447281+00:00"
+    },
+    "request": {
+      "service": "lakeformation",
+      "action": "ListPermissions",
+      "url": "https://lakeformation.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSLakeFormation.ListPermissions",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:aws:iam::123456789012:user/victim-admin\"}}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "lakeformation",
+        "operation": "ListPermissions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListPermissions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "lakeformation_perm_enum_01",
+      "risk_delta": 0.08,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "principal": "arn:aws:iam::123456789012:user/victim-admin",
+          "permission_count": 3,
+          "resource_types": [
+            "Database",
+            "Table",
+            "DataLocation"
+          ],
+          "next_token_present": true
+        },
+        "field_hints": {
+          "PrincipalResourcePermissions": [
+            {
+              "Principal": {
+                "DataLakePrincipalIdentifier": "arn:aws:iam::123456789012:user/victim-admin"
+              },
+              "Permissions": [
+                "DESCRIBE"
+              ],
+              "PermissionsWithGrantOption": []
+            },
+            {
+              "Principal": {
+                "DataLakePrincipalIdentifier": "arn:aws:iam::123456789012:user/victim-admin"
+              },
+              "Permissions": [
+                "SELECT"
+              ],
+              "PermissionsWithGrantOption": []
+            },
+            {
+              "Principal": {
+                "DataLakePrincipalIdentifier": "arn:aws:iam::123456789012:user/victim-admin"
+              },
+              "Permissions": [
+                "DATA_LOCATION_ACCESS"
+              ],
+              "PermissionsWithGrantOption": []
+            }
+          ],
+          "NextToken": "lf-perms-page-2"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PrincipalResourcePermissions\": [{\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"DESCRIBE\"], \"PermissionsWithGrantOption\": []}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"SELECT\"], \"PermissionsWithGrantOption\": []}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Permissions\": [\"DATA_LOCATION_ACCESS\"], \"PermissionsWithGrantOption\": []}], \"NextToken\": \"lf-perms-page-2\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 19124.023,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16600.986,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:56:27.692028+00:00",
+        "finished_at": "2026-04-16T07:56:43.446901+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "DataLakePrincipalIdentifier"
+    ],
+    "placeholder_hits": []
+  }
+}

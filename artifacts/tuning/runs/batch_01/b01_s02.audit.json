@@ -1,0 +1,294 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:41:39.331893+00:00",
+      "finished_at": "2026-04-16T02:41:39.334515+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetAccessKeyLastUsed",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetAccessKeyLastUsed",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAccessKeyLastUsed"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "AccessKeyId": "AKIAIOSFODNN7EXAMPLE"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>victim-admin</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-16T02:41:39Z</LastUsedDate><ServiceName>codecommit.amazonaws.com</ServiceName><Region>Region</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GetAccessKeyLastUsedResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.646,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:41:39.332416+00:00",
+        "finished_at": "2026-04-16T02:41:39.333180+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:04.549579+00:00",
+      "finished_at": "2026-04-16T02:43:04.551727+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetAccessKeyLastUsed",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetAccessKeyLastUsed",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAccessKeyLastUsed"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "AccessKeyId": "AKIAIOSFODNN7EXAMPLE"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>victim-admin</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-16T02:43:04Z</LastUsedDate><ServiceName>codecommit.amazonaws.com</ServiceName><Region>Region</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GetAccessKeyLastUsedResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.168,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:43:04.549902+00:00",
+        "finished_at": "2026-04-16T02:43:04.550437+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:39.022878+00:00",
+      "finished_at": "2026-04-16T02:57:39.025758+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetAccessKeyLastUsed",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetAccessKeyLastUsed",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAccessKeyLastUsed"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "AccessKeyId": "AKIAIOSFODNN7EXAMPLE"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>victim-admin</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-16T02:57:39Z</LastUsedDate><ServiceName>codecommit.amazonaws.com</ServiceName><Region>us-east-1</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GetAccessKeyLastUsedResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.905,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:39.023548+00:00",
+        "finished_at": "2026-04-16T02:57:39.024530+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:32.830091+00:00",
+      "finished_at": "2026-04-16T02:59:32.831750+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetAccessKeyLastUsed",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetAccessKeyLastUsed&AccessKeyId=AKIAIOSFODNN7EXAMPLE&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetAccessKeyLastUsed",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAccessKeyLastUsed"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "AccessKeyId": "AKIAIOSFODNN7EXAMPLE"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GetAccessKeyLastUsedResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetAccessKeyLastUsedResult><UserName>victim-admin</UserName><AccessKeyLastUsed><LastUsedDate>2026-04-16T02:59:32Z</LastUsedDate><ServiceName>codecommit.amazonaws.com</ServiceName><Region>us-east-1</Region></AccessKeyLastUsed></GetAccessKeyLastUsedResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetAccessKeyLastUsedResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GetAccessKeyLastUsedResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.694,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.830370+00:00",
+        "finished_at": "2026-04-16T02:59:32.830818+00:00"
+      }
+    }
+  }
+]

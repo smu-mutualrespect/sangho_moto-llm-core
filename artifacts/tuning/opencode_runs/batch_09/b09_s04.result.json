@@ -1,0 +1,152 @@
+{
+  "scenario": {
+    "id": "b09_s04",
+    "batch": 9,
+    "label": "ssm list-documents",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm list-documents --max-results 5",
+    "service": "ssm",
+    "action": "ListDocuments",
+    "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+    "body": "Action=ListDocuments&MaxResults=5&Version=2014-11-06",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"DocumentIdentifiers\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/dc09e03f\", \"CreatedDate\": 1776326566, \"DisplayName\": \"DisplayName\", \"Owner\": [\"Amazon\", \"Amazon\", \"123456789012\", \"123456789012\", \"123456789012\"], \"VersionName\": \"1\", \"PlatformTypes\": [[\"Linux\"], [\"Windows\"], [\"Linux\"], [\"Linux\"], [\"Linux\"]], \"DocumentVersion\": \"1\", \"DocumentType\": [\"Command\", \"Command\", \"Command\", \"Command\", \"Command\"], \"SchemaVersion\": \"1\", \"DocumentFormat\": [\"JSON\", \"JSON\", \"YAML\", \"YAML\", \"YAML\"], \"TargetType\": \"TargetType\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"Requires\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/fecb0545\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/21f430a6\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}], \"ReviewStatus\": \"APPROVED\", \"Author\": \"Author\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/acad9dfc\", \"CreatedDate\": 1776326566, \"DisplayName\": \"DisplayName\", \"Owner\": [\"Amazon\", \"Amazon\", \"123456789012\", \"123456789012\", \"123456789012\"], \"VersionName\": \"1\", \"PlatformTypes\": [[\"Linux\"], [\"Windows\"], [\"Linux\"], [\"Linux\"], [\"Linux\"]], \"DocumentVersion\": \"1\", \"DocumentType\": [\"Command\", \"Command\", \"Command\", \"Command\", \"Command\"], \"SchemaVersion\": \"1\", \"DocumentFormat\": [\"JSON\", \"JSON\", \"YAML\", \"YAML\", \"YAML\"], \"TargetType\": \"TargetType\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"Requires\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/a8b6afe8\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/28af8ace\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}], \"ReviewStatus\": \"APPROVED\", \"Author\": \"Author\"}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T08:02:14.823624+00:00",
+      "finished_at": "2026-04-16T08:02:46.852941+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "ListDocuments",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListDocuments&MaxResults=5&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "ListDocuments",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDocuments"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ssm_listdocs_core",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "DocumentIdentifiers": {
+            "count": 5,
+            "names": [
+              "AWS-RunShellScript",
+              "AWS-RunPowerShellScript",
+              "Corp-Baseline-Linux",
+              "Corp-Collect-Inventory",
+              "Corp-Rotate-AppLogs"
+            ]
+          },
+          "NextToken": "listdocs-page-2"
+        },
+        "field_hints": {
+          "Owner": [
+            "Amazon",
+            "Amazon",
+            "123456789012",
+            "123456789012",
+            "123456789012"
+          ],
+          "DocumentType": [
+            "Command",
+            "Command",
+            "Command",
+            "Command",
+            "Command"
+          ],
+          "DocumentFormat": [
+            "JSON",
+            "JSON",
+            "YAML",
+            "YAML",
+            "YAML"
+          ],
+          "PlatformTypes": [
+            [
+              "Linux"
+            ],
+            [
+              "Windows"
+            ],
+            [
+              "Linux"
+            ],
+            [
+              "Linux"
+            ],
+            [
+              "Linux"
+            ]
+          ]
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"DocumentIdentifiers\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/dc09e03f\", \"CreatedDate\": 1776326566, \"DisplayName\": \"DisplayName\", \"Owner\": [\"Amazon\", \"Amazon\", \"123456789012\", \"123456789012\", \"123456789012\"], \"VersionName\": \"1\", \"PlatformTypes\": [[\"Linux\"], [\"Windows\"], [\"Linux\"], [\"Linux\"], [\"Linux\"]], \"DocumentVersion\": \"1\", \"DocumentType\": [\"Command\", \"Command\", \"Command\", \"Command\", \"Command\"], \"SchemaVersion\": \"1\", \"DocumentFormat\": [\"JSON\", \"JSON\", \"YAML\", \"YAML\", \"YAML\"], \"TargetType\": \"TargetType\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"Requires\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/fecb0545\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/21f430a6\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}], \"ReviewStatus\": \"APPROVED\", \"Author\": \"Author\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/acad9dfc\", \"CreatedDate\": 1776326566, \"DisplayName\": \"DisplayName\", \"Owner\": [\"Amazon\", \"Amazon\", \"123456789012\", \"123456789012\", \"123456789012\"], \"VersionName\": \"1\", \"PlatformTypes\": [[\"Linux\"], [\"Windows\"], [\"Linux\"], [\"Linux\"], [\"Linux\"]], \"DocumentVersion\": \"1\", \"DocumentType\": [\"Command\", \"Command\", \"Command\", \"Command\", \"Command\"], \"SchemaVersion\": \"1\", \"DocumentFormat\": [\"JSON\", \"JSON\", \"YAML\", \"YAML\", \"YAML\"], \"TargetType\": \"TargetType\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"Requires\": [{\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/a8b6afe8\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}, {\"Name\": \"arn:aws:ssm:us-east-1:123456789012:listdocuments/28af8ace\", \"Version\": \"2014-11-06\", \"RequireType\": \"RequireType\", \"VersionName\": \"1\"}], \"ReviewStatus\": \"APPROVED\", \"Author\": \"Author\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 32952.506,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 29418.396,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T08:02:18.347140+00:00",
+        "finished_at": "2026-04-16T08:02:46.850741+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [
+      "MaxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T08:01:23.295917+00:00",
+      "finished_at": "2026-04-16T08:01:49.308376+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "ListRepositoriesInDomain",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.ListRepositoriesInDomain",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"domain\":\"corp\",\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "ListRepositoriesInDomain",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListRepositoriesInDomain"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "codeartifact_domain_corp_repo_enum",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "repositories_count": 2,
+          "domain": "corp",
+          "max_results": 5,
+          "next_token_present": false
+        },
+        "field_hints": {
+          "repositories": [
+            {
+              "name": "build-artifacts",
+              "administratorAccount": "123456789012",
+              "domainName": "corp",
+              "domainOwner": "123456789012",
+              "arn": "arn:aws:codeartifact:us-east-1:123456789012:repository/corp/build-artifacts",
+              "description": "Internal build artifacts"
+            },
+            {
+              "name": "shared-libs",
+              "administratorAccount": "123456789012",
+              "domainName": "corp",
+              "domainOwner": "123456789012",
+              "arn": "arn:aws:codeartifact:us-east-1:123456789012:repository/corp/shared-libs",
+              "description": "Shared package repository"
+            }
+          ]
+        },
+        "omit_fields": [
+          "nextToken"
+        ]
+      }
+    },
+    "response": {
+      "body": "{\"repositories\": [{\"name\": \"build-artifacts\", \"administratorAccount\": \"123456789012\", \"domainName\": \"corp\", \"domainOwner\": \"123456789012\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:repository/corp/build-artifacts\", \"description\": \"Internal build artifacts\"}, {\"name\": \"shared-libs\", \"administratorAccount\": \"123456789012\", \"domainName\": \"corp\", \"domainOwner\": \"123456789012\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:repository/corp/shared-libs\", \"description\": \"Shared package repository\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 26775.769,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 26755.748,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T08:01:23.296222+00:00",
+        "finished_at": "2026-04-16T08:01:49.307716+00:00"
+      }
+    }
+  }
+]

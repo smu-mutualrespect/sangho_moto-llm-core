@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:22.696602+00:00",
+      "finished_at": "2026-04-16T02:44:28.055217+00:00"
+    },
+    "request": {
+      "service": "ecs",
+      "action": "ListClusters",
+      "url": "https://ecs.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListClusters",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecs",
+        "operation": "ListClusters",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListClusters"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"clusterArns\": [\"arn:aws:ecs:us-east-1:123456789012:listclusters/f288358c\", \"arn:aws:ecs:us-east-1:123456789012:listclusters/ccc9aad7\"], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5358.625,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:28.054403+00:00",
+        "finished_at": "2026-04-16T02:44:28.054855+00:00"
+      }
+    }
+  }
+]

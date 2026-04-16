@@ -1,0 +1,520 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b05_s01",
+        "batch": 5,
+        "label": "lambda list-functions",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 lambda list-functions --max-items 5",
+        "service": "lambda",
+        "action": "ListFunctions",
+        "url": "https://lambda.ap-northeast-2.amazonaws.com/2015-03-31/functions/",
+        "body": "{\"MaxItems\":5}",
+        "headers": [
+          "X-Amz-Target=Lambda.ListFunctions",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxItems"
+        ]
+      },
+      "response_body": "{\"NextMarker\": \"\", \"Functions\": [{\"FunctionName\": \"lambda-listfunctions\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0c57908e\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0452eb43\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-286ead35\", \"lambda-5541ba7c\"], \"SecurityGroupIds\": [\"lambda-f1ea4df8\", \"lambda-dd4ed2de\"], \"VpcId\": \"lambda-c3dd97c4\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b42ddd78\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d6c24d3f\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/8c2266a5\", \"RevisionId\": \"lambda-23d036b0\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a4341105\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0121669f\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/db53f4a6\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/4c64bb0e\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/e83d9cd1\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b9d8dd61\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/77e24f92\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/27ec1eb7\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d9d2c86a\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/3926adc3\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/4912fdbd\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/f79cdaf7\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}, {\"FunctionName\": \"lambda-listfunctions-1\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b128e27c\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/7620fde6\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-2cb2c429\", \"lambda-49853cf3\"], \"SecurityGroupIds\": [\"lambda-b1eef302\", \"lambda-f4c4a68a\"], \"VpcId\": \"lambda-e3d53786\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d5c8902e\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b0f068e5\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d9793632\", \"RevisionId\": \"lambda-2c3950f8\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d92121b0\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/6563c6dd\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/2185c024\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/72ba12f3\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/9fd70bc5\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/f1ccaa61\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a231d38a\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0b4ba46e\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/61a201c8\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/c6de13f1\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b96bda6b\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/5f7c553e\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:17.009860+00:00",
+          "finished_at": "2026-04-16T02:44:22.665901+00:00"
+        },
+        "request": {
+          "service": "lambda",
+          "action": "ListFunctions",
+          "url": "https://lambda.ap-northeast-2.amazonaws.com/2015-03-31/functions/",
+          "headers": {
+            "X-Amz-Target": "Lambda.ListFunctions",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxItems\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "lambda",
+            "operation": "ListFunctions",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListFunctions"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"NextMarker\": \"\", \"Functions\": [{\"FunctionName\": \"lambda-listfunctions\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0c57908e\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0452eb43\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-286ead35\", \"lambda-5541ba7c\"], \"SecurityGroupIds\": [\"lambda-f1ea4df8\", \"lambda-dd4ed2de\"], \"VpcId\": \"lambda-c3dd97c4\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b42ddd78\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d6c24d3f\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/8c2266a5\", \"RevisionId\": \"lambda-23d036b0\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a4341105\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0121669f\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/db53f4a6\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/4c64bb0e\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/e83d9cd1\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b9d8dd61\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/77e24f92\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/27ec1eb7\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d9d2c86a\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/3926adc3\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/4912fdbd\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/f79cdaf7\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}, {\"FunctionName\": \"lambda-listfunctions-1\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b128e27c\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/7620fde6\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-2cb2c429\", \"lambda-49853cf3\"], \"SecurityGroupIds\": [\"lambda-b1eef302\", \"lambda-f4c4a68a\"], \"VpcId\": \"lambda-e3d53786\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d5c8902e\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b0f068e5\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d9793632\", \"RevisionId\": \"lambda-2c3950f8\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d92121b0\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/6563c6dd\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/2185c024\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/72ba12f3\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/9fd70bc5\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/f1ccaa61\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a231d38a\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/0b4ba46e\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/61a201c8\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/c6de13f1\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b96bda6b\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/5f7c553e\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5656.062,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:22.660756+00:00",
+            "finished_at": "2026-04-16T02:44:22.661228+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxItems"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b05_s02",
+        "batch": 5,
+        "label": "ecs list-clusters",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ecs list-clusters --max-results 5",
+        "service": "ecs",
+        "action": "ListClusters",
+        "url": "https://ecs.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AmazonEC2ContainerServiceV20141113.ListClusters",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"clusterArns\": [\"arn:aws:ecs:us-east-1:123456789012:listclusters/f288358c\", \"arn:aws:ecs:us-east-1:123456789012:listclusters/ccc9aad7\"], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:22.696602+00:00",
+          "finished_at": "2026-04-16T02:44:28.055217+00:00"
+        },
+        "request": {
+          "service": "ecs",
+          "action": "ListClusters",
+          "url": "https://ecs.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonEC2ContainerServiceV20141113.ListClusters",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ecs",
+            "operation": "ListClusters",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListClusters"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"clusterArns\": [\"arn:aws:ecs:us-east-1:123456789012:listclusters/f288358c\", \"arn:aws:ecs:us-east-1:123456789012:listclusters/ccc9aad7\"], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5358.625,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:28.054403+00:00",
+            "finished_at": "2026-04-16T02:44:28.054855+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b05_s03",
+        "batch": 5,
+        "label": "eks describe-cluster",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 eks describe-cluster --name prod-cluster",
+        "service": "eks",
+        "action": "DescribeCluster",
+        "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+        "body": "{\"name\":\"prod-cluster\"}",
+        "headers": [
+          "X-Amz-Target=DescribeCluster",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "name"
+        ]
+      },
+      "response_body": "{\"cluster\": {\"name\": \"prod-cluster\", \"arn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/87f94de5\", \"createdAt\": 1776307474, \"version\": \"1\", \"endpoint\": \"endpoint\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/67f3daa1\", \"resourcesVpcConfig\": {\"subnetIds\": [\"eks-31a40ca5\", \"eks-da3d428f\"], \"securityGroupIds\": [\"eks-a6238f10\", \"eks-ac31be3b\"], \"clusterSecurityGroupId\": \"eks-bcd568d6\", \"vpcId\": \"eks-ada87736\", \"endpointPublicAccess\": false, \"endpointPrivateAccess\": false, \"publicAccessCidrs\": [\"publicAccessCidr\", \"publicAccessCidr\"]}, \"kubernetesNetworkConfig\": {\"serviceIpv4Cidr\": \"serviceIpv4Cidr\", \"serviceIpv6Cidr\": \"serviceIpv6Cidr\", \"ipFamily\": \"ipv4\", \"elasticLoadBalancing\": {\"enabled\": true}}, \"logging\": {\"clusterLogging\": [{\"types\": [\"api\", \"api\"], \"enabled\": true}, {\"types\": [\"api\", \"api\"], \"enabled\": true}]}, \"identity\": {\"oidc\": {\"issuer\": \"issuer\"}}, \"status\": \"CREATING\", \"certificateAuthority\": {\"data\": \"data\"}, \"clientRequestToken\": \"\", \"platformVersion\": \"2\", \"tags\": {}, \"encryptionConfig\": [{\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/ea1ba183\"}}, {\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/cc320d3b\"}}], \"connectorConfig\": {\"activationId\": \"eks-5a1ade8a\", \"activationCode\": \"activationCode\", \"activationExpiry\": 1776307474, \"provider\": \"provider\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8cb43608\"}, \"id\": \"eks-5568676c\", \"health\": {\"issues\": [{\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-36841e21\", \"eks-a1a277f5\"]}, {\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-65483762\", \"eks-9ce88688\"]}]}, \"outpostConfig\": {\"outpostArns\": [\"arn:aws:eks:us-east-1:123456789012:describecluster/da46da42\", \"arn:aws:eks:us-east-1:123456789012:describecluster/cfc854b4\"], \"controlPlaneInstanceType\": \"t3.medium\", \"controlPlanePlacement\": {\"groupName\": \"eks-describecluster\"}}, \"accessConfig\": {\"bootstrapClusterCreatorAdminPermissions\": false, \"authenticationMode\": \"API\"}, \"upgradePolicy\": {\"supportType\": \"STANDARD\"}, \"zonalShiftConfig\": {\"enabled\": true}, \"remoteNetworkConfig\": {\"remoteNodeNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}], \"remotePodNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}]}, \"computeConfig\": {\"enabled\": true, \"nodePools\": [\"nodePool\", \"nodePool\"], \"nodeRoleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/eb027a34\"}, \"storageConfig\": {\"blockStorage\": {\"enabled\": true}}, \"deletionProtection\": false, \"controlPlaneScalingConfig\": {\"tier\": \"standard\"}}}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:28.078744+00:00",
+          "finished_at": "2026-04-16T02:44:34.741919+00:00"
+        },
+        "request": {
+          "service": "eks",
+          "action": "DescribeCluster",
+          "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+          "headers": {
+            "X-Amz-Target": "DescribeCluster",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"name\":\"prod-cluster\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "eks",
+            "operation": "DescribeCluster",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeCluster"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "name": "prod-cluster"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"cluster\": {\"name\": \"prod-cluster\", \"arn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/87f94de5\", \"createdAt\": 1776307474, \"version\": \"1\", \"endpoint\": \"endpoint\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/67f3daa1\", \"resourcesVpcConfig\": {\"subnetIds\": [\"eks-31a40ca5\", \"eks-da3d428f\"], \"securityGroupIds\": [\"eks-a6238f10\", \"eks-ac31be3b\"], \"clusterSecurityGroupId\": \"eks-bcd568d6\", \"vpcId\": \"eks-ada87736\", \"endpointPublicAccess\": false, \"endpointPrivateAccess\": false, \"publicAccessCidrs\": [\"publicAccessCidr\", \"publicAccessCidr\"]}, \"kubernetesNetworkConfig\": {\"serviceIpv4Cidr\": \"serviceIpv4Cidr\", \"serviceIpv6Cidr\": \"serviceIpv6Cidr\", \"ipFamily\": \"ipv4\", \"elasticLoadBalancing\": {\"enabled\": true}}, \"logging\": {\"clusterLogging\": [{\"types\": [\"api\", \"api\"], \"enabled\": true}, {\"types\": [\"api\", \"api\"], \"enabled\": true}]}, \"identity\": {\"oidc\": {\"issuer\": \"issuer\"}}, \"status\": \"CREATING\", \"certificateAuthority\": {\"data\": \"data\"}, \"clientRequestToken\": \"\", \"platformVersion\": \"2\", \"tags\": {}, \"encryptionConfig\": [{\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/ea1ba183\"}}, {\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/cc320d3b\"}}], \"connectorConfig\": {\"activationId\": \"eks-5a1ade8a\", \"activationCode\": \"activationCode\", \"activationExpiry\": 1776307474, \"provider\": \"provider\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8cb43608\"}, \"id\": \"eks-5568676c\", \"health\": {\"issues\": [{\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-36841e21\", \"eks-a1a277f5\"]}, {\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-65483762\", \"eks-9ce88688\"]}]}, \"outpostConfig\": {\"outpostArns\": [\"arn:aws:eks:us-east-1:123456789012:describecluster/da46da42\", \"arn:aws:eks:us-east-1:123456789012:describecluster/cfc854b4\"], \"controlPlaneInstanceType\": \"t3.medium\", \"controlPlanePlacement\": {\"groupName\": \"eks-describecluster\"}}, \"accessConfig\": {\"bootstrapClusterCreatorAdminPermissions\": false, \"authenticationMode\": \"API\"}, \"upgradePolicy\": {\"supportType\": \"STANDARD\"}, \"zonalShiftConfig\": {\"enabled\": true}, \"remoteNetworkConfig\": {\"remoteNodeNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}], \"remotePodNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}]}, \"computeConfig\": {\"enabled\": true, \"nodePools\": [\"nodePool\", \"nodePool\"], \"nodeRoleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/eb027a34\"}, \"storageConfig\": {\"blockStorage\": {\"enabled\": true}}, \"deletionProtection\": false, \"controlPlaneScalingConfig\": {\"tier\": \"standard\"}}}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 6663.188,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:34.738086+00:00",
+            "finished_at": "2026-04-16T02:44:34.738511+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "name"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b05_s04",
+        "batch": 5,
+        "label": "ec2 describe-images",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ec2 describe-images --owners self",
+        "service": "ec2",
+        "action": "DescribeImages",
+        "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+        "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+        "headers": [
+          "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><nextToken/><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>ec2-describeimages</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-b472b82b</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-8138803a</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-3f65070c</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-da0293cc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-7fab6df2</productCode><type>devpay</type></item><item><productCode>ec2-67f193df</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-2cc02fc5</kernelId><ramdiskId>ec2-77d0e95e</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages-1</name><rootDeviceName>ec2-describeimages-1</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-4c31abce</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-eb39b445</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-016528b8</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-0ca72bcc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-014bfaf0</productCode><type>devpay</type></item><item><productCode>ec2-843b9404</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-a32a1980</kernelId><ramdiskId>ec2-026a6e2c</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:34.770352+00:00",
+          "finished_at": "2026-04-16T02:44:40.356557+00:00"
+        },
+        "request": {
+          "service": "ec2",
+          "action": "DescribeImages",
+          "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ec2",
+            "operation": "DescribeImages",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeImages"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><nextToken/><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>ec2-describeimages</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-b472b82b</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-8138803a</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-3f65070c</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-da0293cc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-7fab6df2</productCode><type>devpay</type></item><item><productCode>ec2-67f193df</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-2cc02fc5</kernelId><ramdiskId>ec2-77d0e95e</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages-1</name><rootDeviceName>ec2-describeimages-1</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-4c31abce</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-eb39b445</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-016528b8</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-0ca72bcc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-014bfaf0</productCode><type>devpay</type></item><item><productCode>ec2-843b9404</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-a32a1980</kernelId><ramdiskId>ec2-026a6e2c</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "xml",
+          "response_format_detected": "xml",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": true,
+          "xml_root_tag": "DescribeImagesResponse",
+          "json_top_level_type": "",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 6556.217,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:40.351384+00:00",
+            "finished_at": "2026-04-16T02:44:40.351868+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b05_s05",
+        "batch": 5,
+        "label": "ssm send-command",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm send-command --document-name AWS-RunShellScript --targets Key=instanceids,Values=i-1234567890abcdef0 --parameters commands='id'",
+        "service": "ssm",
+        "action": "SendCommand",
+        "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+        "body": "Action=SendCommand&DocumentName=AWS-RunShellScript&Targets.member.1.Key=instanceids&Targets.member.1.Values.member.1=i-1234567890abcdef0&Parameters.entry.1.key=commands&Parameters.entry.1.value.1=id&Version=2014-11-06",
+        "headers": [
+          "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+        ],
+        "expected_echo": [
+          "DocumentName"
+        ]
+      },
+      "response_body": "{\"Command\": {\"CommandId\": \"ssm-a6d5dce3\", \"DocumentName\": \"AWS-RunShellScript\", \"DocumentVersion\": \"1\", \"Comment\": \"Comment\", \"ExpiresAfter\": 1776307480, \"Parameters\": {}, \"InstanceIds\": [\"i-6acaed7292f5b4f25\", \"i-60a28a306db535e68\"], \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"RequestedDateTime\": 1776307480, \"Status\": \"Pending\", \"StatusDetails\": \"StatusDetails\", \"OutputS3Region\": \"OutputS3Region\", \"OutputS3BucketName\": \"ssm-sendcommand\", \"OutputS3KeyPrefix\": \"OutputS3KeyPrefix\", \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetCount\": 2, \"CompletedCount\": 2, \"ErrorCount\": 2, \"DeliveryTimedOutCount\": 2, \"ServiceRole\": \"ServiceRole\", \"NotificationConfig\": {\"NotificationArn\": \"arn:aws:ssm:us-east-1:123456789012:sendcommand/681f4adc\", \"NotificationEvents\": [\"All\", \"All\"], \"NotificationType\": \"Command\"}, \"CloudWatchOutputConfig\": {\"CloudWatchLogGroupName\": \"ssm-sendcommand\", \"CloudWatchOutputEnabled\": true}, \"TimeoutSeconds\": 1, \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{\"Name\": \"ssm-sendcommand\"}, {\"Name\": \"ssm-sendcommand-1\"}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-sendcommand\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-sendcommand-1\", \"State\": \"UNKNOWN\"}]}}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:40.386919+00:00",
+          "finished_at": "2026-04-16T02:44:40.391009+00:00"
+        },
+        "request": {
+          "service": "ssm",
+          "action": "SendCommand",
+          "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          "body": "Action=SendCommand&DocumentName=AWS-RunShellScript&Targets.member.1.Key=instanceids&Targets.member.1.Values.member.1=i-1234567890abcdef0&Parameters.entry.1.key=commands&Parameters.entry.1.value.1=id&Version=2014-11-06",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ssm",
+            "operation": "SendCommand",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "SendCommand"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "DocumentName": "AWS-RunShellScript"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Command\": {\"CommandId\": \"ssm-a6d5dce3\", \"DocumentName\": \"AWS-RunShellScript\", \"DocumentVersion\": \"1\", \"Comment\": \"Comment\", \"ExpiresAfter\": 1776307480, \"Parameters\": {}, \"InstanceIds\": [\"i-6acaed7292f5b4f25\", \"i-60a28a306db535e68\"], \"Targets\": [{\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}, {\"Key\": \"Key\", \"Values\": [\"Value\", \"Value\"]}], \"RequestedDateTime\": 1776307480, \"Status\": \"Pending\", \"StatusDetails\": \"StatusDetails\", \"OutputS3Region\": \"OutputS3Region\", \"OutputS3BucketName\": \"ssm-sendcommand\", \"OutputS3KeyPrefix\": \"OutputS3KeyPrefix\", \"MaxConcurrency\": \"MaxConcurrency\", \"MaxErrors\": \"MaxErrors\", \"TargetCount\": 2, \"CompletedCount\": 2, \"ErrorCount\": 2, \"DeliveryTimedOutCount\": 2, \"ServiceRole\": \"ServiceRole\", \"NotificationConfig\": {\"NotificationArn\": \"arn:aws:ssm:us-east-1:123456789012:sendcommand/681f4adc\", \"NotificationEvents\": [\"All\", \"All\"], \"NotificationType\": \"Command\"}, \"CloudWatchOutputConfig\": {\"CloudWatchLogGroupName\": \"ssm-sendcommand\", \"CloudWatchOutputEnabled\": true}, \"TimeoutSeconds\": 1, \"AlarmConfiguration\": {\"IgnorePollAlarmFailure\": false, \"Alarms\": [{\"Name\": \"ssm-sendcommand\"}, {\"Name\": \"ssm-sendcommand-1\"}]}, \"TriggeredAlarms\": [{\"Name\": \"ssm-sendcommand\", \"State\": \"UNKNOWN\"}, {\"Name\": \"ssm-sendcommand-1\", \"State\": \"UNKNOWN\"}]}}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4.138,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:40.387613+00:00",
+            "finished_at": "2026-04-16T02:44:40.388208+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "DocumentName"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 0,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 5
+  }
+}

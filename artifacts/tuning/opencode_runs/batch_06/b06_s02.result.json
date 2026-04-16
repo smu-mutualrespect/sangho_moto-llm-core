@@ -1,0 +1,120 @@
+{
+  "scenario": {
+    "id": "b06_s02",
+    "batch": 6,
+    "label": "athena list-data-catalogs",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 athena list-data-catalogs --max-results 5",
+    "service": "athena",
+    "action": "ListDataCatalogs",
+    "url": "https://athena.ap-northeast-2.amazonaws.com/",
+    "body": "{\"MaxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AmazonAthena.ListDataCatalogs",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"CatalogName\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"CatalogName\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"catalog-page-2\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:55:47.365380+00:00",
+      "finished_at": "2026-04-16T07:56:07.762784+00:00"
+    },
+    "request": {
+      "service": "athena",
+      "action": "ListDataCatalogs",
+      "url": "https://athena.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonAthena.ListDataCatalogs",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "athena",
+        "operation": "ListDataCatalogs",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDataCatalogs"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "athena_catalogs_recon_v1",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "data_catalog_count": 4,
+          "include_next_token": true,
+          "catalog_names": [
+            "AwsDataCatalog",
+            "app_analytics_prod",
+            "customer_events",
+            "ops_metrics"
+          ]
+        },
+        "field_hints": {
+          "NextToken": "catalog-page-2",
+          "TypeByCatalog": {
+            "AwsDataCatalog": "GLUE",
+            "app_analytics_prod": "GLUE",
+            "customer_events": "LAMBDA",
+            "ops_metrics": "GLUE"
+          }
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"CatalogName\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"CatalogName\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"catalog-page-2\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 20397.415,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 17401.026,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:55:50.354338+00:00",
+        "finished_at": "2026-04-16T07:56:07.762130+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "MaxResults"
+    ],
+    "placeholder_hits": []
+  }
+}

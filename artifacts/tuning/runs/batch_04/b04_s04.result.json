@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b04_s04",
+    "batch": 4,
+    "label": "events list-rules",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 events list-rules --limit 5",
+    "service": "events",
+    "action": "ListRules",
+    "url": "https://events.ap-northeast-2.amazonaws.com/",
+    "body": "{\"Limit\":5}",
+    "headers": [
+      "X-Amz-Target=AWSEvents.ListRules",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "Limit"
+    ]
+  },
+  "response_body": "{\"Rules\": [{\"Name\": \"events-listrules\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/3fb7b1b1\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/c5ef7e0a\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules\"}, {\"Name\": \"events-listrules-1\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/42f8ba79\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/263032c9\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules-1\"}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:10.900740+00:00",
+      "finished_at": "2026-04-16T02:44:16.934925+00:00"
+    },
+    "request": {
+      "service": "events",
+      "action": "ListRules",
+      "url": "https://events.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSEvents.ListRules",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Limit\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "events",
+        "operation": "ListRules",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListRules"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Rules\": [{\"Name\": \"events-listrules\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/3fb7b1b1\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/c5ef7e0a\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules\"}, {\"Name\": \"events-listrules-1\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listrules/42f8ba79\", \"EventPattern\": \"EventPattern\", \"State\": \"ENABLED\", \"Description\": \"Description\", \"ScheduleExpression\": \"ScheduleExpression\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listrules/263032c9\", \"ManagedBy\": \"ManagedBy\", \"EventBusName\": \"events-listrules-1\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6034.203,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:16.932742+00:00",
+        "finished_at": "2026-04-16T02:44:16.933904+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "Limit"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

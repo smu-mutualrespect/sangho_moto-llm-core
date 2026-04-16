@@ -2,22 +2,22 @@ from __future__ import annotations
 # 미래형 타입 힌트를 문자열 평가 없이 사용할 수 있게 한다.
 
 import json
+import time
+import subprocess
 # HTTP 요청/응답 body를 JSON으로 직렬화/역직렬화할 때 사용한다.
 
 import os
 # API 키와 기본 모델명을 환경변수에서 읽기 위해 사용한다.
-
-import subprocess
-import sys
-import time
-from functools import lru_cache
-from pathlib import Path
 
 from typing import Any, Optional
 # 함수 시그니처에 사용하는 타입 힌트를 가져온다.
 
 from urllib.request import Request, urlopen
 # 표준 라이브러리만으로 HTTP POST 요청을 보내기 위해 사용한다.
+from pathlib import Path
+
+
+_DOTENV_LOADED = False
 
 
 def call_gpt_api(
@@ -26,30 +26,22 @@ def call_gpt_api(
     model: Optional[str] = None,
     timeout: float = 20.0,
 ) -> str:
-    # OpenAI Responses API를 호출해서 텍스트 응답을 받아오는 함수다.
-
-    if os.getenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode").lower() == "opencode":
-        return _call_opencode(prompt, model=model, timeout=timeout)
-
-    start = time.monotonic()
-    _log_fallback_transport("api", "start", prompt)
-    try:
-        result = _call_openai_responses_api(prompt, model=model, timeout=timeout)
-    except Exception:
-        _log_fallback_transport("api", "error", prompt, start)
-        raise
-    _log_fallback_transport("api", "done", prompt, start)
-    return result
+    text, _ = call_gpt_api_with_meta(prompt, model=model, timeout=timeout)
+    return text
 
 
-def _call_openai_responses_api(
+def call_gpt_api_with_meta(
     prompt: str,
     *,
     model: Optional[str] = None,
     timeout: float = 20.0,
-) -> str:
-    # OpenAI Responses API를 직접 호출해서 텍스트 응답을 받아오는 함수다.
+) -> tuple[str, dict[str, Any]]:
+    _load_dotenv_if_present()
+    transport = os.getenv("MOTO_LLM_OPENAI_TRANSPORT", "api").lower()
+    if transport == "opencode":
+        return _call_opencode_with_meta(prompt, model=model, timeout=timeout)
 
+    # OpenAI Responses API를 호출해서 텍스트 응답과 메타데이터를 받아온다.
     api_key = os.getenv("OPENAI_API_KEY")
     # OpenAI API 키를 환경변수에서 읽는다.
 
@@ -59,23 +51,26 @@ def _call_openai_responses_api(
 
     payload = {
         # OpenAI API에 보낼 JSON 요청 body를 만든다.
-        "model": _api_model_name(
-            model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5.4")
-        ),
+        "model": model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5-mini"),
         # 호출에 사용할 모델명을 정한다. 인자가 없으면 환경변수, 그것도 없으면 기본값을 쓴다.
-        "instructions": _agent_instructions(),
-        # OpenCode agent와 동일한 agent 지침을 직접 API 호출에도 적용한다.
+        "max_output_tokens": int(os.getenv("MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS", "120")),
+        # decision 단계는 짧은 JSON만 필요하므로 출력 토큰을 강하게 제한한다.
+        "reasoning": {
+            "effort": os.getenv("MOTO_LLM_OPENAI_REASONING_EFFORT", "minimal"),
+        },
+        # reasoning effort를 낮춰 지연과 reasoning token 낭비를 줄인다.
         "input": [
             # Responses API의 공식 message 배열 형태로 입력을 보낸다.
             {
                 "role": "user",
                 # 이 메시지가 사용자 입력이라는 뜻이다.
-                "content": _runtime_prompt(prompt),
+                "content": prompt,
                 # 실제 프롬프트 문자열을 담는다.
             }
         ],
     }
 
+    started = time.perf_counter()
     response = _post_json(
         # 공통 POST 함수로 OpenAI Responses API를 호출한다.
         url="https://api.openai.com/v1/responses",
@@ -108,19 +103,29 @@ def _call_openai_responses_api(
                     # 비어 있지 않은 텍스트만 추가한다.
                     parts.append(text)
 
-    return "\n".join(parts).strip()
-    # 여러 텍스트 조각을 하나의 문자열로 합쳐 최종 응답으로 돌려준다.
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
+    meta: dict[str, Any] = {
+        "provider": "openai",
+        "model": payload["model"],
+        "usage": response.get("usage"),
+        "duration_ms": round(elapsed_ms, 3),
+        "response_id": response.get("id"),
+    }
+
+    return "\n".join(parts).strip(), meta
 
 
-def _call_opencode(
+def _call_opencode_with_meta(
     prompt: str,
     *,
     model: Optional[str] = None,
-    timeout: float,
-) -> str:
+    timeout: float = 20.0,
+) -> tuple[str, dict[str, Any]]:
+    effective_timeout = max(
+        timeout,
+        float(os.getenv("MOTO_LLM_OPENCODE_TIMEOUT", "30")),
+    )
     repo_root = Path(__file__).resolve().parents[3]
-    start = time.monotonic()
-    _log_fallback_transport("opencode", "start", prompt)
     command = [
         os.getenv("MOTO_LLM_OPENCODE_BIN", "opencode"),
         "run",
@@ -132,204 +137,51 @@ def _call_opencode(
         os.getenv("MOTO_LLM_OPENCODE_VARIANT", "fast"),
         "--format",
         "json",
-        _runtime_prompt(prompt),
+        prompt,
     ]
 
+    started = time.perf_counter()
     completed = subprocess.run(
         command,
         cwd=repo_root,
         text=True,
         capture_output=True,
-        timeout=timeout,
+        timeout=effective_timeout,
         check=False,
+        env=os.environ.copy(),
     )
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
 
     if completed.returncode != 0:
-        _log_fallback_transport("opencode", "error", prompt, start)
-        raise RuntimeError(completed.stderr.strip() or completed.stdout.strip())
+        message = completed.stderr.strip() or completed.stdout.strip() or "opencode failed"
+        raise RuntimeError(message)
 
     parts: list[str] = []
     for line in completed.stdout.splitlines():
-        if not line.strip():
+        line = line.strip()
+        if not line:
             continue
-        event = json.loads(line)
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
         if event.get("type") == "text":
             text = event.get("part", {}).get("text")
             if text:
                 parts.append(text)
 
-    result = "\n".join(parts).strip()
-    if not result:
-        _log_fallback_transport("opencode", "error", prompt, start)
+    output_text = "\n".join(parts).strip()
+    if not output_text:
         raise ValueError("OpenCode returned no text")
 
-    _log_fallback_transport("opencode", "done", prompt, start)
-    return result
-
-
-def _runtime_prompt(prompt: str) -> str:
-    return (
-        "Runtime Moto LLM fallback request.\n"
-        "Return only the HTTP response body for the AWS CLI caller.\n"
-        "Use the compact request context below. "
-        "Do not edit files, do not run tools, do not wrap the answer in Markdown.\n\n"
-        f"{_compact_runtime_context(prompt)}"
-    )
-
-
-@lru_cache(maxsize=1)
-def _agent_instructions() -> str:
-    prompt_path = Path(__file__).with_name("agent.md")
-    return prompt_path.read_text(encoding="utf-8")
-
-
-def _compact_runtime_context(prompt: str) -> str:
-    ordered_keys = (
-        "service",
-        "action",
-        "source",
-        "reason",
-        "method",
-        "url",
-        "region",
-        "read_only",
-        "expected_format",
-        "headers",
-        "body",
-    )
-    parsed: dict[str, str] = {}
-
-    for line in prompt.splitlines():
-        stripped = line.strip()
-        if not stripped or "=" not in stripped:
-            continue
-        key, value = stripped.split("=", 1)
-        parsed[key.strip()] = _compact_prompt_value(key.strip(), value.strip())
-
-    lines: list[str] = []
-    for key in ordered_keys:
-        value = parsed.get(key)
-        if value:
-            lines.append(f"{key}={value}")
-
-    for key, value in parsed.items():
-        if key not in ordered_keys:
-            lines.append(f"{key}={value}")
-
-    return "\n".join(lines)
-
-
-def _compact_prompt_value(key: str, value: str) -> str:
-    compacted = " ".join(value.split())
-
-    if key == "headers":
-        compacted = _compact_headers(compacted)
-        return _truncate(compacted, 1200)
-
-    if key == "body":
-        return _truncate(compacted, 1800)
-
-    if key == "reason":
-        return _truncate(compacted, 240)
-
-    return _truncate(compacted, 320)
-
-
-def _compact_headers(value: str) -> str:
-    hidden_tokens = (
-        "authorization",
-        "x-amz-security-token",
-        "x-amz-date",
-        "x-amzn-trace-id",
-        "x-forwarded-for",
-        "cookie",
-    )
-    lowered = value.lower()
-
-    if not any(token in lowered for token in hidden_tokens):
-        return value
-
-    sanitized = value
-    for token in hidden_tokens:
-        sanitized = _replace_header_value(sanitized, token)
-    return sanitized
-
-
-def _replace_header_value(headers_text: str, header_name: str) -> str:
-    marker = f"'{header_name}'"
-    lowered = headers_text.lower()
-    start = lowered.find(marker)
-    if start == -1:
-        return headers_text
-
-    colon = headers_text.find(":", start)
-    if colon == -1:
-        return headers_text
-
-    quote_start = headers_text.find("'", colon)
-    if quote_start == -1:
-        return headers_text
-
-    quote_end = headers_text.find("'", quote_start + 1)
-    if quote_end == -1:
-        return headers_text
-
-    return (
-        headers_text[: quote_start + 1]
-        + "<redacted>"
-        + headers_text[quote_end:]
-    )
-
-
-def _truncate(value: str, limit: int) -> str:
-    if len(value) <= limit:
-        return value
-    return f"{value[: limit - 15]}...[truncated]"
-
-
-def _api_model_name(model: str) -> str:
-    if model.startswith("openai/"):
-        return model.split("/", 1)[1]
-    return model
-
-
-def _log_fallback_transport(
-    transport: str,
-    event: str,
-    prompt: str,
-    start: Optional[float] = None,
-) -> None:
-    source = None
-    service = None
-    action = None
-    for line in prompt.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("source="):
-            source = stripped.split("=", 1)[1]
-        elif stripped.startswith("service="):
-            service = stripped.split("=", 1)[1]
-        elif stripped.startswith("action="):
-            action = stripped.split("=", 1)[1]
-
-    details = " ".join(
-        part
-        for part in (
-            f"service={service}" if service else None,
-            f"action={action}" if action else None,
-            f"source={source}" if source else None,
-        )
-        if part
-    )
-    elapsed = ""
-    if start is not None:
-        elapsed_ms = int((time.monotonic() - start) * 1000)
-        elapsed = f" elapsed_ms={elapsed_ms}"
-
-    print(
-        f"[llm-fallback {transport} {event}] {details}{elapsed}",
-        file=sys.stderr,
-        flush=True,
-    )
+    meta = {
+        "provider": "opencode",
+        "model": command[5],
+        "duration_ms": round(elapsed_ms, 3),
+        "stderr": completed.stderr.strip(),
+        "returncode": completed.returncode,
+    }
+    return output_text, meta
 
 
 def call_claude_api(
@@ -338,7 +190,18 @@ def call_claude_api(
     model: Optional[str] = None,
     timeout: float = 20.0,
 ) -> str:
-    # Anthropic Messages API를 호출해서 텍스트 응답을 받아오는 함수다.
+    text, _ = call_claude_api_with_meta(prompt, model=model, timeout=timeout)
+    return text
+
+
+def call_claude_api_with_meta(
+    prompt: str,
+    *,
+    model: Optional[str] = None,
+    timeout: float = 20.0,
+) -> tuple[str, dict[str, Any]]:
+    # Anthropic Messages API를 호출해서 텍스트 응답과 메타데이터를 받아온다.
+    _load_dotenv_if_present()
 
     api_key = os.getenv("ANTHROPIC_API_KEY")
     # Anthropic API 키를 환경변수에서 읽는다.
@@ -365,6 +228,7 @@ def call_claude_api(
         ],
     }
 
+    started = time.perf_counter()
     response = _post_json(
         # 공통 POST 함수로 Anthropic Messages API를 호출한다.
         url="https://api.anthropic.com/v1/messages",
@@ -397,8 +261,16 @@ def call_claude_api(
                 # 비어 있지 않은 텍스트만 추가한다.
                 parts.append(text)
 
-    return "\n".join(parts).strip()
-    # 여러 텍스트 조각을 하나의 문자열로 합쳐 최종 응답으로 돌려준다.
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
+    meta: dict[str, Any] = {
+        "provider": "anthropic",
+        "model": payload["model"],
+        "usage": response.get("usage"),
+        "duration_ms": round(elapsed_ms, 3),
+        "response_id": response.get("id"),
+    }
+
+    return "\n".join(parts).strip(), meta
 
 
 def _post_json(
@@ -436,3 +308,39 @@ def _post_json(
 
     return parsed
     # 파싱된 JSON 객체를 호출자에게 돌려준다.
+
+
+def _load_dotenv_if_present() -> None:
+    global _DOTENV_LOADED
+    if _DOTENV_LOADED:
+        return
+
+    env_file = os.getenv("MOTO_LLM_ENV_FILE")
+    if env_file:
+        _load_env_file(Path(env_file))
+        _DOTENV_LOADED = True
+        return
+
+    cwd = Path.cwd()
+    for candidate_dir in [cwd, *cwd.parents]:
+        candidate = candidate_dir / ".env"
+        if candidate.exists():
+            _load_env_file(candidate)
+            _DOTENV_LOADED = True
+            return
+
+    _DOTENV_LOADED = True
+
+
+def _load_env_file(path: Path) -> None:
+    if not path.exists():
+        return
+
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip("'").strip('"')
+        os.environ.setdefault(key, value)

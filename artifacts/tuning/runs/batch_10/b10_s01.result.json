@@ -1,0 +1,101 @@
+{
+  "scenario": {
+    "id": "b10_s01",
+    "batch": 10,
+    "label": "guardduty get-detector",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 guardduty get-detector --detector-id 12abc34d567e8fa901bc2d34e56789f0",
+    "service": "guardduty",
+    "action": "GetDetector",
+    "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+    "body": "{\"detectorId\":\"12abc34d567e8fa901bc2d34e56789f0\"}",
+    "headers": [
+      "X-Amz-Target=GuardDuty.GetDetector",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "{\"createdAt\": \"2026-04-16T02:59:32Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"arn:aws:iam::123456789012:role/AWSServiceRoleForGuardduty\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-16T02:59:32Z\", \"dataSources\": {\"cloudTrail\": {\"status\": \"ENABLED\"}, \"dnsLogs\": {\"status\": \"ENABLED\"}, \"flowLogs\": {\"status\": \"ENABLED\"}, \"s3Logs\": {\"status\": \"ENABLED\"}, \"kubernetes\": {\"auditLogs\": {\"status\": \"ENABLED\"}}, \"malwareProtection\": {\"scanEc2InstanceWithFindings\": {\"ebsVolumes\": {\"status\": \"ENABLED\", \"reason\": \"OK\"}}, \"serviceRole\": \"arn:aws:iam::123456789012:role/AWSServiceRoleForGuardduty\"}}, \"tags\": {}, \"features\": [{\"name\": \"FLOW_LOGS\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372, \"additionalConfiguration\": [{\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}, {\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}]}, {\"name\": \"FLOW_LOGS\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372, \"additionalConfiguration\": [{\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}, {\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}]}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:25.903109+00:00",
+      "finished_at": "2026-04-16T02:59:32.800315+00:00"
+    },
+    "request": {
+      "service": "guardduty",
+      "action": "GetDetector",
+      "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "GuardDuty.GetDetector",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"detectorId\":\"12abc34d567e8fa901bc2d34e56789f0\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "guardduty",
+        "operation": "GetDetector",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetDetector"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "detectorId": "12abc34d567e8fa901bc2d34e56789f0"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"createdAt\": \"2026-04-16T02:59:32Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"arn:aws:iam::123456789012:role/AWSServiceRoleForGuardduty\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-16T02:59:32Z\", \"dataSources\": {\"cloudTrail\": {\"status\": \"ENABLED\"}, \"dnsLogs\": {\"status\": \"ENABLED\"}, \"flowLogs\": {\"status\": \"ENABLED\"}, \"s3Logs\": {\"status\": \"ENABLED\"}, \"kubernetes\": {\"auditLogs\": {\"status\": \"ENABLED\"}}, \"malwareProtection\": {\"scanEc2InstanceWithFindings\": {\"ebsVolumes\": {\"status\": \"ENABLED\", \"reason\": \"OK\"}}, \"serviceRole\": \"arn:aws:iam::123456789012:role/AWSServiceRoleForGuardduty\"}}, \"tags\": {}, \"features\": [{\"name\": \"FLOW_LOGS\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372, \"additionalConfiguration\": [{\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}, {\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}]}, {\"name\": \"FLOW_LOGS\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372, \"additionalConfiguration\": [{\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}, {\"name\": \"EKS_ADDON_MANAGEMENT\", \"status\": \"ENABLED\", \"updatedAt\": 1776308372}]}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6897.224,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.738929+00:00",
+        "finished_at": "2026-04-16T02:59:32.797818+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

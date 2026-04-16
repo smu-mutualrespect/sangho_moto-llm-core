@@ -1,0 +1,215 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:51.826070+00:00",
+      "finished_at": "2026-04-16T02:45:59.172871+00:00"
+    },
+    "request": {
+      "service": "scheduler",
+      "action": "ListSchedules",
+      "url": "https://scheduler.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Scheduler.ListSchedules",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "scheduler",
+        "operation": "ListSchedules",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListSchedules"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"NextToken\": \"\", \"Schedules\": [{\"Arn\": \"arn:aws:scheduler:us-east-1:123456789012:listschedules/b48b3b64\", \"CreationDate\": 1776307559, \"GroupName\": \"scheduler-listschedules\", \"LastModificationDate\": 1776307559, \"Name\": \"scheduler-listschedules\", \"State\": \"ENABLED\", \"Target\": {\"Arn\": \"arn:aws:scheduler:us-east-1:123456789012:listschedules/b0e3a982\"}}, {\"Arn\": \"arn:aws:scheduler:us-east-1:123456789012:listschedules/27ff99dd\", \"CreationDate\": 1776307559, \"GroupName\": \"scheduler-listschedules-1\", \"LastModificationDate\": 1776307559, \"Name\": \"scheduler-listschedules-1\", \"State\": \"ENABLED\", \"Target\": {\"Arn\": \"arn:aws:scheduler:us-east-1:123456789012:listschedules/ecfd49bb\"}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 7346.816,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:59.170848+00:00",
+        "finished_at": "2026-04-16T02:45:59.171299+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:54:27.738267+00:00",
+      "finished_at": "2026-04-16T02:54:27.739789+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "GetAuthorizationToken",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.GetAuthorizationToken",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"domain\":\"corp\",\"domainOwner\":\"123456789012\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "GetAuthorizationToken",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAuthorizationToken"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"authorizationToken\": \"\", \"expiration\": 1776308067}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.542,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:54:27.738585+00:00",
+        "finished_at": "2026-04-16T02:54:27.739133+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:55:28.436032+00:00",
+      "finished_at": "2026-04-16T02:55:28.437096+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "GetAuthorizationToken",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.GetAuthorizationToken",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"domain\":\"corp\",\"domainOwner\":\"123456789012\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "GetAuthorizationToken",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAuthorizationToken"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"authorizationToken\": \"\", \"expiration\": 1776308128}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.074,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:55:28.436267+00:00",
+        "finished_at": "2026-04-16T02:55:28.436622+00:00"
+      }
+    }
+  }
+]

@@ -7,18 +7,18 @@
         "gpt-5.4": {
           "options": {
             "reasoningEffort": "medium",
-            "textVerbosity": "medium",
+            "textVerbosity": "low",
             "reasoningSummary": "auto"
           },
           "variants": {
             "fast": {
               "reasoningEffort": "low",
-              "textVerbosity": "medium",
+              "textVerbosity": "low",
               "reasoningSummary": "auto"
             },
             "careful": {
               "reasoningEffort": "high",
-              "textVerbosity": "medium",
+              "textVerbosity": "low",
               "reasoningSummary": "auto"
             }
           }
@@ -28,25 +28,16 @@
   },
   "agent": {
     "moto-fallback": {
-      "description": "Single agent for implementing Moto LLM fallback behavior from README experiment commands.",
+      "description": "Decision agent for Moto AWS honeypot fallback runtime.",
       "mode": "primary",
       "model": "openai/gpt-5.4",
-      "prompt": "{file:./moto/core/llm_agents/agent.md}",
+      "prompt": "{file:./moto/core/llm_agents/opencode_agent.md}",
       "temperature": 0.1,
-      "steps": 20,
+      "steps": 6,
       "permission": {
-        "edit": "ask",
-        "webfetch": "ask",
-        "bash": {
-          "*": "ask",
-          "pwd": "allow",
-          "ls *": "allow",
-          "rg *": "allow",
-          "sed *": "allow",
-          "git status *": "allow",
-          "git diff *": "allow",
-          "python3 -m pytest *": "allow"
-        }
+        "edit": "deny",
+        "webfetch": "deny",
+        "bash": "deny"
       }
     }
   }

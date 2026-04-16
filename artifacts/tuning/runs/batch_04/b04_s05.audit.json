@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:16.960893+00:00",
+      "finished_at": "2026-04-16T02:44:16.964841+00:00"
+    },
+    "request": {
+      "service": "events",
+      "action": "ListTargetsByRule",
+      "url": "https://events.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSEvents.ListTargetsByRule",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Rule\":\"suspicious-rule\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "events",
+        "operation": "ListTargetsByRule",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListTargetsByRule"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Targets\": [{\"Id\": \"events-e0feaccc\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/4b3e7dd6\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/f4ae164f\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/364fa3ce\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-c2ea2dcf\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-6362ed1a\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/525249b1\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/1678eec2\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}, {\"Id\": \"events-440f1fa9\", \"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/2aa07b69\", \"RoleArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/0659e6b5\", \"Input\": \"Input\", \"InputPath\": \"InputPath\", \"InputTransformer\": {\"InputPathsMap\": {}, \"InputTemplate\": \"InputTemplate\"}, \"KinesisParameters\": {\"PartitionKeyPath\": \"PartitionKeyPath\"}, \"RunCommandParameters\": {\"RunCommandTargets\": [{}, {}]}, \"EcsParameters\": {\"TaskDefinitionArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/e36f5b6a\", \"TaskCount\": 2, \"LaunchType\": \"EC2\", \"NetworkConfiguration\": {\"awsvpcConfiguration\": {}}, \"PlatformVersion\": \"2\", \"Group\": \"Group\", \"CapacityProviderStrategy\": [{}, {}], \"EnableECSManagedTags\": false, \"EnableExecuteCommand\": false, \"PlacementConstraints\": [{}, {}], \"PlacementStrategy\": [{}, {}], \"PropagateTags\": \"TASK_DEFINITION\", \"ReferenceId\": \"events-0c0b6866\", \"Tags\": [{}, {}]}, \"BatchParameters\": {\"JobDefinition\": \"JobDefinition\", \"JobName\": \"events-listtargetsbyrule\", \"ArrayProperties\": {\"Size\": 1}, \"RetryStrategy\": {\"Attempts\": 1}}, \"SqsParameters\": {\"MessageGroupId\": \"events-2798a27f\"}, \"HttpParameters\": {\"PathParameterValues\": [\"PathParameterValue\", \"PathParameterValue\"], \"HeaderParameters\": {}, \"QueryStringParameters\": {}}, \"RedshiftDataParameters\": {\"SecretManagerArn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/7d35381d\", \"Database\": \"Database\", \"DbUser\": \"DbUser\", \"Sql\": \"Sql\", \"StatementName\": \"running\", \"WithEvent\": false, \"Sqls\": [\"Sql\", \"Sql\"]}, \"SageMakerPipelineParameters\": {\"PipelineParameterList\": [{}, {}]}, \"DeadLetterConfig\": {\"Arn\": \"arn:aws:events:us-east-1:123456789012:listtargetsbyrule/d64d247b\"}, \"RetryPolicy\": {\"MaximumRetryAttempts\": 1, \"MaximumEventAgeInSeconds\": 1}, \"AppSyncParameters\": {\"GraphQLOperation\": \"GraphQLOperation\"}}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 3.964,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:16.961192+00:00",
+        "finished_at": "2026-04-16T02:44:16.961626+00:00"
+      }
+    }
+  }
+]

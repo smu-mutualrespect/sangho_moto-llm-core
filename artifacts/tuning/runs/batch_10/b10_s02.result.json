@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b10_s02",
+    "batch": 10,
+    "label": "inspector2 list-coverage",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 inspector2 list-coverage --max-results 5",
+    "service": "inspector2",
+    "action": "ListCoverage",
+    "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+    "body": "{\"maxResults\":5}",
+    "headers": [
+      "X-Amz-Target=Inspector2.ListCoverage",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "maxResults"
+    ]
+  },
+  "response_body": "{\"nextToken\": \"\", \"coveredResources\": [{\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-162857ba\", \"accountId\": \"inspector2-99168d96\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-5a98bc4c\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/5ab3ff21\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-480fd675\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}, {\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-82061864\", \"accountId\": \"inspector2-527f4f7b\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-8580436a\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/d7596319\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-7903d2b8\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:32.835191+00:00",
+      "finished_at": "2026-04-16T02:59:38.398784+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListCoverage",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListCoverage",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListCoverage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListCoverage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"coveredResources\": [{\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-162857ba\", \"accountId\": \"inspector2-99168d96\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-5a98bc4c\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/5ab3ff21\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-480fd675\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}, {\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-82061864\", \"accountId\": \"inspector2-527f4f7b\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-8580436a\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/d7596319\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-7903d2b8\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5563.609,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:38.395276+00:00",
+        "finished_at": "2026-04-16T02:59:38.395946+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "maxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

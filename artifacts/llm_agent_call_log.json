@@ -1,0 +1,139 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T04:36:17.165543+00:00",
+      "finished_at": "2026-04-14T04:36:29.116891+00:00"
+    },
+    "request": {
+      "service": "ec2",
+      "action": "DescribeInstances",
+      "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Forwarded-For": "1.2.3.4"
+      },
+      "body": "Action=DescribeInstances",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ec2",
+        "operation": "DescribeInstances",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeInstances"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "bundle_decoy_ec2_describeinstances_01",
+      "risk_delta": 0.05,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ]
+    },
+    "response": {
+      "body": "{\"__type\": \"AccessDeniedException\", \"message\": \"Request blocked by honeypot guardrails for ec2:DescribeInstances\"}",
+      "validation_passed": false,
+      "validation_reason": "Safety pattern denied: https?://"
+    },
+    "metrics": {
+      "total_duration_ms": 12951.954,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "usage": {
+          "input_tokens": 319,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 1273,
+          "output_tokens_details": {
+            "reasoning_tokens": 1152
+          },
+          "total_tokens": 1592
+        },
+        "duration_ms": 12947.065,
+        "response_id": "resp_02e3536c8ceeb6c40069ddc44243b881a2868390a8014fd719",
+        "started_at": "2026-04-14T04:36:17.165916+00:00",
+        "finished_at": "2026-04-14T04:36:29.116541+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T04:41:05.719225+00:00",
+      "finished_at": "2026-04-14T04:41:21.992162+00:00"
+    },
+    "request": {
+      "service": "ec2",
+      "action": "DescribeInstances",
+      "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Forwarded-For": "1.2.3.4"
+      },
+      "body": "Action=DescribeInstances",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ec2",
+        "operation": "DescribeInstances",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeInstances"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "honeypot_ec2_describeinstances_probe",
+      "risk_delta": 0.15,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ]
+    },
+    "response": {
+      "body": "<DescribeInstancesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15/\">\n  <requestId>dfedb1ef7c350144b83b335beef9adab</requestId>\n  <reservationSet>\n    <item>\n      <reservationId>r-66720d07</reservationId>\n      <ownerId>123456789012</ownerId>\n      <instancesSet>\n        <item>\n              <instanceId>i-ba6e20b21c1b8271d</instanceId>\n              <imageId>ami-0adf3b6f5d2c0a1</imageId>\n              <instanceState><code>16</code><name>running</name></instanceState>\n              <privateIpAddress>10.42.0.10</privateIpAddress>\n              <instanceType>t3.medium</instanceType>\n              <placement><availabilityZone>us-east-1a</availabilityZone></placement>\n            </item>\n      </instancesSet>\n    </item>\n  </reservationSet>\n</DescribeInstancesResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DescribeInstancesResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 17778.015,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "usage": {
+          "input_tokens": 319,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 1577,
+          "output_tokens_details": {
+            "reasoning_tokens": 1472
+          },
+          "total_tokens": 1896
+        },
+        "duration_ms": 17772.773,
+        "response_id": "resp_0ba4b5e510ec98780069ddc5626d548197904f840ec0eed539",
+        "started_at": "2026-04-14T04:41:05.719440+00:00",
+        "finished_at": "2026-04-14T04:41:21.990802+00:00"
+      }
+    }
+  }
+]

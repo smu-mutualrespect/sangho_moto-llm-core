@@ -1,0 +1,605 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b08_s01",
+        "batch": 8,
+        "label": "guardduty list-detectors",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 guardduty list-detectors --max-results 5",
+        "service": "guardduty",
+        "action": "ListDetectors",
+        "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=GuardDuty.ListDetectors",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"detectorIds\": [\"12abc34d567e8f9012g3h456789i0jkl\"], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:58:36.450538+00:00",
+          "finished_at": "2026-04-16T07:58:54.673422+00:00"
+        },
+        "request": {
+          "service": "guardduty",
+          "action": "ListDetectors",
+          "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "GuardDuty.ListDetectors",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "guardduty",
+            "operation": "ListDetectors",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListDetectors"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "guardduty_listdetectors_enum",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "detector_count": 1,
+              "detector_ids": [
+                "12abc34d567e8f9012g3h456789i0jkl"
+              ]
+            },
+            "field_hints": {
+              "DetectorIds": [
+                "12abc34d567e8f9012g3h456789i0jkl"
+              ]
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"detectorIds\": [\"12abc34d567e8f9012g3h456789i0jkl\"], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 19067.072,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 16018.066,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:58:39.491138+00:00",
+            "finished_at": "2026-04-16T07:58:54.672459+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s02",
+        "batch": 8,
+        "label": "inspector2 list-findings",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 inspector2 list-findings --max-results 5",
+        "service": "inspector2",
+        "action": "ListFindings",
+        "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=Inspector2.ListFindings",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/9f3c2b1a0d4e5f67\", \"type\": \"PACKAGE_VULNERABILITY\", \"severity\": \"MEDIUM\", \"status\": \"ACTIVE\"}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/4a7d8c9e1b2f3a60\", \"type\": \"NETWORK_REACHABILITY\", \"severity\": \"LOW\", \"status\": \"ACTIVE\"}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:58:54.693142+00:00",
+          "finished_at": "2026-04-16T07:59:19.121877+00:00"
+        },
+        "request": {
+          "service": "inspector2",
+          "action": "ListFindings",
+          "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Inspector2.ListFindings",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "inspector2",
+            "operation": "ListFindings",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListFindings"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "inspector2_listfindings_recon",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "findings_count": 2,
+              "next_token_present": false,
+              "account_id": "123456789012",
+              "region": "us-east-1"
+            },
+            "field_hints": {
+              "findings": [
+                {
+                  "findingArn": "arn:aws:inspector2:us-east-1:123456789012:finding/9f3c2b1a0d4e5f67",
+                  "severity": "MEDIUM",
+                  "status": "ACTIVE",
+                  "type": "PACKAGE_VULNERABILITY",
+                  "resourceType": "AWS_EC2_INSTANCE"
+                },
+                {
+                  "findingArn": "arn:aws:inspector2:us-east-1:123456789012:finding/4a7d8c9e1b2f3a60",
+                  "severity": "LOW",
+                  "status": "ACTIVE",
+                  "type": "NETWORK_REACHABILITY",
+                  "resourceType": "AWS_EC2_INSTANCE"
+                }
+              ],
+              "nextToken": ""
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/9f3c2b1a0d4e5f67\", \"type\": \"PACKAGE_VULNERABILITY\", \"severity\": \"MEDIUM\", \"status\": \"ACTIVE\"}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/4a7d8c9e1b2f3a60\", \"type\": \"NETWORK_REACHABILITY\", \"severity\": \"LOW\", \"status\": \"ACTIVE\"}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 24428.746,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 21148.8,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:58:57.965854+00:00",
+            "finished_at": "2026-04-16T07:59:19.121087+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s03",
+        "batch": 8,
+        "label": "detective list-graphs",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 detective list-graphs --max-results 5",
+        "service": "detective",
+        "action": "ListGraphs",
+        "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AmazonDetective.ListGraphs",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f\", \"CreatedTime\": \"2024-11-21T14:22:09Z\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:59:19.141161+00:00",
+          "finished_at": "2026-04-16T07:59:42.770490+00:00"
+        },
+        "request": {
+          "service": "detective",
+          "action": "ListGraphs",
+          "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonDetective.ListGraphs",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "detective",
+            "operation": "ListGraphs",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListGraphs"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "detective_listgraphs_recon_01",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "graph_count": 1,
+              "account_id": "123456789012",
+              "region": "us-east-1",
+              "graph_arns": [
+                "arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f"
+              ]
+            },
+            "field_hints": {
+              "GraphList": [
+                {
+                  "Arn": "arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f",
+                  "CreatedTime": "2024-11-21T14:22:09Z"
+                }
+              ],
+              "NextToken": ""
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f\", \"CreatedTime\": \"2024-11-21T14:22:09Z\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 24449.525,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 21524.586,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:59:21.238903+00:00",
+            "finished_at": "2026-04-16T07:59:42.769904+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s04",
+        "batch": 8,
+        "label": "backup list-backup-vaults",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 backup list-backup-vaults --max-results 5",
+        "service": "backup",
+        "action": "ListBackupVaults",
+        "url": "https://backup.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=BackupStorage.ListBackupVaults",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"BackupVaultList\": [{\"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:backup-vault:Default\", \"CreationDate\": 1728724462, \"EncryptionKeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/9c2d4e6f-1a3b-4d5e-8f70-2b4c6d8e1f90\", \"NumberOfRecoveryPoints\": 18, \"Locked\": false}, {\"BackupVaultName\": \"prod-ops-vault\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:backup-vault:prod-ops-vault\", \"CreationDate\": 1736354405, \"EncryptionKeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/3f1e5d7c-9a20-4b6d-8c11-5e7f9a2b4c33\", \"NumberOfRecoveryPoints\": 7, \"Locked\": true}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:59:42.812928+00:00",
+          "finished_at": "2026-04-16T08:00:13.655853+00:00"
+        },
+        "request": {
+          "service": "backup",
+          "action": "ListBackupVaults",
+          "url": "https://backup.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "BackupStorage.ListBackupVaults",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "backup",
+            "operation": "ListBackupVaults",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListBackupVaults"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "backup_enum_us-east-1",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "BackupVaultList": {
+                "count": 2
+              },
+              "NextToken": ""
+            },
+            "field_hints": {
+              "BackupVaultList": [
+                {
+                  "BackupVaultName": "Default",
+                  "BackupVaultArn": "arn:aws:backup:us-east-1:123456789012:backup-vault:Default",
+                  "EncryptionKeyArn": "arn:aws:kms:us-east-1:123456789012:key/9c2d4e6f-1a3b-4d5e-8f70-2b4c6d8e1f90",
+                  "CreationDate": "2024-10-12T09:14:22Z",
+                  "NumberOfRecoveryPoints": 18,
+                  "Locked": false
+                },
+                {
+                  "BackupVaultName": "prod-ops-vault",
+                  "BackupVaultArn": "arn:aws:backup:us-east-1:123456789012:backup-vault:prod-ops-vault",
+                  "EncryptionKeyArn": "arn:aws:kms:us-east-1:123456789012:key/3f1e5d7c-9a20-4b6d-8c11-5e7f9a2b4c33",
+                  "CreationDate": "2025-01-08T16:40:05Z",
+                  "NumberOfRecoveryPoints": 7,
+                  "Locked": true
+                }
+              ]
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"BackupVaultList\": [{\"BackupVaultName\": \"Default\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:backup-vault:Default\", \"CreationDate\": 1728724462, \"EncryptionKeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/9c2d4e6f-1a3b-4d5e-8f70-2b4c6d8e1f90\", \"NumberOfRecoveryPoints\": 18, \"Locked\": false}, {\"BackupVaultName\": \"prod-ops-vault\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:backup-vault:prod-ops-vault\", \"CreationDate\": 1736354405, \"EncryptionKeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/3f1e5d7c-9a20-4b6d-8c11-5e7f9a2b4c33\", \"NumberOfRecoveryPoints\": 7, \"Locked\": true}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 31772.425,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 28410.583,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:59:46.164803+00:00",
+            "finished_at": "2026-04-16T08:00:13.653611+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s05",
+        "batch": 8,
+        "label": "macie2 get-macie-session",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 macie2 get-macie-session",
+        "service": "macie2",
+        "action": "GetMacieSession",
+        "url": "https://macie2.ap-northeast-2.amazonaws.com/",
+        "body": "{}",
+        "headers": [
+          "X-Amz-Target=Macie2.GetMacieSession",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"createdAt\": \"2024-11-21T14:24:31Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"arn:aws:iam::123456789012:role/aws-service-role/macie.amazonaws.com/AWSServiceRoleForAmazonMacie\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-10T09:18:44Z\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:00:13.697682+00:00",
+          "finished_at": "2026-04-16T08:00:42.688545+00:00"
+        },
+        "request": {
+          "service": "macie2",
+          "action": "GetMacieSession",
+          "url": "https://macie2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Macie2.GetMacieSession",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "macie2",
+            "operation": "GetMacieSession",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetMacieSession"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "macie_session_default_session",
+          "risk_delta": 0.04,
+          "reason_tags": [
+            "enum_pattern",
+            "rare_api_chain"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "session_id": "default_session",
+              "account_id": "123456789012",
+              "region": "us-east-1"
+            },
+            "field_hints": {
+              "createdAt": "2024-11-21T14:24:31Z",
+              "updatedAt": "2026-04-10T09:18:44Z",
+              "findingPublishingFrequency": "FIFTEEN_MINUTES",
+              "serviceRole": "arn:aws:iam::123456789012:role/aws-service-role/macie.amazonaws.com/AWSServiceRoleForAmazonMacie",
+              "status": "ENABLED"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"createdAt\": \"2024-11-21T14:24:31Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"arn:aws:iam::123456789012:role/aws-service-role/macie.amazonaws.com/AWSServiceRoleForAmazonMacie\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-10T09:18:44Z\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 29960.847,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 25364.238,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:00:18.286418+00:00",
+            "finished_at": "2026-04-16T08:00:42.687196+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 0,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 0
+  }
+}

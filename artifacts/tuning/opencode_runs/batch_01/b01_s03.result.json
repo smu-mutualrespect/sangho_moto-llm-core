@@ -1,0 +1,112 @@
+{
+  "scenario": {
+    "id": "b01_s03",
+    "batch": 1,
+    "label": "iam list-service-specific-credentials",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam list-service-specific-credentials --user-name victim-admin",
+    "service": "iam",
+    "action": "ListServiceSpecificCredentials",
+    "url": "https://iam.amazonaws.com/",
+    "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": [
+      "UserName"
+    ]
+  },
+  "response_body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:47:06.894262+00:00",
+      "finished_at": "2026-04-16T07:47:28.360924+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "ListServiceSpecificCredentials",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "ListServiceSpecificCredentials",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListServiceSpecificCredentials"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "iam_service_creds_empty_01",
+      "risk_delta": 0.11,
+      "reason_tags": [
+        "enum_pattern",
+        "credential_probe",
+        "permission_test"
+      ],
+      "response_plan": {
+        "mode": "empty",
+        "posture": "sparse",
+        "entity_hints": {
+          "ServiceSpecificCredentials": {
+            "count": 0
+          },
+          "target_user": "victim-admin"
+        },
+        "field_hints": {
+          "IsTruncated": false
+        },
+        "omit_fields": [
+          "Marker"
+        ]
+      }
+    },
+    "response": {
+      "body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "ListServiceSpecificCredentialsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 22248.901,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 22229.108,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:47:06.894418+00:00",
+        "finished_at": "2026-04-16T07:47:28.360551+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "UserName"
+    ],
+    "placeholder_hits": []
+  }
+}

@@ -1,0 +1,76 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:15:57.769986+00:00",
+      "finished_at": "2026-04-16T07:16:19.712544+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "InitiateLayerUpload",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\"}",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ecr",
+        "operation": "InitiateLayerUpload",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "InitiateLayerUpload"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "repositoryName": "demo"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"uploadId\": \"upload-6079bb9d019f\", \"partSize\": 20971520}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 21942.667,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T07:15:59.669296+00:00",
+        "finished_at": "2026-04-16T07:16:19.712053+00:00"
+      }
+    }
+  }
+]

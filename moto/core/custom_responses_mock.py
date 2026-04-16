@@ -10,12 +10,8 @@ from werkzeug.wrappers import Request
 
 from moto.backends import get_service_from_url
 from moto.core.config import passthrough_service, passthrough_url
-from moto.core.llm_fallback import (
-    build_llm_fallback_json,
-    call_claude_api,
-    call_gpt_api,
-    format_llm_fallback_response,
-)
+from moto.core.llm_fallback import build_llm_fallback_json
+from moto.core.llm_agents import handle_aws_request
 from moto.core.versions import is_responses_0_17_x
 
 from .responses import TYPE_RESPONSE
@@ -115,26 +111,17 @@ class CallbackResponse(responses.CallbackResponse):
 
 def not_implemented_callback(request: Any) -> TYPE_RESPONSE:
     # requests mock catch-all에 걸린 요청에 대해 마지막 fallback을 시도한다.
-    prompt = f"""
-service={get_service_from_url(request.url)}
-action=None
-method={request.method}
-url={request.url}
-headers={dict(request.headers)}
-body={getattr(request, "body", None)}
-reason=responses mock catch-all fallback
-source=custom_responses_mock.not_implemented_callback
-"""
     try:
-        service = get_service_from_url(request.url)
-        if os.getenv("MOTO_LLM_PROVIDER", "").lower() == "claude":
-            fallback_text = call_claude_api(prompt)
-        else:
-            fallback_text = call_gpt_api(prompt)
-        fallback_headers, fallback_body = format_llm_fallback_response(
-            service, None, fallback_text
+        fallback_text = handle_aws_request(
+            service=get_service_from_url(request.url),
+            action=None,
+            url=request.url,
+            headers=dict(request.headers),
+            body=getattr(request, "body", None),
+            reason="responses mock catch-all fallback",
+            source="custom_responses_mock.not_implemented_callback",
         )
-        return 200, fallback_headers, fallback_body
+        return 200, {}, fallback_text
     except Exception:
         # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
         fallback_headers, fallback_body = build_llm_fallback_json()

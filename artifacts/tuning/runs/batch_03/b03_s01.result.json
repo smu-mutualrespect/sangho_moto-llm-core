@@ -1,0 +1,107 @@
+{
+  "scenario": {
+    "id": "b03_s01",
+    "batch": 3,
+    "label": "ecr batch-check-layer-availability",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+    "service": "ecr",
+    "action": "BatchCheckLayerAvailability",
+    "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+    "body": "{\"repositoryName\":\"demo\",\"layerDigests\":[\"sha256:abc\"]}",
+    "headers": [
+      "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "layerDigests"
+    ]
+  },
+  "response_body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}, {\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}], \"failures\": []}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:25.903832+00:00",
+      "finished_at": "2026-04-16T02:59:32.943951+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "BatchCheckLayerAvailability",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"layerDigests\":[\"sha256:abc\"]}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecr",
+        "operation": "BatchCheckLayerAvailability",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "BatchCheckLayerAvailability"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "repositoryName": "demo",
+          "layerDigests": "sha256:abc",
+          "layerDigest": "sha256:abc"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}, {\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}], \"failures\": []}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 7040.141,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.888865+00:00",
+        "finished_at": "2026-04-16T02:59:32.943236+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "layerDigests"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

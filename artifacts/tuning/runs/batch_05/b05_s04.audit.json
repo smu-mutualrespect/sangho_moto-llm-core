@@ -1,0 +1,72 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:34.770352+00:00",
+      "finished_at": "2026-04-16T02:44:40.356557+00:00"
+    },
+    "request": {
+      "service": "ec2",
+      "action": "DescribeImages",
+      "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ec2",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><nextToken/><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>ec2-describeimages</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-b472b82b</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-8138803a</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-3f65070c</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-da0293cc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-7fab6df2</productCode><type>devpay</type></item><item><productCode>ec2-67f193df</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-2cc02fc5</kernelId><ramdiskId>ec2-77d0e95e</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages</deviceName><virtualName>ec2-describeimages</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>ec2-describeimages-1</deviceName><virtualName>ec2-describeimages-1</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages-1</name><rootDeviceName>ec2-describeimages-1</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-4c31abce</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-eb39b445</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-016528b8</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-0ca72bcc</imageOwnerId><creationDate>CreationDate</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-014bfaf0</productCode><type>devpay</type></item><item><productCode>ec2-843b9404</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-a32a1980</kernelId><ramdiskId>ec2-026a6e2c</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DescribeImagesResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6556.217,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:40.351384+00:00",
+        "finished_at": "2026-04-16T02:44:40.351868+00:00"
+      }
+    }
+  }
+]

@@ -1,0 +1,108 @@
+{
+  "scenario": {
+    "id": "b05_s05",
+    "batch": 5,
+    "label": "ssm send-command",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm send-command --document-name AWS-RunShellScript --targets Key=instanceids,Values=i-1234567890abcdef0 --parameters commands='id'",
+    "service": "ssm",
+    "action": "SendCommand",
+    "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+    "body": "Action=SendCommand&DocumentName=AWS-RunShellScript&Targets.member.1.Key=instanceids&Targets.member.1.Values.member.1=i-1234567890abcdef0&Parameters.entry.1.key=commands&Parameters.entry.1.value.1=id&Version=2014-11-06",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": [
+      "DocumentName"
+    ]
+  },
+  "response_body": "{\"__type\": \"AccessDeniedException\", \"message\": \"User is not authorized to perform ssm:SendCommand\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:54:57.664159+00:00",
+      "finished_at": "2026-04-16T07:55:21.851744+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "SendCommand",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=SendCommand&DocumentName=AWS-RunShellScript&Targets.member.1.Key=instanceids&Targets.member.1.Values.member.1=i-1234567890abcdef0&Parameters.entry.1.key=commands&Parameters.entry.1.value.1=id&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "SendCommand",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "SendCommand"
+      }
+    },
+    "decision": {
+      "intent_phase": "lateral_probe",
+      "response_posture": "sparse",
+      "error_mode": "access_denied",
+      "decoy_bundle_id": "ssm_sendcommand_deny",
+      "risk_delta": 0.22,
+      "reason_tags": [
+        "permission_test",
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "error",
+        "posture": "sparse",
+        "entity_hints": {
+          "DocumentName": "AWS-RunShellScript",
+          "target_count": 1,
+          "target_type": "instanceids"
+        },
+        "field_hints": {},
+        "omit_fields": [
+          "Command"
+        ]
+      }
+    },
+    "response": {
+      "body": "{\"__type\": \"AccessDeniedException\", \"message\": \"User is not authorized to perform ssm:SendCommand\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 25099.264,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 22294.757,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:55:00.461529+00:00",
+        "finished_at": "2026-04-16T07:55:21.851564+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "DocumentName"
+    ],
+    "placeholder_hits": []
+  }
+}

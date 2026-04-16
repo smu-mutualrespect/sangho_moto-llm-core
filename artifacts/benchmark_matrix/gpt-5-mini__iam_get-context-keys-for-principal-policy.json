@@ -1,0 +1,77 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:17:14.338945+00:00",
+      "finished_at": "2026-04-14T05:17:16.737947+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GetContextKeysForPrincipalPolicy",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GetContextKeysForPrincipalPolicy&PolicySourceArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&Version=2010-05-08",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "iam",
+        "operation": "GetContextKeysForPrincipalPolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetContextKeysForPrincipalPolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "iam_getcontextkeys_probe_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test"
+      ]
+    },
+    "response": {
+      "body": "{\"service\": \"iam\", \"operation\": \"GetContextKeysForPrincipalPolicy\", \"requestId\": \"bf21f60eb09d5fbeae5c1a408c1e64f0\", \"posture\": \"sparse\", \"region\": \"us-east-1\", \"message\": \"Synthetic honeypot response\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "json",
+      "format_match": false,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2399.023,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-mini",
+        "usage": {
+          "input_tokens": 390,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 457
+        },
+        "duration_ms": 2395.95,
+        "response_id": "resp_098ac84f4404241a0069ddcddaa79081928c10e4545a032e1f",
+        "started_at": "2026-04-14T05:17:14.339130+00:00",
+        "finished_at": "2026-04-14T05:17:16.737446+00:00"
+      }
+    }
+  }
+]

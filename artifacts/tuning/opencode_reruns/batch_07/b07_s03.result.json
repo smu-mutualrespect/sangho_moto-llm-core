@@ -1,0 +1,35 @@
+{
+  "scenario": {
+    "id": "b07_s03",
+    "batch": 7,
+    "label": "accessanalyzer list-findings",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 accessanalyzer list-findings --analyzer-name default --max-results 5",
+    "service": "accessanalyzer",
+    "action": "ListFindings",
+    "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+    "body": "{\"analyzerName\":\"default\",\"maxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AccessAnalyzer.ListFindings",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "analyzerName",
+      "maxResults"
+    ]
+  },
+  "response_body": "",
+  "audit": {},
+  "heuristics": {
+    "validation_passed": false,
+    "safe_fallback": false,
+    "llm_error": "runner_exception",
+    "expected_echo_count": 2,
+    "echoed": [],
+    "missing_echo": [
+      "analyzerName",
+      "maxResults"
+    ],
+    "placeholder_hits": [],
+    "exception": "AttributeError: 'str' object has no attribute 'items'"
+  }
+}

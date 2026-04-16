@@ -1,0 +1,108 @@
+{
+  "scenario": {
+    "id": "b04_s02",
+    "batch": 4,
+    "label": "logs describe-log-streams",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 logs describe-log-streams --log-group-name /aws/lambda/prod-payments --limit 5",
+    "service": "logs",
+    "action": "DescribeLogStreams",
+    "url": "https://logs.ap-northeast-2.amazonaws.com/",
+    "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+    "headers": [
+      "X-Amz-Target=Logs_20140328.DescribeLogStreams",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "logGroupName",
+      "limit"
+    ]
+  },
+  "response_body": "{\"logStreams\": [{\"logStreamName\": \"logs-describelogstreams\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/15efe317\", \"storedBytes\": 1}, {\"logStreamName\": \"logs-describelogstreams-1\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/d972b626\", \"storedBytes\": 1}], \"nextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:02.795821+00:00",
+      "finished_at": "2026-04-16T02:44:02.798233+00:00"
+    },
+    "request": {
+      "service": "logs",
+      "action": "DescribeLogStreams",
+      "url": "https://logs.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Logs_20140328.DescribeLogStreams",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "logs",
+        "operation": "DescribeLogStreams",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeLogStreams"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "logGroupName": "/aws/lambda/prod-payments"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"logStreams\": [{\"logStreamName\": \"logs-describelogstreams\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/15efe317\", \"storedBytes\": 1}, {\"logStreamName\": \"logs-describelogstreams-1\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/d972b626\", \"storedBytes\": 1}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.433,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:02.796420+00:00",
+        "finished_at": "2026-04-16T02:44:02.797310+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 2,
+    "echoed": [
+      "limit"
+    ],
+    "missing_echo": [
+      "logGroupName"
+    ],
+    "placeholder_hits": []
+  }
+}

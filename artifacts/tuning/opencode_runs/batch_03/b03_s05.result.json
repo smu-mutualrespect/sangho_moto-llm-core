@@ -1,0 +1,35 @@
+{
+  "scenario": {
+    "id": "b03_s05",
+    "batch": 3,
+    "label": "ecr describe-images",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr describe-images --repository-name demo --max-results 5",
+    "service": "ecr",
+    "action": "DescribeImages",
+    "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+    "body": "{\"repositoryName\":\"demo\",\"maxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AmazonEC2ContainerRegistry_V20150921.DescribeImages",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "repositoryName",
+      "maxResults"
+    ]
+  },
+  "response_body": "",
+  "audit": {},
+  "heuristics": {
+    "validation_passed": false,
+    "safe_fallback": false,
+    "llm_error": "runner_exception",
+    "expected_echo_count": 2,
+    "echoed": [],
+    "missing_echo": [
+      "repositoryName",
+      "maxResults"
+    ],
+    "placeholder_hits": [],
+    "exception": "ValueError: Invalid timestamp \"recent\": Unknown string format: recent"
+  }
+}

@@ -1,0 +1,294 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:41:39.384524+00:00",
+      "finished_at": "2026-04-16T02:41:39.386656+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "ListServiceSpecificCredentials",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "ListServiceSpecificCredentials",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListServiceSpecificCredentials"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "UserName": "victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>ServiceCredentialAlias</ServiceCredentialAlias><CreateDate>2026-04-16T02:41:39Z</CreateDate><ExpirationDate>2026-04-16T02:41:39Z</ExpirationDate><ServiceSpecificCredentialId>iam-0bdcbbe2</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "ListServiceSpecificCredentialsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.148,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:41:39.384860+00:00",
+        "finished_at": "2026-04-16T02:41:39.385301+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:04.614301+00:00",
+      "finished_at": "2026-04-16T02:43:04.616170+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "ListServiceSpecificCredentials",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "ListServiceSpecificCredentials",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListServiceSpecificCredentials"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "UserName": "victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>ServiceCredentialAlias</ServiceCredentialAlias><CreateDate>2026-04-16T02:43:04Z</CreateDate><ExpirationDate>2026-04-16T02:43:04Z</ExpirationDate><ServiceSpecificCredentialId>iam-d7ec9ca6</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "ListServiceSpecificCredentialsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.885,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:43:04.614594+00:00",
+        "finished_at": "2026-04-16T02:43:04.615008+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:39.098109+00:00",
+      "finished_at": "2026-04-16T02:57:39.100752+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "ListServiceSpecificCredentials",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "ListServiceSpecificCredentials",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListServiceSpecificCredentials"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "UserName": "victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>codecommit-9010fc</ServiceCredentialAlias><CreateDate>2026-04-16T02:57:39Z</CreateDate><ExpirationDate>2026-04-16T02:57:39Z</ExpirationDate><ServiceSpecificCredentialId>iam-d7427368</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "ListServiceSpecificCredentialsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2.665,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:39.098713+00:00",
+        "finished_at": "2026-04-16T02:57:39.099140+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:32.883246+00:00",
+      "finished_at": "2026-04-16T02:59:32.885179+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "ListServiceSpecificCredentials",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=ListServiceSpecificCredentials&UserName=victim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "ListServiceSpecificCredentials",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListServiceSpecificCredentials"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "UserName": "victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>codecommit-25dccb</ServiceCredentialAlias><CreateDate>2026-04-16T02:59:32Z</CreateDate><ExpirationDate>2026-04-16T02:59:32Z</ExpirationDate><ServiceSpecificCredentialId>iam-aeaf0b1e</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "ListServiceSpecificCredentialsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.945,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.883512+00:00",
+        "finished_at": "2026-04-16T02:59:32.883988+00:00"
+      }
+    }
+  }
+]

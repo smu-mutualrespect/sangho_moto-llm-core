@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:05.738352+00:00",
+      "finished_at": "2026-04-16T02:45:09.294805+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListAccounts",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListAccounts",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListAccounts",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListAccounts"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Accounts\": [{\"Id\": \"organizations-2719eef8\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/1caaf699\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}, {\"Id\": \"organizations-d8a2fbdc\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/d756285b\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts-1\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4530.992,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:09.293047+00:00",
+        "finished_at": "2026-04-16T02:45:09.293567+00:00"
+      }
+    }
+  }
+]

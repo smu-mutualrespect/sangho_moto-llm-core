@@ -1,0 +1,81 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:48:13.393192+00:00",
+      "finished_at": "2026-04-16T07:48:31.864538+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "DescribeInstanceInformation",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeInstanceInformation&Version=2014-11-06",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ssm",
+        "operation": "DescribeInstanceInformation",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeInstanceInformation"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ssm_describe_instanceinfo_empty",
+      "risk_delta": 0.05,
+      "reason_tags": [
+        "enum_pattern",
+        "high_rate"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "InstanceInformationList_count": 0,
+          "instance_count": 1
+        },
+        "field_hints": {
+          "NextToken": ""
+        },
+        "omit_fields": [
+          "NextToken"
+        ]
+      }
+    },
+    "response": {
+      "body": "{\"InstanceInformationList\": [{\"InstanceId\": \"i-e44ae4839227db8f2\", \"PingStatus\": \"Online\", \"LastPingDateTime\": 1776325711, \"AgentVersion\": \"3.2.700.0\", \"IsLatestVersion\": false, \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"ActivationId\": \"ssm-f4c03176\", \"IamRole\": \"ReadOnlyOpsRole\", \"RegistrationDate\": 1776325711, \"ResourceType\": \"ManagedInstance\", \"Name\": \"ip-10-42-9-104\", \"IPAddress\": \"10.42.8.42\", \"ComputerName\": \"ip-10-42-1-186\", \"AssociationStatus\": \"Success\", \"LastAssociationExecutionDate\": 1776325711, \"LastSuccessfulAssociationExecutionDate\": 1776325711, \"AssociationOverview\": {\"DetailedStatus\": \"Success\", \"InstanceAssociationStatusAggregatedCount\": {}}, \"SourceId\": \"ssm-33601a94\", \"SourceType\": \"AWS::EC2::Instance\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 19267.37,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 15270.732,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:48:16.578170+00:00",
+        "finished_at": "2026-04-16T07:48:31.861558+00:00"
+      }
+    }
+  }
+]

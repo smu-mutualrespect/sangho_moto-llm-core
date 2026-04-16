@@ -1,0 +1,105 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:52:26.283872+00:00",
+      "finished_at": "2026-04-16T07:52:44.324664+00:00"
+    },
+    "request": {
+      "service": "cloudtrail",
+      "action": "LookupEvents",
+      "url": "https://cloudtrail.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.LookupEvents",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "cloudtrail",
+        "operation": "LookupEvents",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "LookupEvents"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "cloudtrail_lookupevents_recon",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "event_count": 5,
+          "region": "us-east-1",
+          "account_id": "123456789012",
+          "primary_event_sources": [
+            "logs.amazonaws.com",
+            "cloudtrail.amazonaws.com"
+          ],
+          "include_next_token": true
+        },
+        "field_hints": {
+          "NextToken": "lookupevents-token-5a7c",
+          "Events": [
+            {
+              "EventId": "evt-0f3a2c1d",
+              "EventName": "DescribeLogGroups",
+              "EventSource": "logs.amazonaws.com",
+              "Username": "ReadOnlyOpsRole"
+            },
+            {
+              "EventId": "evt-17b4d9aa",
+              "EventName": "DescribeLogStreams",
+              "EventSource": "logs.amazonaws.com",
+              "Username": "ReadOnlyOpsRole"
+            },
+            {
+              "EventId": "evt-2c8e41bf",
+              "EventName": "LookupEvents",
+              "EventSource": "cloudtrail.amazonaws.com",
+              "Username": "ReadOnlyOpsRole"
+            }
+          ]
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Events\": [{\"EventId\": \"evt-0f3a2c1d\", \"EventName\": \"DescribeLogGroups\", \"EventSource\": \"logs.amazonaws.com\", \"Username\": \"ReadOnlyOpsRole\"}, {\"EventId\": \"evt-17b4d9aa\", \"EventName\": \"DescribeLogStreams\", \"EventSource\": \"logs.amazonaws.com\", \"Username\": \"ReadOnlyOpsRole\"}, {\"EventId\": \"evt-2c8e41bf\", \"EventName\": \"LookupEvents\", \"EventSource\": \"cloudtrail.amazonaws.com\", \"Username\": \"ReadOnlyOpsRole\"}], \"NextToken\": \"lookupevents-token-5a7c\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 18966.205,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16045.216,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:52:28.273079+00:00",
+        "finished_at": "2026-04-16T07:52:44.324318+00:00"
+      }
+    }
+  }
+]

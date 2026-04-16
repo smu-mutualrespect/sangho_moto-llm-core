@@ -1,0 +1,77 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:17:28.336889+00:00",
+      "finished_at": "2026-04-14T05:17:24.620847+00:00"
+    },
+    "request": {
+      "service": "sts",
+      "action": "DecodeAuthorizationMessage",
+      "url": "https://sts.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DecodeAuthorizationMessage&EncodedMessage=ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U%3D&Version=2011-06-15",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "sts",
+        "operation": "DecodeAuthorizationMessage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DecodeAuthorizationMessage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "stsb_decoder_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern",
+        "credential_probe"
+      ]
+    },
+    "response": {
+      "body": "{\"service\": \"sts\", \"operation\": \"DecodeAuthorizationMessage\", \"requestId\": \"ee2eb6f6df333b9becf0eae45668f5ef\", \"posture\": \"normal\", \"region\": \"us-east-1\", \"message\": \"Synthetic honeypot response\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "json",
+      "format_match": false,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2336.595,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-mini",
+        "usage": {
+          "input_tokens": 384,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 64,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 448
+        },
+        "duration_ms": 2334.109,
+        "response_id": "resp_03d79a43800de4c50069ddcde2c82c819e86d8167a22f7c3d6",
+        "started_at": "2026-04-14T05:17:28.337061+00:00",
+        "finished_at": "2026-04-14T05:17:24.620603+00:00"
+      }
+    }
+  }
+]

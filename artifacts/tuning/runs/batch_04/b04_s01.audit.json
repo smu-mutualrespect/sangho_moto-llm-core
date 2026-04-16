@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:50.105147+00:00",
+      "finished_at": "2026-04-16T02:44:02.724869+00:00"
+    },
+    "request": {
+      "service": "logs",
+      "action": "DescribeLogGroups",
+      "url": "https://logs.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Logs_20140328.DescribeLogGroups",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"limit\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "logs",
+        "operation": "DescribeLogGroups",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeLogGroups"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"logGroups\": [{\"logGroupName\": \"logs-describeloggroups\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/0065218c\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-9a953d62\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6eaac738\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}, {\"logGroupName\": \"logs-describeloggroups-1\", \"creationTime\": 1, \"retentionInDays\": 1, \"metricFilterCount\": 2, \"arn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/dfcc8c54\", \"storedBytes\": 1, \"kmsKeyId\": \"logs-0b7ff0d3\", \"dataProtectionStatus\": \"ACTIVATED\", \"inheritedProperties\": [\"ACCOUNT_DATA_PROTECTION\", \"ACCOUNT_DATA_PROTECTION\"], \"logGroupClass\": \"STANDARD\", \"logGroupArn\": \"arn:aws:logs:us-east-1:123456789012:describeloggroups/6948ca52\", \"deletionProtectionEnabled\": true, \"bearerTokenAuthenticationEnabled\": true}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 12619.748,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:02.722884+00:00",
+        "finished_at": "2026-04-16T02:44:02.723530+00:00"
+      }
+    }
+  }
+]

@@ -1,0 +1,616 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b10_s01",
+        "batch": 10,
+        "label": "guardduty get-detector",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 guardduty get-detector --detector-id 12abc34d567e8fa901bc2d34e56789f0",
+        "service": "guardduty",
+        "action": "GetDetector",
+        "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+        "body": "{\"detectorId\":\"12abc34d567e8fa901bc2d34e56789f0\"}",
+        "headers": [
+          "X-Amz-Target=GuardDuty.GetDetector",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"createdAt\": \"2026-03-18T11:22:09.000Z\", \"findingPublishingFrequency\": \"SIX_HOURS\", \"serviceRole\": \"arn:aws:iam::123456789012:role/aws-service-role/guardduty.amazonaws.com/AWSServiceRoleForAmazonGuardDuty\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-12T09:14:33.000Z\", \"dataSources\": {\"s3Logs\": {\"status\": \"ENABLED\"}, \"kubernetes\": {\"auditLogs\": {\"status\": \"ENABLED\"}}, \"malwareProtection\": {\"scanEc2InstanceWithFindings\": {\"ebsVolumes\": {\"status\": \"ENABLED\"}}}}, \"tags\": {\"Environment\": \"production\", \"Owner\": \"security-ops\"}, \"features\": [{\"name\": \"S3_DATA_EVENTS\", \"status\": \"ENABLED\"}, {\"name\": \"EKS_AUDIT_LOGS\", \"status\": \"ENABLED\"}, {\"name\": \"EBS_MALWARE_PROTECTION\", \"status\": \"ENABLED\"}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:03:26.165747+00:00",
+          "finished_at": "2026-04-16T08:04:00.310292+00:00"
+        },
+        "request": {
+          "service": "guardduty",
+          "action": "GetDetector",
+          "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "GuardDuty.GetDetector",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"detectorId\":\"12abc34d567e8fa901bc2d34e56789f0\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "guardduty",
+            "operation": "GetDetector",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetDetector"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "guardduty_detector_recon_v1",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "detectorId": "12abc34d567e8fa901bc2d34e56789f0",
+              "feature_count": 3,
+              "tag_count": 2
+            },
+            "field_hints": {
+              "Status": "ENABLED",
+              "FindingPublishingFrequency": "SIX_HOURS",
+              "ServiceRole": "arn:aws:iam::123456789012:role/aws-service-role/guardduty.amazonaws.com/AWSServiceRoleForAmazonGuardDuty",
+              "CreatedAt": "2026-03-18T11:22:09.000Z",
+              "UpdatedAt": "2026-04-12T09:14:33.000Z",
+              "DataSources": {
+                "S3Logs": {
+                  "Status": "ENABLED"
+                },
+                "Kubernetes": {
+                  "AuditLogs": {
+                    "Status": "ENABLED"
+                  }
+                },
+                "MalwareProtection": {
+                  "ScanEc2InstanceWithFindings": {
+                    "EbsVolumes": {
+                      "Status": "ENABLED"
+                    }
+                  }
+                }
+              },
+              "Tags": {
+                "Environment": "production",
+                "Owner": "security-ops"
+              },
+              "Features": [
+                {
+                  "Name": "S3_DATA_EVENTS",
+                  "Status": "ENABLED"
+                },
+                {
+                  "Name": "EKS_AUDIT_LOGS",
+                  "Status": "ENABLED"
+                },
+                {
+                  "Name": "EBS_MALWARE_PROTECTION",
+                  "Status": "ENABLED"
+                }
+              ]
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"createdAt\": \"2026-03-18T11:22:09.000Z\", \"findingPublishingFrequency\": \"SIX_HOURS\", \"serviceRole\": \"arn:aws:iam::123456789012:role/aws-service-role/guardduty.amazonaws.com/AWSServiceRoleForAmazonGuardDuty\", \"status\": \"ENABLED\", \"updatedAt\": \"2026-04-12T09:14:33.000Z\", \"dataSources\": {\"s3Logs\": {\"status\": \"ENABLED\"}, \"kubernetes\": {\"auditLogs\": {\"status\": \"ENABLED\"}}, \"malwareProtection\": {\"scanEc2InstanceWithFindings\": {\"ebsVolumes\": {\"status\": \"ENABLED\"}}}}, \"tags\": {\"Environment\": \"production\", \"Owner\": \"security-ops\"}, \"features\": [{\"name\": \"S3_DATA_EVENTS\", \"status\": \"ENABLED\"}, {\"name\": \"EKS_AUDIT_LOGS\", \"status\": \"ENABLED\"}, {\"name\": \"EBS_MALWARE_PROTECTION\", \"status\": \"ENABLED\"}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 34996.69,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 29261.839,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:03:31.877473+00:00",
+            "finished_at": "2026-04-16T08:04:00.309024+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b10_s02",
+        "batch": 10,
+        "label": "inspector2 list-coverage",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 inspector2 list-coverage --max-results 5",
+        "service": "inspector2",
+        "action": "ListCoverage",
+        "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=Inspector2.ListCoverage",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"coveredResources\": []}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:04:00.365028+00:00",
+          "finished_at": "2026-04-16T08:04:33.379044+00:00"
+        },
+        "request": {
+          "service": "inspector2",
+          "action": "ListCoverage",
+          "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Inspector2.ListCoverage",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "inspector2",
+            "operation": "ListCoverage",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListCoverage"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "inspector2_listcoverage_recon",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "empty",
+            "posture": "sparse",
+            "entity_hints": {
+              "coveredResources_count": 0
+            },
+            "field_hints": {},
+            "omit_fields": [
+              "nextToken"
+            ]
+          }
+        },
+        "response": {
+          "body": "{\"coveredResources\": []}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 33877.654,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 25197.916,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:04:08.151976+00:00",
+            "finished_at": "2026-04-16T08:04:33.378722+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "maxResults"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b10_s03",
+        "batch": 10,
+        "label": "organizations list-policies",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 organizations list-policies --filter SERVICE_CONTROL_POLICY",
+        "service": "organizations",
+        "action": "ListPolicies",
+        "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+        "body": "{\"Filter\":\"SERVICE_CONTROL_POLICY\"}",
+        "headers": [
+          "X-Amz-Target=AWSOrganizationsV20161128.ListPolicies",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "Filter"
+        ]
+      },
+      "response_body": "{\"Policies\": [{\"Id\": \"p-7h3k9q2m\", \"Arn\": \"arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-7h3k9q2m\", \"Name\": \"FullAWSAccess\", \"Description\": \"Allows access to every operation\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": true}, {\"Id\": \"p-4n8t6v1x\", \"Arn\": \"arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-4n8t6v1x\", \"Name\": \"BaselineGuardrails\", \"Description\": \"Baseline service control guardrails for production accounts\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:04:33.400495+00:00",
+          "finished_at": "2026-04-16T08:04:57.086184+00:00"
+        },
+        "request": {
+          "service": "organizations",
+          "action": "ListPolicies",
+          "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSOrganizationsV20161128.ListPolicies",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"Filter\":\"SERVICE_CONTROL_POLICY\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "organizations",
+            "operation": "ListPolicies",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListPolicies"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "org_scp_enum_a1",
+          "risk_delta": 0.04,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "policy_count": 2,
+              "policy_type": "SERVICE_CONTROL_POLICY"
+            },
+            "field_hints": {
+              "Policies": [
+                {
+                  "Id": "p-7h3k9q2m",
+                  "Arn": "arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-7h3k9q2m",
+                  "Name": "FullAWSAccess",
+                  "Description": "Allows access to every operation",
+                  "Type": "SERVICE_CONTROL_POLICY",
+                  "AwsManaged": true
+                },
+                {
+                  "Id": "p-4n8t6v1x",
+                  "Arn": "arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-4n8t6v1x",
+                  "Name": "BaselineGuardrails",
+                  "Description": "Baseline service control guardrails for production accounts",
+                  "Type": "SERVICE_CONTROL_POLICY",
+                  "AwsManaged": false
+                }
+              ],
+              "NextToken": null
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Policies\": [{\"Id\": \"p-7h3k9q2m\", \"Arn\": \"arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-7h3k9q2m\", \"Name\": \"FullAWSAccess\", \"Description\": \"Allows access to every operation\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": true}, {\"Id\": \"p-4n8t6v1x\", \"Arn\": \"arn:aws:organizations::123456789012:policy/o-a1b2c3d4e5/service_control_policy/p-4n8t6v1x\", \"Name\": \"BaselineGuardrails\", \"Description\": \"Baseline service control guardrails for production accounts\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 24550.907,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 20894.155,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:04:37.044884+00:00",
+            "finished_at": "2026-04-16T08:04:57.085707+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "Filter"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b10_s04",
+        "batch": 10,
+        "label": "backup list-recovery-points-by-backup-vault",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 backup list-recovery-points-by-backup-vault --backup-vault-name Default",
+        "service": "backup",
+        "action": "ListRecoveryPointsByBackupVault",
+        "url": "https://backup.ap-northeast-2.amazonaws.com/",
+        "body": "{\"BackupVaultName\":\"Default\"}",
+        "headers": [
+          "X-Amz-Target=BackupStorage.ListRecoveryPointsByBackupVault",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "BackupVaultName"
+        ]
+      },
+      "response_body": "{\"NextToken\": \"\", \"RecoveryPoints\": []}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:04:57.117259+00:00",
+          "finished_at": "2026-04-16T08:05:17.897871+00:00"
+        },
+        "request": {
+          "service": "backup",
+          "action": "ListRecoveryPointsByBackupVault",
+          "url": "https://backup.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "BackupStorage.ListRecoveryPointsByBackupVault",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"BackupVaultName\":\"Default\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "backup",
+            "operation": "ListRecoveryPointsByBackupVault",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListRecoveryPointsByBackupVault"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "backup_default_vault_enum",
+          "risk_delta": 0.04,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "empty",
+            "posture": "sparse",
+            "entity_hints": {
+              "backup_vault_name": "Default",
+              "recovery_points_count": 0
+            },
+            "field_hints": {
+              "RecoveryPoints": [],
+              "NextToken": null
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"NextToken\": \"\", \"RecoveryPoints\": []}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 21755.344,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 17982.914,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:05:00.881381+00:00",
+            "finished_at": "2026-04-16T08:05:17.897497+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "BackupVaultName"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b10_s05",
+        "batch": 10,
+        "label": "accessanalyzer get-analyzer",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 accessanalyzer get-analyzer --analyzer-name default",
+        "service": "accessanalyzer",
+        "action": "GetAnalyzer",
+        "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+        "body": "{\"analyzerName\":\"default\"}",
+        "headers": [
+          "X-Amz-Target=AccessAnalyzer.GetAnalyzer",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "analyzerName"
+        ]
+      },
+      "response_body": "{\"analyzer\": {\"arn\": \"arn:aws:accessanalyzer:us-east-1:123456789012:getanalyzer/167119ba\", \"name\": \"default\", \"type\": \"ACCOUNT\", \"createdAt\": \"2026-03-21T10:18:42Z\", \"lastResourceAnalyzed\": \"arn:aws:s3:::prod-audit-logs\", \"lastResourceAnalyzedAt\": \"2026-04-14T16:07:11Z\", \"tags\": {\"Environment\": \"production\", \"Owner\": \"securityops\"}, \"status\": \"ACTIVE\", \"statusReason\": {\"code\": \"AWS_SERVICE_ACCESS_DISABLED\"}, \"configuration\": {\"unusedAccess\": {\"unusedAccessAge\": 1, \"analysisRule\": {\"exclusions\": [{}, {}]}}, \"internalAccess\": {\"analysisRule\": {\"inclusions\": [{}, {}]}}}}}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T08:05:17.930377+00:00",
+          "finished_at": "2026-04-16T08:05:44.248979+00:00"
+        },
+        "request": {
+          "service": "accessanalyzer",
+          "action": "GetAnalyzer",
+          "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AccessAnalyzer.GetAnalyzer",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"analyzerName\":\"default\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "accessanalyzer",
+            "operation": "GetAnalyzer",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetAnalyzer"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "accessanalyzer_default_analyzer",
+          "risk_delta": 0.04,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "analyzer": {
+                "name": "default",
+                "type": "ACCOUNT",
+                "status": "ACTIVE",
+                "arn": "arn:aws:access-analyzer:us-east-1:123456789012:analyzer/default"
+              }
+            },
+            "field_hints": {
+              "createdAt": "2026-03-21T10:18:42.000Z",
+              "lastResourceAnalyzed": "arn:aws:s3:::prod-audit-logs",
+              "lastResourceAnalyzedAt": "2026-04-14T16:07:11.000Z",
+              "tags": {
+                "Environment": "production",
+                "Owner": "securityops"
+              }
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"analyzer\": {\"arn\": \"arn:aws:accessanalyzer:us-east-1:123456789012:getanalyzer/167119ba\", \"name\": \"default\", \"type\": \"ACCOUNT\", \"createdAt\": \"2026-03-21T10:18:42Z\", \"lastResourceAnalyzed\": \"arn:aws:s3:::prod-audit-logs\", \"lastResourceAnalyzedAt\": \"2026-04-14T16:07:11Z\", \"tags\": {\"Environment\": \"production\", \"Owner\": \"securityops\"}, \"status\": \"ACTIVE\", \"statusReason\": {\"code\": \"AWS_SERVICE_ACCESS_DISABLED\"}, \"configuration\": {\"unusedAccess\": {\"unusedAccessAge\": 1, \"analysisRule\": {\"exclusions\": [{}, {}]}}, \"internalAccess\": {\"analysisRule\": {\"inclusions\": [{}, {}]}}}}}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 27486.84,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 23530.586,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T08:05:21.875662+00:00",
+            "finished_at": "2026-04-16T08:05:44.246580+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "analyzerName"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 2,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 0
+  }
+}

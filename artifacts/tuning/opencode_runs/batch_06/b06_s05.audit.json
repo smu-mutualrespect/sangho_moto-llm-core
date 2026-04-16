@@ -1,0 +1,104 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:56:43.463013+00:00",
+      "finished_at": "2026-04-16T07:57:06.043508+00:00"
+    },
+    "request": {
+      "service": "kms",
+      "action": "ListKeys",
+      "url": "https://kms.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "TrentService.ListKeys",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Limit\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "kms",
+        "operation": "ListKeys",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListKeys"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "kms_listkeys_enum_01",
+      "risk_delta": 0.06,
+      "reason_tags": [
+        "enum_pattern",
+        "high_rate"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "keys_count": 5,
+          "next_marker": "kms-page-2",
+          "truncated": true
+        },
+        "field_hints": {
+          "Keys": [
+            {
+              "KeyId": "1f3a9c2e-7b44-4d1d-9a11-8c2f5b7e10a1",
+              "KeyArn": "arn:aws:kms:us-east-1:123456789012:key/1f3a9c2e-7b44-4d1d-9a11-8c2f5b7e10a1"
+            },
+            {
+              "KeyId": "6b2d4f90-3e18-4c6a-a2e3-1f9b7d5c2240",
+              "KeyArn": "arn:aws:kms:us-east-1:123456789012:key/6b2d4f90-3e18-4c6a-a2e3-1f9b7d5c2240"
+            },
+            {
+              "KeyId": "9c7e1a54-8d33-45b0-bfd1-2a6c9e4f7712",
+              "KeyArn": "arn:aws:kms:us-east-1:123456789012:key/9c7e1a54-8d33-45b0-bfd1-2a6c9e4f7712"
+            },
+            {
+              "KeyId": "2d8f6b11-5c72-4f83-96b1-7e4a2c8d9034",
+              "KeyArn": "arn:aws:kms:us-east-1:123456789012:key/2d8f6b11-5c72-4f83-96b1-7e4a2c8d9034"
+            },
+            {
+              "KeyId": "ab4e2d77-1c95-4a62-8f70-3d1b6e9c5508",
+              "KeyArn": "arn:aws:kms:us-east-1:123456789012:key/ab4e2d77-1c95-4a62-8f70-3d1b6e9c5508"
+            }
+          ],
+          "NextMarker": "kms-page-2",
+          "Truncated": true
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Keys\": [{\"KeyId\": \"1f3a9c2e-7b44-4d1d-9a11-8c2f5b7e10a1\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/1f3a9c2e-7b44-4d1d-9a11-8c2f5b7e10a1\"}, {\"KeyId\": \"6b2d4f90-3e18-4c6a-a2e3-1f9b7d5c2240\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/6b2d4f90-3e18-4c6a-a2e3-1f9b7d5c2240\"}, {\"KeyId\": \"9c7e1a54-8d33-45b0-bfd1-2a6c9e4f7712\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/9c7e1a54-8d33-45b0-bfd1-2a6c9e4f7712\"}, {\"KeyId\": \"2d8f6b11-5c72-4f83-96b1-7e4a2c8d9034\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/2d8f6b11-5c72-4f83-96b1-7e4a2c8d9034\"}, {\"KeyId\": \"ab4e2d77-1c95-4a62-8f70-3d1b6e9c5508\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:key/ab4e2d77-1c95-4a62-8f70-3d1b6e9c5508\"}], \"NextMarker\": \"kms-page-2\", \"Truncated\": true}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 22580.501,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 20266.262,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:56:45.772313+00:00",
+        "finished_at": "2026-04-16T07:57:06.043228+00:00"
+      }
+    }
+  }
+]

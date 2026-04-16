@@ -1,0 +1,178 @@
+{
+  "scenario": {
+    "id": "b07_s05",
+    "batch": 7,
+    "label": "resourcegroupstaggingapi get-resources",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 resourcegroupstaggingapi get-resources --resources-per-page 5",
+    "service": "resourcegroupstaggingapi",
+    "action": "GetResources",
+    "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+    "body": "{\"ResourcesPerPage\":5}",
+    "headers": [
+      "X-Amz-Target=ResourceGroupsTaggingAPI_20170126.GetResources",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "ResourcesPerPage"
+    ]
+  },
+  "response_body": "{\"PaginationToken\": \"\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:ec2:us-east-1:123456789012:vpc/vpc-0e3a1b5c7d9f24681\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"shared-services-vpc\"}, {\"Key\": \"Environment\", \"Value\": \"prod\"}]}, {\"ResourceARN\": \"arn:aws:ec2:us-east-1:123456789012:subnet/subnet-07b2c4d6e8f135a91\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"private-app-a\"}, {\"Key\": \"Tier\", \"Value\": \"application\"}]}, {\"ResourceARN\": \"arn:aws:s3:us-east-1:123456789012:prod-artifacts-123456789012\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"prod-artifacts\"}, {\"Key\": \"Owner\", \"Value\": \"platform\"}]}, {\"ResourceARN\": \"arn:aws:rds:us-east-1:123456789012:db:sharedsvc-db-01\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"sharedsvc-db-01\"}, {\"Key\": \"Environment\", \"Value\": \"prod\"}]}, {\"ResourceARN\": \"arn:aws:lambda:us-east-1:123456789012:function:config-exporter\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"config-exporter\"}, {\"Key\": \"ManagedBy\", \"Value\": \"terraform\"}]}]}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T09:28:20.742528+00:00",
+      "finished_at": "2026-04-16T09:28:40.759098+00:00"
+    },
+    "request": {
+      "service": "resourcegroupstaggingapi",
+      "action": "GetResources",
+      "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetResources",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"ResourcesPerPage\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "resourcegroupstaggingapi",
+        "operation": "GetResources",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResources"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "tagging_recon_us-east-1",
+      "risk_delta": 0.06,
+      "reason_tags": [
+        "enum_pattern",
+        "rare_api_chain"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "resource_count": 5,
+          "pagination_token": "",
+          "account_id": "123456789012",
+          "region": "us-east-1"
+        },
+        "field_hints": {
+          "ResourceTagMappingList": [
+            {
+              "ResourceARN": "arn:aws:ec2:us-east-1:123456789012:vpc/vpc-0e3a1b5c7d9f24681",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "shared-services-vpc"
+                },
+                {
+                  "Key": "Environment",
+                  "Value": "prod"
+                }
+              ]
+            },
+            {
+              "ResourceARN": "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-07b2c4d6e8f135a91",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "private-app-a"
+                },
+                {
+                  "Key": "Tier",
+                  "Value": "application"
+                }
+              ]
+            },
+            {
+              "ResourceARN": "arn:aws:s3:::prod-artifacts-123456789012",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "prod-artifacts"
+                },
+                {
+                  "Key": "Owner",
+                  "Value": "platform"
+                }
+              ]
+            },
+            {
+              "ResourceARN": "arn:aws:rds:us-east-1:123456789012:db:sharedsvc-db-01",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "sharedsvc-db-01"
+                },
+                {
+                  "Key": "Environment",
+                  "Value": "prod"
+                }
+              ]
+            },
+            {
+              "ResourceARN": "arn:aws:lambda:us-east-1:123456789012:function:config-exporter",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "config-exporter"
+                },
+                {
+                  "Key": "ManagedBy",
+                  "Value": "terraform"
+                }
+              ]
+            }
+          ],
+          "PaginationToken": ""
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PaginationToken\": \"\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:ec2:us-east-1:123456789012:vpc/vpc-0e3a1b5c7d9f24681\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"shared-services-vpc\"}, {\"Key\": \"Environment\", \"Value\": \"prod\"}]}, {\"ResourceARN\": \"arn:aws:ec2:us-east-1:123456789012:subnet/subnet-07b2c4d6e8f135a91\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"private-app-a\"}, {\"Key\": \"Tier\", \"Value\": \"application\"}]}, {\"ResourceARN\": \"arn:aws:s3:us-east-1:123456789012:prod-artifacts-123456789012\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"prod-artifacts\"}, {\"Key\": \"Owner\", \"Value\": \"platform\"}]}, {\"ResourceARN\": \"arn:aws:rds:us-east-1:123456789012:db:sharedsvc-db-01\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"sharedsvc-db-01\"}, {\"Key\": \"Environment\", \"Value\": \"prod\"}]}, {\"ResourceARN\": \"arn:aws:lambda:us-east-1:123456789012:function:config-exporter\", \"Tags\": [{\"Key\": \"Name\", \"Value\": \"config-exporter\"}, {\"Key\": \"ManagedBy\", \"Value\": \"terraform\"}]}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 20928.574,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 18610.196,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T09:28:23.054932+00:00",
+        "finished_at": "2026-04-16T09:28:40.758579+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [
+      "ResourcesPerPage"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

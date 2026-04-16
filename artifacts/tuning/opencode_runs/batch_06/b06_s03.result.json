@@ -1,0 +1,114 @@
+{
+  "scenario": {
+    "id": "b06_s03",
+    "batch": 6,
+    "label": "redshift-data list-databases",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 redshift-data list-databases --workgroup-name analytics",
+    "service": "redshift-data",
+    "action": "ListDatabases",
+    "url": "https://redshift-data.ap-northeast-2.amazonaws.com/",
+    "body": "{\"WorkgroupName\":\"analytics\"}",
+    "headers": [
+      "X-Amz-Target=RedshiftData.ListDatabases",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "WorkgroupName"
+    ]
+  },
+  "response_body": "{\"Databases\": [\"Database\", \"Database\"], \"NextToken\": \"db-page-2\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:56:07.780880+00:00",
+      "finished_at": "2026-04-16T07:56:25.153324+00:00"
+    },
+    "request": {
+      "service": "redshift-data",
+      "action": "ListDatabases",
+      "url": "https://redshift-data.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "RedshiftData.ListDatabases",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"WorkgroupName\":\"analytics\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "redshift-data",
+        "operation": "ListDatabases",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDatabases"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "redshiftdata_analytics_enum",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "database_count": 4,
+          "database_names": [
+            "analytics",
+            "dev",
+            "sample_data",
+            "temp_reporting"
+          ]
+        },
+        "field_hints": {
+          "WorkgroupName": "analytics",
+          "NextToken": "db-page-2"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Databases\": [\"Database\", \"Database\"], \"NextToken\": \"db-page-2\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 18222.957,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 15505.466,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:56:09.641230+00:00",
+        "finished_at": "2026-04-16T07:56:25.153071+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "WorkgroupName"
+    ],
+    "placeholder_hits": []
+  }
+}

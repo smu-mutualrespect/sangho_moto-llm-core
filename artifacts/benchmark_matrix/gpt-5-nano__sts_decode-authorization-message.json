@@ -1,0 +1,78 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:17:23.066272+00:00",
+      "finished_at": "2026-04-14T05:17:22.017264+00:00"
+    },
+    "request": {
+      "service": "sts",
+      "action": "DecodeAuthorizationMessage",
+      "url": "https://sts.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DecodeAuthorizationMessage&EncodedMessage=ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U%3D&Version=2011-06-15",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "sts",
+        "operation": "DecodeAuthorizationMessage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DecodeAuthorizationMessage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "decode_auth_msg_01",
+      "risk_delta": 0.05,
+      "reason_tags": [
+        "credential_probe",
+        "region_sweep",
+        "enum_pattern"
+      ]
+    },
+    "response": {
+      "body": "{\"service\": \"sts\", \"operation\": \"DecodeAuthorizationMessage\", \"requestId\": \"aad79a96807d1d2afa296a975937f889\", \"posture\": \"sparse\", \"region\": \"us-east-1\", \"message\": \"Synthetic honeypot response\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "json",
+      "format_match": false,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5008.631,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "usage": {
+          "input_tokens": 384,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 89,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 473
+        },
+        "duration_ms": 5005.443,
+        "response_id": "resp_0c6e5cb00a2a587b0069ddcddec30081a0aac5a4c528181b82",
+        "started_at": "2026-04-14T05:17:23.066435+00:00",
+        "finished_at": "2026-04-14T05:17:22.017001+00:00"
+      }
+    }
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "scenario": {
+    "id": "b01_s05",
+    "batch": 1,
+    "label": "sts decode-authorization-message",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=",
+    "service": "sts",
+    "action": "DecodeAuthorizationMessage",
+    "url": "https://sts.amazonaws.com/",
+    "body": "Action=DecodeAuthorizationMessage&EncodedMessage=ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U%3D&Version=2011-06-15",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<DecodeAuthorizationMessageResponse xmlns=\"https://sts.amazonaws.com/doc/2011-06-15/\"><DecodeAuthorizationMessageResult><DecodedMessage>{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":[],\"failures\":[{\"action\":\"iam:CreateAccessKey\",\"reason\":\"implicitDeny\"}],\"context\":{\"region\":\"us-east-1\",\"principalType\":\"AssumedRole\"}}</DecodedMessage></DecodeAuthorizationMessageResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></DecodeAuthorizationMessageResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:47:46.555747+00:00",
+      "finished_at": "2026-04-16T07:48:10.257611+00:00"
+    },
+    "request": {
+      "service": "sts",
+      "action": "DecodeAuthorizationMessage",
+      "url": "https://sts.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DecodeAuthorizationMessage&EncodedMessage=ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U%3D&Version=2011-06-15",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "sts",
+        "operation": "DecodeAuthorizationMessage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DecodeAuthorizationMessage"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "sts_decodeauth_privchk_v1",
+      "risk_delta": 0.08,
+      "reason_tags": [
+        "enum_pattern",
+        "permission_test",
+        "rare_api_chain"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {},
+        "field_hints": {
+          "DecodedMessage": "{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":[],\"failures\":[{\"action\":\"iam:CreateAccessKey\",\"reason\":\"implicitDeny\"}],\"context\":{\"region\":\"us-east-1\",\"principalType\":\"AssumedRole\"}}"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<DecodeAuthorizationMessageResponse xmlns=\"https://sts.amazonaws.com/doc/2011-06-15/\"><DecodeAuthorizationMessageResult><DecodedMessage>{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":[],\"failures\":[{\"action\":\"iam:CreateAccessKey\",\"reason\":\"implicitDeny\"}],\"context\":{\"region\":\"us-east-1\",\"principalType\":\"AssumedRole\"}}</DecodedMessage></DecodeAuthorizationMessageResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></DecodeAuthorizationMessageResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DecodeAuthorizationMessageResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 23701.874,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 20866.992,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:47:49.381111+00:00",
+        "finished_at": "2026-04-16T07:48:10.257254+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

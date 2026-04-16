@@ -1,0 +1,119 @@
+{
+  "scenario": {
+    "id": "b01_s01",
+    "batch": 1,
+    "label": "iam simulate-principal-policy",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam simulate-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin --action-names iam:CreateAccessKey",
+    "service": "iam",
+    "action": "SimulatePrincipalPolicy",
+    "url": "https://iam.amazonaws.com/",
+    "body": "Action=SimulatePrincipalPolicy&PolicySourceArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&ActionNames.member.1=iam%3ACreateAccessKey&Version=2010-05-08",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<SimulatePrincipalPolicyResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><SimulatePrincipalPolicyResult><EvaluationResults><member><EvalActionName>iam:CreateAccessKey</EvalActionName><EvalDecision>implicitDeny</EvalDecision><MatchedStatements/><MissingContextValues/><OrganizationsDecisionDetail><AllowedByOrganizations>true</AllowedByOrganizations></OrganizationsDecisionDetail></member></EvaluationResults><IsTruncated>false</IsTruncated></SimulatePrincipalPolicyResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></SimulatePrincipalPolicyResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:46:24.042930+00:00",
+      "finished_at": "2026-04-16T07:46:46.513558+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "SimulatePrincipalPolicy",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=SimulatePrincipalPolicy&PolicySourceArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&ActionNames.member.1=iam%3ACreateAccessKey&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "SimulatePrincipalPolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "SimulatePrincipalPolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "iam_simulate_policy_sparse_1",
+      "risk_delta": 0.16,
+      "reason_tags": [
+        "permission_test",
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "evaluation_results_count": 1,
+          "policy_source_arn": "arn:aws:iam::123456789012:user/victim-admin",
+          "action_names": [
+            "iam:CreateAccessKey"
+          ]
+        },
+        "field_hints": {
+          "EvaluationResults": [
+            {
+              "EvalActionName": "iam:CreateAccessKey",
+              "EvalDecision": "implicitDeny",
+              "MatchedStatements": [],
+              "MissingContextValues": [],
+              "OrganizationsDecisionDetail": {
+                "AllowedByOrganizations": true
+              }
+            }
+          ],
+          "IsTruncated": false
+        },
+        "omit_fields": [
+          "Marker"
+        ]
+      }
+    },
+    "response": {
+      "body": "<SimulatePrincipalPolicyResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><SimulatePrincipalPolicyResult><EvaluationResults><member><EvalActionName>iam:CreateAccessKey</EvalActionName><EvalDecision>implicitDeny</EvalDecision><MatchedStatements/><MissingContextValues/><OrganizationsDecisionDetail><AllowedByOrganizations>true</AllowedByOrganizations></OrganizationsDecisionDetail></member></EvaluationResults><IsTruncated>false</IsTruncated></SimulatePrincipalPolicyResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></SimulatePrincipalPolicyResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "SimulatePrincipalPolicyResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 23201.202,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 20490.714,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:46:26.745378+00:00",
+        "finished_at": "2026-04-16T07:46:46.512693+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

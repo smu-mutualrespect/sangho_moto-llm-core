@@ -1,0 +1,33 @@
+{
+  "scenario": {
+    "id": "b05_s03",
+    "batch": 5,
+    "label": "eks describe-cluster",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 eks describe-cluster --name prod-cluster",
+    "service": "eks",
+    "action": "DescribeCluster",
+    "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+    "body": "{\"name\":\"prod-cluster\"}",
+    "headers": [
+      "X-Amz-Target=DescribeCluster",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "name"
+    ]
+  },
+  "response_body": "",
+  "audit": {},
+  "heuristics": {
+    "validation_passed": false,
+    "safe_fallback": false,
+    "llm_error": "runner_exception",
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "name"
+    ],
+    "placeholder_hits": [],
+    "exception": "ValueError: Invalid timestamp \"recent-ish but established\": Unknown string format: recent-ish but established"
+  }
+}

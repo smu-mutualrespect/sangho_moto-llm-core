@@ -27,11 +27,8 @@ from moto import settings
 from moto.core.authorization import ActionAuthenticatorMixin
 from moto.core.common_types import TYPE_IF_NONE, TYPE_RESPONSE
 from moto.core.exceptions import ServiceException
-from moto.core.llm_fallback import (
-    build_llm_fallback_json,
-    call_claude_api,
-    call_gpt_api,
-)
+from moto.core.llm_fallback import build_llm_fallback_json
+from moto.core.llm_agents import handle_aws_request
 from moto.core.model import OperationModel, ServiceModel
 from moto.core.parse import PROTOCOL_PARSERS, XFormedDict
 from moto.core.request import determine_request_protocol, normalize_request
@@ -613,20 +610,16 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
                 response = http_error.description, response_headers  # type: ignore[assignment]
             except NotImplementedError as not_implemented_error:
                 # 핸들러는 찾았지만 내부 구현이 비어 있을 때 LLM fallback을 시도한다.
-                prompt = f"""
-                service={self.service_name}
-                action={action}
-                url={self.uri}
-                headers={dict(self.headers)}
-                body={self.body}
-                reason={str(not_implemented_error)}
-                source=responses.call_action.method_not_implemented
-                """
                 try:
-                    if os.getenv("MOTO_LLM_PROVIDER", "").lower() == "claude":
-                        fallback_text = call_claude_api(prompt)
-                    else:
-                        fallback_text = call_gpt_api(prompt)
+                    fallback_text = handle_aws_request(
+                        service=self.service_name,
+                        action=action,
+                        url=self.uri,
+                        headers=dict(self.headers),
+                        body=self.body,
+                        reason=str(not_implemented_error),
+                        source="responses.call_action.method_not_implemented",
+                    )
                     return 200, headers, fallback_text
                 except Exception:
                     # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
@@ -648,20 +641,16 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
 
         if not action:
             # action 자체를 읽지 못한 요청에 대해 마지막 fallback을 시도한다.
-            prompt = f"""
-                service={self.service_name}
-                action=None
-                url={self.uri}
-                headers={dict(self.headers)}
-                body={self.body}
-                reason=Could not determine action from request
-                source=responses.call_action.missing_action
-                """
             try:
-                if os.getenv("MOTO_LLM_PROVIDER", "").lower() == "claude":
-                    fallback_text = call_claude_api(prompt)
-                else:
-                    fallback_text = call_gpt_api(prompt)
+                fallback_text = handle_aws_request(
+                    service=self.service_name,
+                    action=None,
+                    url=self.uri,
+                    headers=dict(self.headers),
+                    body=self.body,
+                    reason="Could not determine action from request",
+                    source="responses.call_action.missing_action",
+                )
                 return 200, headers, fallback_text
             except Exception:
                 # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.
@@ -671,19 +660,15 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
 
         try:
             # action은 알지만 핸들러 메서드가 없을 때 LLM fallback을 시도한다.
-            prompt = f"""
-                service={self.service_name}
-                action={action}
-                url={self.uri}
-                headers={dict(self.headers)}
-                body={self.body}
-                reason=The action handler does not exist in moto
-                source=responses.call_action.missing_handler
-                """
-            if os.getenv("MOTO_LLM_PROVIDER", "").lower() == "claude":
-                fallback_text = call_claude_api(prompt)
-            else:
-                fallback_text = call_gpt_api(prompt)
+            fallback_text = handle_aws_request(
+                service=self.service_name,
+                action=action,
+                url=self.uri,
+                headers=dict(self.headers),
+                body=self.body,
+                reason="The action handler does not exist in moto",
+                source="responses.call_action.missing_handler",
+            )
             return 200, headers, fallback_text
         except Exception:
             # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.

@@ -1,0 +1,527 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b07_s01",
+        "batch": 7,
+        "label": "organizations list-accounts",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 organizations list-accounts --max-results 5",
+        "service": "organizations",
+        "action": "ListAccounts",
+        "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AWSOrganizationsV20161128.ListAccounts",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"Accounts\": [{\"Id\": \"organizations-2719eef8\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/1caaf699\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}, {\"Id\": \"organizations-d8a2fbdc\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/d756285b\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts-1\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:05.738352+00:00",
+          "finished_at": "2026-04-16T02:45:09.294805+00:00"
+        },
+        "request": {
+          "service": "organizations",
+          "action": "ListAccounts",
+          "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSOrganizationsV20161128.ListAccounts",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "organizations",
+            "operation": "ListAccounts",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListAccounts"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Accounts\": [{\"Id\": \"organizations-2719eef8\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/1caaf699\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}, {\"Id\": \"organizations-d8a2fbdc\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/d756285b\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts-1\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776307509}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4530.992,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:09.293047+00:00",
+            "finished_at": "2026-04-16T02:45:09.293567+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b07_s02",
+        "batch": 7,
+        "label": "organizations list-roots",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 organizations list-roots",
+        "service": "organizations",
+        "action": "ListRoots",
+        "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+        "body": "{}",
+        "headers": [
+          "X-Amz-Target=AWSOrganizationsV20161128.ListRoots",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"Roots\": [{\"Id\": \"organizations-5adc4721\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listroots/914c3429\", \"Name\": \"organizations-listroots\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}, {\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}, {\"Id\": \"organizations-40f28901\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listroots/26ee6115\", \"Name\": \"organizations-listroots-1\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}, {\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:09.315888+00:00",
+          "finished_at": "2026-04-16T02:45:09.317135+00:00"
+        },
+        "request": {
+          "service": "organizations",
+          "action": "ListRoots",
+          "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSOrganizationsV20161128.ListRoots",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "organizations",
+            "operation": "ListRoots",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListRoots"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Roots\": [{\"Id\": \"organizations-5adc4721\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listroots/914c3429\", \"Name\": \"organizations-listroots\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}, {\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}, {\"Id\": \"organizations-40f28901\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listroots/26ee6115\", \"Name\": \"organizations-listroots-1\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}, {\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 1.257,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:09.316171+00:00",
+            "finished_at": "2026-04-16T02:45:09.316510+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b07_s03",
+        "batch": 7,
+        "label": "accessanalyzer list-findings",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 accessanalyzer list-findings --analyzer-name default --max-results 5",
+        "service": "accessanalyzer",
+        "action": "ListFindings",
+        "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+        "body": "{\"analyzerName\":\"default\",\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AccessAnalyzer.ListFindings",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "analyzerName",
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"findings\": [{\"id\": \"accessanalyzer-8ba68acb\", \"principal\": {}, \"action\": [\"action\", \"action\"], \"resource\": \"resource\", \"isPublic\": false, \"resourceType\": \"AWS::S3::Bucket\", \"condition\": {}, \"createdAt\": \"2026-04-16T02:45:13Z\", \"analyzedAt\": \"2026-04-16T02:45:13Z\", \"updatedAt\": \"2026-04-16T02:45:13Z\", \"status\": \"ACTIVE\", \"resourceOwnerAccount\": \"resourceOwnerAccount\", \"error\": \"error\", \"sources\": [{\"type\": \"POLICY\", \"detail\": {}}, {\"type\": \"POLICY\", \"detail\": {}}], \"resourceControlPolicyRestriction\": \"APPLICABLE\"}, {\"id\": \"accessanalyzer-3de71dca\", \"principal\": {}, \"action\": [\"action\", \"action\"], \"resource\": \"resource\", \"isPublic\": false, \"resourceType\": \"AWS::S3::Bucket\", \"condition\": {}, \"createdAt\": \"2026-04-16T02:45:13Z\", \"analyzedAt\": \"2026-04-16T02:45:13Z\", \"updatedAt\": \"2026-04-16T02:45:13Z\", \"status\": \"ACTIVE\", \"resourceOwnerAccount\": \"resourceOwnerAccount\", \"error\": \"error\", \"sources\": [{\"type\": \"POLICY\", \"detail\": {}}, {\"type\": \"POLICY\", \"detail\": {}}], \"resourceControlPolicyRestriction\": \"APPLICABLE\"}], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:09.336587+00:00",
+          "finished_at": "2026-04-16T02:45:13.274621+00:00"
+        },
+        "request": {
+          "service": "accessanalyzer",
+          "action": "ListFindings",
+          "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AccessAnalyzer.ListFindings",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"analyzerName\":\"default\",\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "accessanalyzer",
+            "operation": "ListFindings",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListFindings"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "analyzerName": "default"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"findings\": [{\"id\": \"accessanalyzer-8ba68acb\", \"principal\": {}, \"action\": [\"action\", \"action\"], \"resource\": \"resource\", \"isPublic\": false, \"resourceType\": \"AWS::S3::Bucket\", \"condition\": {}, \"createdAt\": \"2026-04-16T02:45:13Z\", \"analyzedAt\": \"2026-04-16T02:45:13Z\", \"updatedAt\": \"2026-04-16T02:45:13Z\", \"status\": \"ACTIVE\", \"resourceOwnerAccount\": \"resourceOwnerAccount\", \"error\": \"error\", \"sources\": [{\"type\": \"POLICY\", \"detail\": {}}, {\"type\": \"POLICY\", \"detail\": {}}], \"resourceControlPolicyRestriction\": \"APPLICABLE\"}, {\"id\": \"accessanalyzer-3de71dca\", \"principal\": {}, \"action\": [\"action\", \"action\"], \"resource\": \"resource\", \"isPublic\": false, \"resourceType\": \"AWS::S3::Bucket\", \"condition\": {}, \"createdAt\": \"2026-04-16T02:45:13Z\", \"analyzedAt\": \"2026-04-16T02:45:13Z\", \"updatedAt\": \"2026-04-16T02:45:13Z\", \"status\": \"ACTIVE\", \"resourceOwnerAccount\": \"resourceOwnerAccount\", \"error\": \"error\", \"sources\": [{\"type\": \"POLICY\", \"detail\": {}}, {\"type\": \"POLICY\", \"detail\": {}}], \"resourceControlPolicyRestriction\": \"APPLICABLE\"}], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 3938.047,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:13.271780+00:00",
+            "finished_at": "2026-04-16T02:45:13.272222+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 2,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [
+          "analyzerName"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b07_s04",
+        "batch": 7,
+        "label": "ram get-resource-shares",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ram get-resource-shares --resource-owner SELF --max-results 5",
+        "service": "ram",
+        "action": "GetResourceShares",
+        "url": "https://ram.ap-northeast-2.amazonaws.com/",
+        "body": "{\"resourceOwner\":\"SELF\",\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AWSRAM.GetResourceShares",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "resourceOwner",
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"resourceShares\": [{\"resourceShareArn\": \"arn:aws:ram:us-east-1:123456789012:getresourceshares/533cab66\", \"name\": \"ram-getresourceshares\", \"owningAccountId\": \"ram-0c1168cb\", \"allowExternalPrincipals\": false, \"status\": \"PENDING\", \"statusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ram:GetResourceShares\\\"}\", \"tags\": [{\"key\": \"key\", \"value\": \"value\"}, {\"key\": \"key\", \"value\": \"value\"}], \"creationTime\": 1776307517, \"lastUpdatedTime\": 1776307517, \"featureSet\": \"CREATED_FROM_POLICY\", \"resourceShareConfiguration\": {\"retainSharingOnAccountLeaveOrganization\": false}}, {\"resourceShareArn\": \"arn:aws:ram:us-east-1:123456789012:getresourceshares/3e0a5c38\", \"name\": \"ram-getresourceshares-1\", \"owningAccountId\": \"ram-2ce2ef9e\", \"allowExternalPrincipals\": false, \"status\": \"PENDING\", \"statusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ram:GetResourceShares\\\"}\", \"tags\": [{\"key\": \"key\", \"value\": \"value\"}, {\"key\": \"key\", \"value\": \"value\"}], \"creationTime\": 1776307517, \"lastUpdatedTime\": 1776307517, \"featureSet\": \"CREATED_FROM_POLICY\", \"resourceShareConfiguration\": {\"retainSharingOnAccountLeaveOrganization\": false}}], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:13.294060+00:00",
+          "finished_at": "2026-04-16T02:45:17.264861+00:00"
+        },
+        "request": {
+          "service": "ram",
+          "action": "GetResourceShares",
+          "url": "https://ram.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSRAM.GetResourceShares",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"resourceOwner\":\"SELF\",\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ram",
+            "operation": "GetResourceShares",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetResourceShares"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"resourceShares\": [{\"resourceShareArn\": \"arn:aws:ram:us-east-1:123456789012:getresourceshares/533cab66\", \"name\": \"ram-getresourceshares\", \"owningAccountId\": \"ram-0c1168cb\", \"allowExternalPrincipals\": false, \"status\": \"PENDING\", \"statusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ram:GetResourceShares\\\"}\", \"tags\": [{\"key\": \"key\", \"value\": \"value\"}, {\"key\": \"key\", \"value\": \"value\"}], \"creationTime\": 1776307517, \"lastUpdatedTime\": 1776307517, \"featureSet\": \"CREATED_FROM_POLICY\", \"resourceShareConfiguration\": {\"retainSharingOnAccountLeaveOrganization\": false}}, {\"resourceShareArn\": \"arn:aws:ram:us-east-1:123456789012:getresourceshares/3e0a5c38\", \"name\": \"ram-getresourceshares-1\", \"owningAccountId\": \"ram-2ce2ef9e\", \"allowExternalPrincipals\": false, \"status\": \"PENDING\", \"statusMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic ram:GetResourceShares\\\"}\", \"tags\": [{\"key\": \"key\", \"value\": \"value\"}, {\"key\": \"key\", \"value\": \"value\"}], \"creationTime\": 1776307517, \"lastUpdatedTime\": 1776307517, \"featureSet\": \"CREATED_FROM_POLICY\", \"resourceShareConfiguration\": {\"retainSharingOnAccountLeaveOrganization\": false}}], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 3970.815,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:17.262435+00:00",
+            "finished_at": "2026-04-16T02:45:17.262933+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 2,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [
+          "resourceOwner"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b07_s05",
+        "batch": 7,
+        "label": "resourcegroupstaggingapi get-resources",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 resourcegroupstaggingapi get-resources --resources-per-page 5",
+        "service": "resourcegroupstaggingapi",
+        "action": "GetResources",
+        "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+        "body": "{\"ResourcesPerPage\":5}",
+        "headers": [
+          "X-Amz-Target=ResourceGroupsTaggingAPI_20170126.GetResources",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "ResourcesPerPage"
+        ]
+      },
+      "response_body": "{\"PaginationToken\": \"\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/1071cf79\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}, {\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/26509e29\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:17.287063+00:00",
+          "finished_at": "2026-04-16T02:45:21.542362+00:00"
+        },
+        "request": {
+          "service": "resourcegroupstaggingapi",
+          "action": "GetResources",
+          "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetResources",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"ResourcesPerPage\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "resourcegroupstaggingapi",
+            "operation": "GetResources",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetResources"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"PaginationToken\": \"\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/1071cf79\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}, {\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/26509e29\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4255.312,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:21.541102+00:00",
+            "finished_at": "2026-04-16T02:45:21.541522+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "ResourcesPerPage"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 2,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 5
+  }
+}

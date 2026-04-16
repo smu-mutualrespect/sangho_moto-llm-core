@@ -1,0 +1,224 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:50.007942+00:00",
+      "finished_at": "2026-04-16T02:43:50.013721+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "DescribeImages",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImages",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecr",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "repositoryName": "demo"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"imageDetails\": [{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"imageDigest\": \"sha256:2e7187291633c100a35a790cbad7e324d3ff86fc22a6d181fb6371d4da943f4e\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776307430, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776307430, \"vulnerabilitySourceUpdatedAt\": 1776307430, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776307430, \"subjectManifestDigest\": \"sha256:22f0f70ae71fedb368c60e2ff2e193add15b3ae678a2e1924688eac7a6e7f8e5\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776307430, \"lastActivatedAt\": 1776307430}, {\"registryId\": \"123456789012\", \"repositoryName\": \"demo-1\", \"imageDigest\": \"sha256:be125054d758e11853ea0c94e69ac3661ed7c000c1f99537807f6fa4456483e7\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776307430, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776307430, \"vulnerabilitySourceUpdatedAt\": 1776307430, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776307430, \"subjectManifestDigest\": \"sha256:7c3413db0415baec0b10ca3806587d1ba38c92d7c4894146dfe03d2e2a246452\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776307430, \"lastActivatedAt\": 1776307430}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5.795,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:43:50.008575+00:00",
+        "finished_at": "2026-04-16T02:43:50.009242+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:40.256007+00:00",
+      "finished_at": "2026-04-16T02:57:40.268863+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "DescribeImages",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImages",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecr",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "repositoryName": "demo"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"imageDetails\": [{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"imageDigest\": \"sha256:80da3383507bd1808bfc6b82b4db64a3b447a6b738008d221f7f0c1248b54bb2\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776308260, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776308260, \"vulnerabilitySourceUpdatedAt\": 1776308260, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776308260, \"subjectManifestDigest\": \"sha256:1f54ac4cf4bf46ae8cd2faf25f959c3388268eaad8ec25a6e572f10cc78863c4\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776308260, \"lastActivatedAt\": 1776308260}, {\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"imageDigest\": \"sha256:080b3678765006e4c91b2b172dfc53a4dab2d614fbada299f24c0e973f733c67\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776308260, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776308260, \"vulnerabilitySourceUpdatedAt\": 1776308260, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776308260, \"subjectManifestDigest\": \"sha256:c5c6157077678738db54a22bfe27d2c4a90463fbb00a12c1a2b0d00af9471b72\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776308260, \"lastActivatedAt\": 1776308260}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 12.883,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:40.256419+00:00",
+        "finished_at": "2026-04-16T02:57:40.258852+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:33.101727+00:00",
+      "finished_at": "2026-04-16T02:59:33.105808+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "DescribeImages",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImages",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ecr",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "repositoryName": "demo"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"imageDetails\": [{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"imageDigest\": \"sha256:00c87ced4d412fd0ebc4075547bbcfafc085b818b7026688010cb171f65f4ac2\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776308373, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776308373, \"vulnerabilitySourceUpdatedAt\": 1776308373, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776308373, \"subjectManifestDigest\": \"sha256:cfe8d1c521b2e82cc5e899752562aae6c9b9b31dba731f481cba5f7fafd27e25\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776308373, \"lastActivatedAt\": 1776308373}, {\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"imageDigest\": \"sha256:8756957caf56571cc19fe092c77ec28d5efe29a54dffba258e31bfc9162575f5\", \"imageTags\": [\"imageTag\", \"imageTag\"], \"imageSizeInBytes\": 1, \"imagePushedAt\": 1776308373, \"imageScanStatus\": {\"status\": \"IN_PROGRESS\", \"description\": \"description\"}, \"imageScanFindingsSummary\": {\"imageScanCompletedAt\": 1776308373, \"vulnerabilitySourceUpdatedAt\": 1776308373, \"findingSeverityCounts\": {}}, \"imageManifestMediaType\": \"imageManifestMediaType\", \"artifactMediaType\": \"artifactMediaType\", \"lastRecordedPullTime\": 1776308373, \"subjectManifestDigest\": \"sha256:594d2485059bcf09224deb88b2af6a2c85b1f4c1df29a94ea3ea28fd3f646768\", \"imageStatus\": \"ACTIVE\", \"lastArchivedAt\": 1776308373, \"lastActivatedAt\": 1776308373}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4.098,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:33.102035+00:00",
+        "finished_at": "2026-04-16T02:59:33.102498+00:00"
+      }
+    }
+  }
+]

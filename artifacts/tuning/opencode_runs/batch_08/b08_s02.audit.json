@@ -1,0 +1,97 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:58:54.693142+00:00",
+      "finished_at": "2026-04-16T07:59:19.121877+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListFindings",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListFindings",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListFindings",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListFindings"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "inspector2_listfindings_recon",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "findings_count": 2,
+          "next_token_present": false,
+          "account_id": "123456789012",
+          "region": "us-east-1"
+        },
+        "field_hints": {
+          "findings": [
+            {
+              "findingArn": "arn:aws:inspector2:us-east-1:123456789012:finding/9f3c2b1a0d4e5f67",
+              "severity": "MEDIUM",
+              "status": "ACTIVE",
+              "type": "PACKAGE_VULNERABILITY",
+              "resourceType": "AWS_EC2_INSTANCE"
+            },
+            {
+              "findingArn": "arn:aws:inspector2:us-east-1:123456789012:finding/4a7d8c9e1b2f3a60",
+              "severity": "LOW",
+              "status": "ACTIVE",
+              "type": "NETWORK_REACHABILITY",
+              "resourceType": "AWS_EC2_INSTANCE"
+            }
+          ],
+          "nextToken": ""
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/9f3c2b1a0d4e5f67\", \"type\": \"PACKAGE_VULNERABILITY\", \"severity\": \"MEDIUM\", \"status\": \"ACTIVE\"}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:finding/4a7d8c9e1b2f3a60\", \"type\": \"NETWORK_REACHABILITY\", \"severity\": \"LOW\", \"status\": \"ACTIVE\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 24428.746,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 21148.8,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:58:57.965854+00:00",
+        "finished_at": "2026-04-16T07:59:19.121087+00:00"
+      }
+    }
+  }
+]

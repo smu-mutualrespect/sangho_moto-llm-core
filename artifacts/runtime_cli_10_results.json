@@ -1,0 +1,82 @@
+[
+  {
+    "index": 1,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm describe-instance-information",
+    "returncode": 0,
+    "elapsed_ms": 23397.916,
+    "stdout": "{\n    \"InstanceInformationList\": [\n        {\n            \"InstanceId\": \"i-899ce78f30fc2789d\",\n            \"PingStatus\": \"Online\",\n            \"LastPingDateTime\": 1776340015,\n            \"AgentVersion\": \"3.2.700.0\",\n            \"IsLatestVersion\": false,\n            \"PlatformType\": \"Linux\",\n            \"PlatformName\": \"Amazon Linux\",\n            \"PlatformVersion\": \"2\",\n            \"ActivationId\": \"ssm-51de7666\",\n            \"IamRole\": \"ReadOnlyOpsRole\",\n            \"RegistrationDate\": 1776340015,\n            \"ResourceType\": \"ManagedInstance\",\n            \"Name\": \"ip-10-42-0-224\",\n            \"IPAddress\": \"10.42.3.151\",\n            \"ComputerName\": \"ip-10-42-1-184\",\n            \"AssociationStatus\": \"Success\",\n            \"LastAssociationExecutionDate\": 1776340015,\n            \"LastSuccessfulAssociationExecutionDate\": 1776340015,\n            \"AssociationOverview\": {\n                \"DetailedStatus\": \"Success\",\n                \"InstanceAssociationStatusAggregatedCount\": {}\n            },\n            \"SourceId\": \"ssm-a58d1d77\",\n            \"SourceType\": \"AWS::EC2::Instance\"\n        },\n        {\n            \"InstanceId\": \"i-1cc48f4ee828ee3f0\",\n            \"PingStatus\": \"Online\",\n            \"LastPingDateTime\": 1776340015,\n            \"AgentVersion\": \"3.2.700.0\",\n            \"IsLatestVersion\": false,\n            \"PlatformType\": \"Linux\",\n            \"PlatformName\": \"Amazon Linux\",\n            \"PlatformVersion\": \"2\",\n            \"ActivationId\": \"ssm-b0cee9c2\",\n            \"IamRole\": \"ReadOnlyOpsRole\",\n            \"RegistrationDate\": 1776340015,\n            \"ResourceType\": \"ManagedInstance\",\n            \"Name\": \"ip-10-42-3-125\",\n            \"IPAddress\": \"10.42.1.122\",\n            \"ComputerName\": \"ip-10-42-0-95-1\",\n            \"AssociationStatus\": \"Success\",\n            \"LastAssociationExecutionDate\": 1776340015,\n            \"LastSuccessfulAssociationExecutionDate\": 1776340015,\n            \"AssociationOverview\": {\n                \"DetailedStatus\": \"Success\",\n                \"InstanceAssociationStatusAggregatedCount\": {}\n            },\n            \"SourceId\": \"ssm-9151829e\",\n            \"SourceType\": \"AWS::EC2::Instance\"\n        }\n    ]\n}",
+    "stderr": ""
+  },
+  {
+    "index": 2,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+    "returncode": 0,
+    "elapsed_ms": 26143.26,
+    "stdout": "{\n    \"layers\": [],\n    \"failures\": [\n        {\n            \"layerDigest\": \"sha256:abc\",\n            \"failureCode\": \"InvalidLayerDigest\",\n            \"failureReason\": \"Layer digest format is invalid\"\n        }\n    ]\n}",
+    "stderr": ""
+  },
+  {
+    "index": 3,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr get-download-url-for-layer --repository-name demo --layer-digest sha256:abc",
+    "returncode": 0,
+    "elapsed_ms": 24105.275,
+    "stdout": "{\n    \"downloadUrl\": \"mock://ecr/demo/blobs/sha256/abc\",\n    \"layerDigest\": \"sha256:abc\"\n}",
+    "stderr": ""
+  },
+  {
+    "index": 4,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr initiate-layer-upload --repository-name demo",
+    "returncode": 0,
+    "elapsed_ms": 19023.771,
+    "stdout": "{\n    \"uploadId\": \"demo-upload-51de7666\",\n    \"partSize\": 20971520\n}",
+    "stderr": ""
+  },
+  {
+    "index": 5,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ecr complete-layer-upload --repository-name demo --upload-id test --layer-digests sha256:abc",
+    "returncode": 0,
+    "elapsed_ms": 20281.045,
+    "stdout": "{\n    \"registryId\": \"123456789012\",\n    \"repositoryName\": \"demo\",\n    \"uploadId\": \"test\",\n    \"layerDigest\": \"sha256:abc\"\n}",
+    "stderr": ""
+  },
+  {
+    "index": 6,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam get-context-keys-for-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin",
+    "returncode": 0,
+    "elapsed_ms": 21047.315,
+    "stdout": "{\n    \"ContextKeyNames\": []\n}",
+    "stderr": ""
+  },
+  {
+    "index": 7,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam list-service-specific-credentials --user-name victim-admin",
+    "returncode": 0,
+    "elapsed_ms": 17349.547,
+    "stdout": "{\n    \"ServiceSpecificCredentials\": [],\n    \"IsTruncated\": false\n}",
+    "stderr": ""
+  },
+  {
+    "index": 8,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam generate-service-last-accessed-details --arn arn:aws:iam::123456789012:user/victim-admin",
+    "returncode": 0,
+    "elapsed_ms": 18097.83,
+    "stdout": "{\n    \"JobId\": \"job-51de7666\"\n}",
+    "stderr": ""
+  },
+  {
+    "index": 9,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"secretsmanager:GetSecretValue\",\"Resource\":\"*\"}]}'",
+    "returncode": 0,
+    "elapsed_ms": 22720.226,
+    "stdout": "{\n    \"PolicyValidationPassed\": false,\n    \"ValidationErrors\": [\n        {\n            \"CheckName\": \"SECURITY_WARNING\",\n            \"ErrorMessage\": \"This resource policy allows broad access via wildcard principal and action combination.\"\n        }\n    ]\n}",
+    "stderr": ""
+  },
+  {
+    "index": 10,
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=",
+    "returncode": 0,
+    "elapsed_ms": 21939.998,
+    "stdout": "{\n    \"DecodedMessage\": \"{\\\"allowed\\\":false,\\\"explicitDeny\\\":false,\\\"matchedStatements\\\":[],\\\"failures\\\":[{\\\"reason\\\":\\\"MissingContextValues\\\",\\\"contextKeys\\\":[\\\"aws:RequestedRegion\\\"]}],\\\"context\\\":{\\\"principal\\\":{\\\"type\\\":\\\"AssumedRole\\\",\\\"name\\\":\\\"ReadOnlyOpsRole\\\"},\\\"action\\\":\\\"sts:DecodeAuthorizationMessage\\\",\\\"resource\\\":\\\"*\\\"}}\"\n}",
+    "stderr": ""
+  }
+]

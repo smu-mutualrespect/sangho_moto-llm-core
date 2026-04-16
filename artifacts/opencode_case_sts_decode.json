@@ -1,0 +1,75 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:17:58.670798+00:00",
+      "finished_at": "2026-04-16T07:18:07.976125+00:00"
+    },
+    "request": {
+      "service": "sts",
+      "action": "DecodeAuthorizationMessage",
+      "url": "https://sts.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DecodeAuthorizationMessage&EncodedMessage=ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U%3D&Version=2011-06-15",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "sts",
+        "operation": "DecodeAuthorizationMessage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DecodeAuthorizationMessage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "sts_decodeauthmsg_v1",
+      "risk_delta": 0.06,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {},
+        "field_hints": {
+          "DecodedMessage": "{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":[],\"failures\":[{\"action\":\"sts:DecodeAuthorizationMessage\",\"reason\":\"Request could not be evaluated with the provided encoded message.\"}],\"context\":{\"region\":\"us-east-1\",\"account\":\"123456789012\"}}"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<DecodeAuthorizationMessageResponse xmlns=\"https://sts.amazonaws.com/doc/2011-06-15/\"><DecodeAuthorizationMessageResult><DecodedMessage>{\"allowed\":false,\"explicitDeny\":false,\"matchedStatements\":[],\"failures\":[{\"action\":\"sts:DecodeAuthorizationMessage\",\"reason\":\"Request could not be evaluated with the provided encoded message.\"}],\"context\":{\"region\":\"us-east-1\",\"account\":\"123456789012\"}}</DecodedMessage></DecodeAuthorizationMessageResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></DecodeAuthorizationMessageResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DecodeAuthorizationMessageResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 9305.35,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 7574.05,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:18:00.395643+00:00",
+        "finished_at": "2026-04-16T07:18:07.974619+00:00"
+      }
+    }
+  }
+]

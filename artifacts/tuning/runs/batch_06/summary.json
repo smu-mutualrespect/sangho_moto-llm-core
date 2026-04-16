@@ -1,0 +1,528 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b06_s01",
+        "batch": 6,
+        "label": "glue get-databases",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 glue get-databases --max-results 5",
+        "service": "glue",
+        "action": "GetDatabases",
+        "url": "https://glue.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AWSGlue.GetDatabases",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"DatabaseList\": [{\"Name\": \"glue-getdatabases\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-23223e1c\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-7ec419a2\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}, {\"Name\": \"glue-getdatabases-1\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-8294926e\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-25e5c918\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:40.440236+00:00",
+          "finished_at": "2026-04-16T02:44:45.545205+00:00"
+        },
+        "request": {
+          "service": "glue",
+          "action": "GetDatabases",
+          "url": "https://glue.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSGlue.GetDatabases",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "glue",
+            "operation": "GetDatabases",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetDatabases"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"DatabaseList\": [{\"Name\": \"glue-getdatabases\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-23223e1c\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-7ec419a2\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}, {\"Name\": \"glue-getdatabases-1\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-8294926e\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-25e5c918\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5104.986,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:45.542968+00:00",
+            "finished_at": "2026-04-16T02:44:45.543372+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b06_s02",
+        "batch": 6,
+        "label": "athena list-data-catalogs",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 athena list-data-catalogs --max-results 5",
+        "service": "athena",
+        "action": "ListDataCatalogs",
+        "url": "https://athena.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AmazonAthena.ListDataCatalogs",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"athena-listdatacatalogs\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"athena-listdatacatalogs-1\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:45.573981+00:00",
+          "finished_at": "2026-04-16T02:44:50.275298+00:00"
+        },
+        "request": {
+          "service": "athena",
+          "action": "ListDataCatalogs",
+          "url": "https://athena.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonAthena.ListDataCatalogs",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "athena",
+            "operation": "ListDataCatalogs",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListDataCatalogs"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"athena-listdatacatalogs\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"athena-listdatacatalogs-1\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4701.33,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:50.274310+00:00",
+            "finished_at": "2026-04-16T02:44:50.274790+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "MaxResults"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b06_s03",
+        "batch": 6,
+        "label": "redshift-data list-databases",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 redshift-data list-databases --workgroup-name analytics",
+        "service": "redshift-data",
+        "action": "ListDatabases",
+        "url": "https://redshift-data.ap-northeast-2.amazonaws.com/",
+        "body": "{\"WorkgroupName\":\"analytics\"}",
+        "headers": [
+          "X-Amz-Target=RedshiftData.ListDatabases",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "WorkgroupName"
+        ]
+      },
+      "response_body": "{\"Databases\": [\"Database\", \"Database\"], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:50.297653+00:00",
+          "finished_at": "2026-04-16T02:44:55.162656+00:00"
+        },
+        "request": {
+          "service": "redshift-data",
+          "action": "ListDatabases",
+          "url": "https://redshift-data.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "RedshiftData.ListDatabases",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"WorkgroupName\":\"analytics\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "redshift-data",
+            "operation": "ListDatabases",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListDatabases"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "WorkgroupName": "analytics"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Databases\": [\"Database\", \"Database\"], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4865.013,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:44:55.161832+00:00",
+            "finished_at": "2026-04-16T02:44:55.162326+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "WorkgroupName"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b06_s04",
+        "batch": 6,
+        "label": "lakeformation list-permissions",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 lakeformation list-permissions --principal DataLakePrincipalIdentifier=arn:aws:iam::123456789012:user/victim-admin",
+        "service": "lakeformation",
+        "action": "ListPermissions",
+        "url": "https://lakeformation.ap-northeast-2.amazonaws.com/",
+        "body": "{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:aws:iam::123456789012:user/victim-admin\"}}",
+        "headers": [
+          "X-Amz-Target=AWSLakeFormation.ListPermissions",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "DataLakePrincipalIdentifier"
+        ]
+      },
+      "response_body": "{\"PrincipalResourcePermissions\": [{\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-e195d584\"}, \"Database\": {\"CatalogId\": \"lakeformation-2636f0b2\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-d97fa69e\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-a4444182\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-b3bd1581\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/83b52caf\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-4604c281\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-71b659ab\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-4f9cf8a6\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-465f727b\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/0d10cd16\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/dda762dd\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-1230b2a8\"}, \"Database\": {\"CatalogId\": \"lakeformation-29806a67\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-3bd819f2\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-cab4f55f\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-80f820c3\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/a2128077\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-9e7ce6d0\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-92f96723\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-7eff03d7\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-1b037791\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/baf60bc8\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/9476b2a0\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:44:55.185298+00:00",
+          "finished_at": "2026-04-16T02:45:00.116793+00:00"
+        },
+        "request": {
+          "service": "lakeformation",
+          "action": "ListPermissions",
+          "url": "https://lakeformation.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AWSLakeFormation.ListPermissions",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:aws:iam::123456789012:user/victim-admin\"}}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "lakeformation",
+            "operation": "ListPermissions",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListPermissions"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2,
+              "echo_inputs": true
+            },
+            "field_hints": {
+              "DataLakePrincipalIdentifier": "arn:aws:iam::123456789012:user/victim-admin"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"PrincipalResourcePermissions\": [{\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-e195d584\"}, \"Database\": {\"CatalogId\": \"lakeformation-2636f0b2\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-d97fa69e\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-a4444182\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-b3bd1581\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/83b52caf\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-4604c281\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-71b659ab\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-4f9cf8a6\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-465f727b\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/0d10cd16\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/dda762dd\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-1230b2a8\"}, \"Database\": {\"CatalogId\": \"lakeformation-29806a67\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-3bd819f2\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-cab4f55f\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-80f820c3\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/a2128077\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-9e7ce6d0\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-92f96723\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-7eff03d7\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-1b037791\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/baf60bc8\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/9476b2a0\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4931.51,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:00.112351+00:00",
+            "finished_at": "2026-04-16T02:45:00.112854+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "DataLakePrincipalIdentifier"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b06_s05",
+        "batch": 6,
+        "label": "kms list-keys",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 kms list-keys --limit 5",
+        "service": "kms",
+        "action": "ListKeys",
+        "url": "https://kms.ap-northeast-2.amazonaws.com/",
+        "body": "{\"Limit\":5}",
+        "headers": [
+          "X-Amz-Target=TrentService.ListKeys",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "Limit"
+        ]
+      },
+      "response_body": "{\"Keys\": [{\"KeyId\": \"kms-b0c81629\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:listkeys/18af0036\"}, {\"KeyId\": \"kms-6529a896\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:listkeys/f08ab99e\"}], \"NextMarker\": \"\", \"Truncated\": false}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:00.155847+00:00",
+          "finished_at": "2026-04-16T02:45:05.689448+00:00"
+        },
+        "request": {
+          "service": "kms",
+          "action": "ListKeys",
+          "url": "https://kms.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "TrentService.ListKeys",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"Limit\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "kms",
+            "operation": "ListKeys",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListKeys"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Keys\": [{\"KeyId\": \"kms-b0c81629\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:listkeys/18af0036\"}, {\"KeyId\": \"kms-6529a896\", \"KeyArn\": \"arn:aws:kms:us-east-1:123456789012:listkeys/f08ab99e\"}], \"NextMarker\": \"\", \"Truncated\": false}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5533.616,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:05.688439+00:00",
+            "finished_at": "2026-04-16T02:45:05.688908+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "Limit"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 3,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 5
+  }
+}

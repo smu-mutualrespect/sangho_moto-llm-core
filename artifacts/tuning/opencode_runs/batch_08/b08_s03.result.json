@@ -1,0 +1,118 @@
+{
+  "scenario": {
+    "id": "b08_s03",
+    "batch": 8,
+    "label": "detective list-graphs",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 detective list-graphs --max-results 5",
+    "service": "detective",
+    "action": "ListGraphs",
+    "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+    "body": "{\"MaxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AmazonDetective.ListGraphs",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f\", \"CreatedTime\": \"2024-11-21T14:22:09Z\"}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:59:19.141161+00:00",
+      "finished_at": "2026-04-16T07:59:42.770490+00:00"
+    },
+    "request": {
+      "service": "detective",
+      "action": "ListGraphs",
+      "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonDetective.ListGraphs",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "detective",
+        "operation": "ListGraphs",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListGraphs"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "detective_listgraphs_recon_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "graph_count": 1,
+          "account_id": "123456789012",
+          "region": "us-east-1",
+          "graph_arns": [
+            "arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f"
+          ]
+        },
+        "field_hints": {
+          "GraphList": [
+            {
+              "Arn": "arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f",
+              "CreatedTime": "2024-11-21T14:22:09Z"
+            }
+          ],
+          "NextToken": ""
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:graph:9b3d6f1a2c4e7d8f\", \"CreatedTime\": \"2024-11-21T14:22:09Z\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 24449.525,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 21524.586,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:59:21.238903+00:00",
+        "finished_at": "2026-04-16T07:59:42.769904+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 1,
+    "echoed": [
+      "MaxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

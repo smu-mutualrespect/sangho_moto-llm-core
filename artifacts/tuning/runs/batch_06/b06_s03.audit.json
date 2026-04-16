@@ -1,0 +1,76 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:50.297653+00:00",
+      "finished_at": "2026-04-16T02:44:55.162656+00:00"
+    },
+    "request": {
+      "service": "redshift-data",
+      "action": "ListDatabases",
+      "url": "https://redshift-data.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "RedshiftData.ListDatabases",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"WorkgroupName\":\"analytics\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "redshift-data",
+        "operation": "ListDatabases",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDatabases"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "WorkgroupName": "analytics"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Databases\": [\"Database\", \"Database\"], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4865.013,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:55.161832+00:00",
+        "finished_at": "2026-04-16T02:44:55.162326+00:00"
+      }
+    }
+  }
+]

@@ -1,0 +1,121 @@
+{
+  "scenario": {
+    "id": "b04_s02",
+    "batch": 4,
+    "label": "logs describe-log-streams",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 logs describe-log-streams --log-group-name /aws/lambda/prod-payments --limit 5",
+    "service": "logs",
+    "action": "DescribeLogStreams",
+    "url": "https://logs.ap-northeast-2.amazonaws.com/",
+    "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+    "headers": [
+      "X-Amz-Target=Logs_20140328.DescribeLogStreams",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "logGroupName",
+      "limit"
+    ]
+  },
+  "response_body": "{\"logStreams\": [{\"logStreamName\": \"logStreamName\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/52ecc834\", \"storedBytes\": 1}, {\"logStreamName\": \"logStreamName\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/3b23029f\", \"storedBytes\": 1}], \"nextToken\": \"opaque-pagination-token\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:52:10.429070+00:00",
+      "finished_at": "2026-04-16T07:52:26.255268+00:00"
+    },
+    "request": {
+      "service": "logs",
+      "action": "DescribeLogStreams",
+      "url": "https://logs.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Logs_20140328.DescribeLogStreams",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"logGroupName\":\"/aws/lambda/prod-payments\",\"limit\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "logs",
+        "operation": "DescribeLogStreams",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeLogStreams"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "logs_describe_streams_prod_payments",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "logStreams_count": 5,
+          "logGroupName": "/aws/lambda/prod-payments",
+          "nextToken_present": true
+        },
+        "field_hints": {
+          "logStreams.name_pattern": "2026/04/16/[$LATEST]{8hex}",
+          "logStreams.arn_region": "us-east-1",
+          "logStreams.arn_account": "123456789012",
+          "logStreams.storedBytes_range": [
+            0,
+            1048576
+          ],
+          "logStreams.creationTime": "recent_descending",
+          "logStreams.lastEventTimestamp": "recent",
+          "nextToken": "opaque-pagination-token"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"logStreams\": [{\"logStreamName\": \"logStreamName\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/52ecc834\", \"storedBytes\": 1}, {\"logStreamName\": \"logStreamName\", \"creationTime\": 1, \"firstEventTimestamp\": 1, \"lastEventTimestamp\": 1, \"lastIngestionTime\": 1, \"uploadSequenceToken\": \"\", \"arn\": \"arn:aws:logs:us-east-1:123456789012:describelogstreams/3b23029f\", \"storedBytes\": 1}], \"nextToken\": \"opaque-pagination-token\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 15826.211,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 15818.589,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:52:10.429245+00:00",
+        "finished_at": "2026-04-16T07:52:26.254591+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 2,
+    "echoed": [
+      "limit"
+    ],
+    "missing_echo": [
+      "logGroupName"
+    ],
+    "placeholder_hits": []
+  }
+}

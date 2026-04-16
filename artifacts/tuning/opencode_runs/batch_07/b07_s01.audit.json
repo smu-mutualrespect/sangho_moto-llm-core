@@ -1,0 +1,95 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:57:07.061044+00:00",
+      "finished_at": "2026-04-16T07:57:28.956909+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListAccounts",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListAccounts",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListAccounts",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListAccounts"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "org_listaccounts_recon",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "accounts_count": 5,
+          "include_next_token": true,
+          "account_ids": [
+            "123456789012",
+            "210987654321",
+            "345678901234",
+            "456789012345",
+            "567890123456"
+          ]
+        },
+        "field_hints": {
+          "Accounts_statuses": [
+            "ACTIVE",
+            "ACTIVE",
+            "ACTIVE",
+            "SUSPENDED",
+            "ACTIVE"
+          ],
+          "Accounts_join_method": "INVITED",
+          "Accounts_joined_timestamp_bias": "historical_mixed",
+          "NextToken": "acct-page-2"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Accounts\": [{\"Id\": \"organizations-cee54eb5\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/dafb0730\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776326248}, {\"Id\": \"organizations-560a33e1\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listaccounts/a522bd6c\", \"Email\": \"Email\", \"Name\": \"organizations-listaccounts\", \"Status\": \"ACTIVE\", \"State\": \"PENDING_ACTIVATION\", \"Paths\": [\"Path\", \"Path\"], \"JoinedMethod\": \"INVITED\", \"JoinedTimestamp\": 1776326248}], \"NextToken\": \"acct-page-2\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 22789.199,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 19783.692,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:57:10.043133+00:00",
+        "finished_at": "2026-04-16T07:57:28.954137+00:00"
+      }
+    }
+  }
+]

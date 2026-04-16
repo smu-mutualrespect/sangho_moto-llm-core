@@ -1,0 +1,78 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-14T05:16:01.440001+00:00",
+      "finished_at": "2026-04-14T05:16:03.067262+00:00"
+    },
+    "request": {
+      "service": "ssm",
+      "action": "DescribeInstanceInformation",
+      "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeInstanceInformation&Version=2014-11-06",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ssm",
+        "operation": "DescribeInstanceInformation",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeInstanceInformation"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ssm-describe-instance-information",
+      "risk_delta": 0.15,
+      "reason_tags": [
+        "credential_probe",
+        "region_sweep",
+        "high_rate"
+      ]
+    },
+    "response": {
+      "body": "{\"InstanceInformationList\": [{\"InstanceId\": \"i-9ad4f251033303ae6\", \"PingStatus\": \"Online\", \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"AgentVersion\": \"3.2.700.0\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 2130.812,
+      "llm": {
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "usage": {
+          "input_tokens": 385,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 90,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 475
+        },
+        "duration_ms": 2123.439,
+        "response_id": "resp_0057cab87e4f5c0c0069ddcd9175bc819697a9d77be2cf7a06",
+        "started_at": "2026-04-14T05:16:01.440280+00:00",
+        "finished_at": "2026-04-14T05:16:03.066305+00:00"
+      }
+    }
+  }
+]

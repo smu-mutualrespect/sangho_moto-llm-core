@@ -10,11 +10,8 @@ from moto.core.base_backend import BackendDict
 from moto.core.common_types import TYPE_RESPONSE
 from moto.core.config import passthrough_service, passthrough_url, service_whitelisted
 from moto.core.exceptions import ServiceNotWhitelisted
-from moto.core.llm_fallback import (
-    build_llm_fallback_json,
-    call_claude_api,
-    call_gpt_api,
-)
+from moto.core.llm_fallback import build_llm_fallback_json
+from moto.core.llm_agents import handle_aws_request
 from moto.core.utils import get_equivalent_url_in_aws_domain
 
 
@@ -103,20 +100,16 @@ class BotocoreStubber:
 
         if re.compile(r"https?://.+\.amazonaws.com/.*").match(clean_url):
             # AWS URL은 맞지만 moto backend URL 매칭이 없을 때 fallback을 시도한다.
-            prompt = f"""
-service=None
-action=None
-url={request.url}
-headers={dict(request.headers)}
-body={getattr(request, "body", None)}
-reason=No moto backend matched this AWS URL
-source=botocore_stubber.process_request.no_backend_match
-"""
             try:
-                if os.getenv("MOTO_LLM_PROVIDER", "").lower() == "claude":
-                    fallback_text = call_claude_api(prompt)
-                else:
-                    fallback_text = call_gpt_api(prompt)
+                fallback_text = handle_aws_request(
+                    service=None,
+                    action=None,
+                    url=request.url,
+                    headers=dict(request.headers),
+                    body=getattr(request, "body", None),
+                    reason="No moto backend matched this AWS URL",
+                    source="botocore_stubber.process_request.no_backend_match",
+                )
                 return 200, {}, fallback_text
             except Exception:
                 # fallback 호출이 실패하면 실험용 JSON 응답을 반환한다.

@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b06_s02",
+    "batch": 6,
+    "label": "athena list-data-catalogs",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 athena list-data-catalogs --max-results 5",
+    "service": "athena",
+    "action": "ListDataCatalogs",
+    "url": "https://athena.ap-northeast-2.amazonaws.com/",
+    "body": "{\"MaxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AmazonAthena.ListDataCatalogs",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"athena-listdatacatalogs\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"athena-listdatacatalogs-1\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:45.573981+00:00",
+      "finished_at": "2026-04-16T02:44:50.275298+00:00"
+    },
+    "request": {
+      "service": "athena",
+      "action": "ListDataCatalogs",
+      "url": "https://athena.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonAthena.ListDataCatalogs",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "athena",
+        "operation": "ListDataCatalogs",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDataCatalogs"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"DataCatalogsSummary\": [{\"CatalogName\": \"athena-listdatacatalogs\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}, {\"CatalogName\": \"athena-listdatacatalogs-1\", \"Type\": \"LAMBDA\", \"Status\": \"CREATE_IN_PROGRESS\", \"ConnectionType\": \"DYNAMODB\", \"Error\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic athena:ListDataCatalogs\\\"}\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4701.33,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:50.274310+00:00",
+        "finished_at": "2026-04-16T02:44:50.274790+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "MaxResults"
+    ],
+    "placeholder_hits": []
+  }
+}

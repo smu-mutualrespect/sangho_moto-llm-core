@@ -1,0 +1,91 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:53:19.738618+00:00",
+      "finished_at": "2026-04-16T07:53:42.745575+00:00"
+    },
+    "request": {
+      "service": "lambda",
+      "action": "ListFunctions",
+      "url": "https://lambda.ap-northeast-2.amazonaws.com/2015-03-31/functions/",
+      "headers": {
+        "X-Amz-Target": "Lambda.ListFunctions",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxItems\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "lambda",
+        "operation": "ListFunctions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListFunctions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "lambda_listfunctions_a1",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "function_count": 5,
+          "include_next_marker": true,
+          "region": "us-east-1",
+          "account_id": "123456789012"
+        },
+        "field_hints": {
+          "max_items": 5,
+          "function_name_prefixes": [
+            "ops-",
+            "billing-",
+            "inventory-",
+            "notify-"
+          ],
+          "runtime_family": "python,nodejs",
+          "state": "Active",
+          "last_modified_recency": "mixed",
+          "next_marker_style": "opaque_pagination_token"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"NextMarker\": \"\", \"Functions\": [{\"FunctionName\": \"FunctionName\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/e0f29336\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/ef1d3dc0\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-8d91d163\", \"lambda-94ccd116\"], \"SecurityGroupIds\": [\"lambda-4323b756\", \"lambda-753f15fd\"], \"VpcId\": \"lambda-c8548fd2\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/594a3130\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/2d6da827\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/04fb1430\", \"RevisionId\": \"lambda-e5356c5e\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/40084495\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/52e9a577\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/ec60f6d9\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/51683a50\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/bd7c85e6\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/bb4a743f\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/7e3618df\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/9ed1353e\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/9afad8be\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/e260833a\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/fa4b531c\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/56941eea\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}, {\"FunctionName\": \"FunctionName\", \"FunctionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/fc6dec71\", \"Runtime\": \"nodejs\", \"Role\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a7b0f63f\", \"Handler\": \"Handler\", \"CodeSize\": 1, \"Description\": \"Description\", \"Timeout\": 1, \"MemorySize\": 1, \"LastModified\": \"LastModified\", \"CodeSha256\": \"CodeSha256\", \"Version\": \"1\", \"VpcConfig\": {\"SubnetIds\": [\"lambda-4b777b41\", \"lambda-5bbbac40\"], \"SecurityGroupIds\": [\"lambda-da1998c3\", \"lambda-46d4839e\"], \"VpcId\": \"lambda-266c75a7\", \"Ipv6AllowedForDualStack\": false}, \"DeadLetterConfig\": {\"TargetArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/23664322\"}, \"Environment\": {\"Variables\": {}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"KMSKeyArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/602f3198\", \"TracingConfig\": {\"Mode\": \"Active\"}, \"MasterArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/6f96b43f\", \"RevisionId\": \"lambda-7f75f627\", \"Layers\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/ffaaf4b0\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/43088f95\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/31d03221\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/4fb9adfb\", \"CodeSize\": 1, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/b03e855e\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/a4a6ec85\"}], \"State\": \"Active\", \"StateReason\": \"running\", \"StateReasonCode\": \"Idle\", \"LastUpdateStatus\": \"Successful\", \"LastUpdateStatusReason\": \"LastUpdateStatusReason\", \"LastUpdateStatusReasonCode\": \"EniLimitExceeded\", \"FileSystemConfigs\": [{\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/593fb2e0\", \"LocalMountPath\": \"LocalMountPath\"}, {\"Arn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/7bfa1289\", \"LocalMountPath\": \"LocalMountPath\"}], \"PackageType\": \"Zip\", \"ImageConfigResponse\": {\"ImageConfig\": {\"EntryPoint\": [\"EntryPoint\", \"EntryPoint\"], \"Command\": [\"Command\", \"Command\"], \"WorkingDirectory\": \"WorkingDirectory\"}, \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"SigningProfileVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/5d3ae973\", \"SigningJobArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/f94ce4e8\", \"Architectures\": [\"x86_64\", \"x86_64\"], \"EphemeralStorage\": {\"Size\": 1}, \"SnapStart\": {\"ApplyOn\": \"PublishedVersions\", \"OptimizationStatus\": \"On\"}, \"RuntimeVersionConfig\": {\"RuntimeVersionArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/460687e7\", \"Error\": {\"ErrorCode\": \"ErrorCode\", \"Message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic lambda:ListFunctions\\\"}\"}}, \"LoggingConfig\": {\"LogFormat\": \"JSON\", \"ApplicationLogLevel\": \"TRACE\", \"SystemLogLevel\": \"DEBUG\", \"LogGroup\": \"LogGroup\"}, \"CapacityProviderConfig\": {\"LambdaManagedInstancesCapacityProviderConfig\": {\"CapacityProviderArn\": \"arn:aws:lambda:us-east-1:123456789012:listfunctions/d354cf4a\", \"PerExecutionEnvironmentMaxConcurrency\": 1, \"ExecutionEnvironmentMemoryGiBPerVCpu\": 1.0}}, \"ConfigSha256\": \"ConfigSha256\", \"DurableConfig\": {\"RetentionPeriodInDays\": 1, \"ExecutionTimeout\": 1}, \"TenancyConfig\": {\"TenantIsolationMode\": \"PER_TENANT\"}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 23873.282,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 21209.803,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:53:22.390701+00:00",
+        "finished_at": "2026-04-16T07:53:42.743178+00:00"
+      }
+    }
+  }
+]

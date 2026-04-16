@@ -1,0 +1,99 @@
+{
+  "scenario": {
+    "id": "b01_s04",
+    "batch": 1,
+    "label": "iam generate-service-last-accessed-details",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam generate-service-last-accessed-details --arn arn:aws:iam::123456789012:user/victim-admin",
+    "service": "iam",
+    "action": "GenerateServiceLastAccessedDetails",
+    "url": "https://iam.amazonaws.com/",
+    "body": "Action=GenerateServiceLastAccessedDetails&Arn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&Version=2010-05-08",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<GenerateServiceLastAccessedDetailsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GenerateServiceLastAccessedDetailsResult><JobId>job-0f2f834330</JobId></GenerateServiceLastAccessedDetailsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GenerateServiceLastAccessedDetailsResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:32.931866+00:00",
+      "finished_at": "2026-04-16T02:59:32.932935+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "GenerateServiceLastAccessedDetails",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=GenerateServiceLastAccessedDetails&Arn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "GenerateServiceLastAccessedDetails",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GenerateServiceLastAccessedDetails"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "Arn": "arn:aws:iam::123456789012:user/victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<GenerateServiceLastAccessedDetailsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GenerateServiceLastAccessedDetailsResult><JobId>job-0f2f834330</JobId></GenerateServiceLastAccessedDetailsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GenerateServiceLastAccessedDetailsResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "GenerateServiceLastAccessedDetailsResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.081,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.932160+00:00",
+        "finished_at": "2026-04-16T02:59:32.932539+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "scenario": {
+    "id": "b01_s01",
+    "batch": 1,
+    "label": "iam simulate-principal-policy",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 iam simulate-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin --action-names iam:CreateAccessKey",
+    "service": "iam",
+    "action": "SimulatePrincipalPolicy",
+    "url": "https://iam.amazonaws.com/",
+    "body": "Action=SimulatePrincipalPolicy&PolicySourceArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&ActionNames.member.1=iam%3ACreateAccessKey&Version=2010-05-08",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<SimulatePrincipalPolicyResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><SimulatePrincipalPolicyResult><EvaluationResults><member><EvalActionName>EvalActionName</EvalActionName><EvalResourceName>EvalResourceName</EvalResourceName><EvalDecision>allowed</EvalDecision><MatchedStatements><member><SourcePolicyId>iam-d631082d</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member><member><SourcePolicyId>iam-e7a36d3b</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member></MatchedStatements><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><OrganizationsDecisionDetail><AllowedByOrganizations>false</AllowedByOrganizations></OrganizationsDecisionDetail><PermissionsBoundaryDecisionDetail><AllowedByPermissionsBoundary>false</AllowedByPermissionsBoundary></PermissionsBoundaryDecisionDetail><EvalDecisionDetails/><ResourceSpecificResults><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member></ResourceSpecificResults></member><member><EvalActionName>EvalActionName</EvalActionName><EvalResourceName>EvalResourceName</EvalResourceName><EvalDecision>allowed</EvalDecision><MatchedStatements><member><SourcePolicyId>iam-89a848ae</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member><member><SourcePolicyId>iam-54aec6b6</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member></MatchedStatements><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><OrganizationsDecisionDetail><AllowedByOrganizations>false</AllowedByOrganizations></OrganizationsDecisionDetail><PermissionsBoundaryDecisionDetail><AllowedByPermissionsBoundary>false</AllowedByPermissionsBoundary></PermissionsBoundaryDecisionDetail><EvalDecisionDetails/><ResourceSpecificResults><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member></ResourceSpecificResults></member></EvaluationResults><IsTruncated>false</IsTruncated><Marker/></SimulatePrincipalPolicyResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></SimulatePrincipalPolicyResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:25.905084+00:00",
+      "finished_at": "2026-04-16T02:59:32.790114+00:00"
+    },
+    "request": {
+      "service": "iam",
+      "action": "SimulatePrincipalPolicy",
+      "url": "https://iam.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=SimulatePrincipalPolicy&PolicySourceArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Auser%2Fvictim-admin&ActionNames.member.1=iam%3ACreateAccessKey&Version=2010-05-08",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "iam",
+        "operation": "SimulatePrincipalPolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "SimulatePrincipalPolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "PolicySourceArn": "arn:aws:iam::123456789012:user/victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "<SimulatePrincipalPolicyResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><SimulatePrincipalPolicyResult><EvaluationResults><member><EvalActionName>EvalActionName</EvalActionName><EvalResourceName>EvalResourceName</EvalResourceName><EvalDecision>allowed</EvalDecision><MatchedStatements><member><SourcePolicyId>iam-d631082d</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member><member><SourcePolicyId>iam-e7a36d3b</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member></MatchedStatements><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><OrganizationsDecisionDetail><AllowedByOrganizations>false</AllowedByOrganizations></OrganizationsDecisionDetail><PermissionsBoundaryDecisionDetail><AllowedByPermissionsBoundary>false</AllowedByPermissionsBoundary></PermissionsBoundaryDecisionDetail><EvalDecisionDetails/><ResourceSpecificResults><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member></ResourceSpecificResults></member><member><EvalActionName>EvalActionName</EvalActionName><EvalResourceName>EvalResourceName</EvalResourceName><EvalDecision>allowed</EvalDecision><MatchedStatements><member><SourcePolicyId>iam-89a848ae</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member><member><SourcePolicyId>iam-54aec6b6</SourcePolicyId><SourcePolicyType>user</SourcePolicyType><StartPosition/><EndPosition/></member></MatchedStatements><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><OrganizationsDecisionDetail><AllowedByOrganizations>false</AllowedByOrganizations></OrganizationsDecisionDetail><PermissionsBoundaryDecisionDetail><AllowedByPermissionsBoundary>false</AllowedByPermissionsBoundary></PermissionsBoundaryDecisionDetail><EvalDecisionDetails/><ResourceSpecificResults><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member><member><EvalResourceName>EvalResourceName</EvalResourceName><EvalResourceDecision>allowed</EvalResourceDecision><MatchedStatements/><MissingContextValues><member>MissingContextValue</member><member>MissingContextValue</member></MissingContextValues><EvalDecisionDetails/><PermissionsBoundaryDecisionDetail/></member></ResourceSpecificResults></member></EvaluationResults><IsTruncated>false</IsTruncated><Marker/></SimulatePrincipalPolicyResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></SimulatePrincipalPolicyResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "SimulatePrincipalPolicyResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6885.052,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:32.725612+00:00",
+        "finished_at": "2026-04-16T02:59:32.787231+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

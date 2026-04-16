@@ -1,0 +1,286 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:46:20.694911+00:00",
+      "finished_at": "2026-04-16T02:46:25.205838+00:00"
+    },
+    "request": {
+      "service": "servicecatalog",
+      "action": "SearchProducts",
+      "url": "https://servicecatalog.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWS242ServiceCatalogService.SearchProducts",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"PageSize\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "servicecatalog",
+        "operation": "SearchProducts",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "SearchProducts"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"ProductViewSummaries\": [{\"Id\": \"servicecatalog-ca256d23\", \"ProductId\": \"servicecatalog-2dff0346\", \"Name\": \"servicecatalog-searchproducts\", \"Owner\": \"Owner\", \"ShortDescription\": \"ShortDescription\", \"Type\": \"CLOUD_FORMATION_TEMPLATE\", \"Distributor\": \"Distributor\", \"HasDefaultPath\": false, \"SupportEmail\": \"SupportEmail\", \"SupportDescription\": \"SupportDescription\", \"SupportUrl\": \"mock://servicecatalog/searchproducts/915f978ddd5c\"}, {\"Id\": \"servicecatalog-14728bbc\", \"ProductId\": \"servicecatalog-6ada1c2b\", \"Name\": \"servicecatalog-searchproducts-1\", \"Owner\": \"Owner\", \"ShortDescription\": \"ShortDescription\", \"Type\": \"CLOUD_FORMATION_TEMPLATE\", \"Distributor\": \"Distributor\", \"HasDefaultPath\": false, \"SupportEmail\": \"SupportEmail\", \"SupportDescription\": \"SupportDescription\", \"SupportUrl\": \"mock://servicecatalog/searchproducts/2f1b237eff6a\"}], \"ProductViewAggregations\": {}, \"NextPageToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4510.949,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:46:25.204094+00:00",
+        "finished_at": "2026-04-16T02:46:25.204716+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:54:33.560019+00:00",
+      "finished_at": "2026-04-16T02:54:39.751497+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListPolicies",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListPolicies",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Filter\":\"SERVICE_CONTROL_POLICY\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListPolicies",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListPolicies"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Policies\": [{\"Id\": \"organizations-e39da7c8\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/4c1f1f30\", \"Name\": \"organizations-listpolicies\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}, {\"Id\": \"organizations-9bbc46a7\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/1cc05c64\", \"Name\": \"organizations-listpolicies-1\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 7209.187,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:54:39.750568+00:00",
+        "finished_at": "2026-04-16T02:54:39.750954+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:47.620729+00:00",
+      "finished_at": "2026-04-16T02:57:56.780414+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListPolicies",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListPolicies",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Filter\":\"SERVICE_CONTROL_POLICY\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListPolicies",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListPolicies"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Policies\": [{\"Id\": \"organizations-135adb5d\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/bd54afe4\", \"Name\": \"organizations-listpolicies\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}, {\"Id\": \"organizations-688814cd\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/0f2de86a\", \"Name\": \"organizations-listpolicies\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 9159.702,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:56.778612+00:00",
+        "finished_at": "2026-04-16T02:57:56.779340+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:38.432629+00:00",
+      "finished_at": "2026-04-16T02:59:42.402331+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListPolicies",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListPolicies",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Filter\":\"SERVICE_CONTROL_POLICY\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListPolicies",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListPolicies"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Policies\": [{\"Id\": \"organizations-c244344e\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/7d415a66\", \"Name\": \"organizations-listpolicies\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}, {\"Id\": \"organizations-95b5785c\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:listpolicies/0238a66d\", \"Name\": \"organizations-listpolicies\", \"Description\": \"Description\", \"Type\": \"SERVICE_CONTROL_POLICY\", \"AwsManaged\": false}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 3969.723,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:42.401300+00:00",
+        "finished_at": "2026-04-16T02:59:42.401680+00:00"
+      }
+    }
+  }
+]

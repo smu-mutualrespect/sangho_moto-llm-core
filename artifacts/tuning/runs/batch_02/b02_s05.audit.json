@@ -1,0 +1,224 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:43:39.104010+00:00",
+      "finished_at": "2026-04-16T02:43:39.105814+00:00"
+    },
+    "request": {
+      "service": "secretsmanager",
+      "action": "GetResourcePolicy",
+      "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "secretsmanager.GetResourcePolicy",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"SecretId\":\"prod/db/password\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "secretsmanager",
+        "operation": "GetResourcePolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResourcePolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "SecretId": "prod/db/password"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"ARN\": \"arn:aws:secretsmanager:us-east-1:123456789012:getresourcepolicy/e3c577e9\", \"Name\": \"secretsmanager-getresourcepolicy\", \"ResourcePolicy\": \"ResourcePolicy\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.824,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:43:39.104556+00:00",
+        "finished_at": "2026-04-16T02:43:39.105391+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:48.270806+00:00",
+      "finished_at": "2026-04-16T02:57:48.272358+00:00"
+    },
+    "request": {
+      "service": "secretsmanager",
+      "action": "GetResourcePolicy",
+      "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "secretsmanager.GetResourcePolicy",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"SecretId\":\"prod/db/password\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "secretsmanager",
+        "operation": "GetResourcePolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResourcePolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "SecretId": "prod/db/password"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"ARN\": \"arn:aws:secretsmanager:us-east-1:123456789012:getresourcepolicy/b1af7d80\", \"Name\": \"secretsmanager-getresourcepolicy\", \"ResourcePolicy\": \"ResourcePolicy\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.573,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:48.271299+00:00",
+        "finished_at": "2026-04-16T02:57:48.271826+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:38.635265+00:00",
+      "finished_at": "2026-04-16T02:59:38.636348+00:00"
+    },
+    "request": {
+      "service": "secretsmanager",
+      "action": "GetResourcePolicy",
+      "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "secretsmanager.GetResourcePolicy",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"SecretId\":\"prod/db/password\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "secretsmanager",
+        "operation": "GetResourcePolicy",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResourcePolicy"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "SecretId": "prod/db/password"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"ARN\": \"arn:aws:secretsmanager:us-east-1:123456789012:getresourcepolicy/d97d4311\", \"Name\": \"password\", \"ResourcePolicy\": \"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[]}\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 1.094,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:38.635550+00:00",
+        "finished_at": "2026-04-16T02:59:38.636064+00:00"
+      }
+    }
+  }
+]

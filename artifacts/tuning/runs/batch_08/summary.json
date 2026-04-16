@@ -1,0 +1,518 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b08_s01",
+        "batch": 8,
+        "label": "guardduty list-detectors",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 guardduty list-detectors --max-results 5",
+        "service": "guardduty",
+        "action": "ListDetectors",
+        "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=GuardDuty.ListDetectors",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"detectorIds\": [\"guardduty-a01638c7\", \"guardduty-699eeae3\"], \"nextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:21.578435+00:00",
+          "finished_at": "2026-04-16T02:45:25.912085+00:00"
+        },
+        "request": {
+          "service": "guardduty",
+          "action": "ListDetectors",
+          "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "GuardDuty.ListDetectors",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "guardduty",
+            "operation": "ListDetectors",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListDetectors"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"detectorIds\": [\"guardduty-a01638c7\", \"guardduty-699eeae3\"], \"nextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4333.661,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:25.911156+00:00",
+            "finished_at": "2026-04-16T02:45:25.911649+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "maxResults"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s02",
+        "batch": 8,
+        "label": "inspector2 list-findings",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 inspector2 list-findings --max-results 5",
+        "service": "inspector2",
+        "action": "ListFindings",
+        "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+        "body": "{\"maxResults\":5}",
+        "headers": [
+          "X-Amz-Target=Inspector2.ListFindings",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "maxResults"
+        ]
+      },
+      "response_body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/76e070aa\", \"awsAccountId\": \"inspector2-916d75c3\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/3c067376a8da\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-b96592f5\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-8cd75d24\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-0a28ece0\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/d2ed9f15397e\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/2ac4105b846c\", \"mock://inspector2/listfindings/ff36a1d85d94\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/42bda1740bd3\", \"mock://inspector2/listfindings/956527cec3f7\"], \"ruleId\": \"inspector2-0d5cd713\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/34342c28\", \"detectorId\": \"inspector2-eae84f91\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/5dd59464\", \"awsAccountId\": \"inspector2-48b49e56\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/02143dd9e0ab\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-696d8a0e\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-5a55179c\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-7ec3bbec\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/a00e1c9b82b4\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/17b4d42448b9\", \"mock://inspector2/listfindings/713bef27a5f5\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/ae86a0dd82a5\", \"mock://inspector2/listfindings/0d5f4a733d09\"], \"ruleId\": \"inspector2-9791d8c0\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/e38c6fb5\", \"detectorId\": \"inspector2-376156c8\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:25.941251+00:00",
+          "finished_at": "2026-04-16T02:45:30.753069+00:00"
+        },
+        "request": {
+          "service": "inspector2",
+          "action": "ListFindings",
+          "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Inspector2.ListFindings",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"maxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "inspector2",
+            "operation": "ListFindings",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListFindings"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"nextToken\": \"\", \"findings\": [{\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/76e070aa\", \"awsAccountId\": \"inspector2-916d75c3\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/3c067376a8da\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-b96592f5\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-8cd75d24\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-0a28ece0\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/d2ed9f15397e\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/2ac4105b846c\", \"mock://inspector2/listfindings/ff36a1d85d94\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/42bda1740bd3\", \"mock://inspector2/listfindings/956527cec3f7\"], \"ruleId\": \"inspector2-0d5cd713\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/34342c28\", \"detectorId\": \"inspector2-eae84f91\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}, {\"findingArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/5dd59464\", \"awsAccountId\": \"inspector2-48b49e56\", \"type\": \"NETWORK_REACHABILITY\", \"description\": \"description\", \"title\": \"title\", \"remediation\": {\"recommendation\": {\"text\": \"text\", \"Url\": \"mock://inspector2/listfindings/02143dd9e0ab\"}}, \"severity\": \"INFORMATIONAL\", \"firstObservedAt\": 1776307530, \"lastObservedAt\": 1776307530, \"updatedAt\": 1776307530, \"status\": \"ACTIVE\", \"resources\": [{\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-696d8a0e\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}, {\"type\": \"AWS_EC2_INSTANCE\", \"id\": \"inspector2-5a55179c\", \"partition\": \"partition\", \"region\": \"region\", \"tags\": {}, \"details\": {}}], \"inspectorScore\": 1.0, \"inspectorScoreDetails\": {\"adjustedCvss\": {\"scoreSource\": \"scoreSource\", \"cvssSource\": \"cvssSource\", \"version\": \"1\", \"score\": 1.0, \"scoringVector\": \"scoringVector\", \"adjustments\": [{}, {}]}}, \"networkReachabilityDetails\": {\"openPortRange\": {\"begin\": 1, \"end\": 1}, \"protocol\": \"TCP\", \"networkPath\": {\"steps\": [{}, {}]}}, \"packageVulnerabilityDetails\": {\"vulnerabilityId\": \"inspector2-7ec3bbec\", \"vulnerablePackages\": [{}, {}], \"source\": \"source\", \"cvss\": [{}, {}], \"relatedVulnerabilities\": [\"relatedVulnerabilitie\", \"relatedVulnerabilitie\"], \"sourceUrl\": \"mock://inspector2/listfindings/a00e1c9b82b4\", \"vendorSeverity\": \"vendorSeverity\", \"vendorCreatedAt\": 1776307530, \"vendorUpdatedAt\": 1776307530, \"referenceUrls\": [\"mock://inspector2/listfindings/17b4d42448b9\", \"mock://inspector2/listfindings/713bef27a5f5\"]}, \"fixAvailable\": \"YES\", \"exploitAvailable\": \"YES\", \"exploitabilityDetails\": {\"lastKnownExploitAt\": 1776307530}, \"codeVulnerabilityDetails\": {\"filePath\": {\"fileName\": \"inspector2-listfindings\", \"filePath\": \"filePath\", \"startLine\": 1, \"endLine\": 1}, \"detectorTags\": [\"detectorTag\", \"detectorTag\"], \"referenceUrls\": [\"mock://inspector2/listfindings/ae86a0dd82a5\", \"mock://inspector2/listfindings/0d5f4a733d09\"], \"ruleId\": \"inspector2-9791d8c0\", \"sourceLambdaLayerArn\": \"arn:aws:inspector2:us-east-1:123456789012:listfindings/e38c6fb5\", \"detectorId\": \"inspector2-376156c8\", \"detectorName\": \"inspector2-listfindings\", \"cwes\": [\"cwe\", \"cwe\"]}, \"epss\": {\"score\": 1.0}}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4811.835,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:30.745635+00:00",
+            "finished_at": "2026-04-16T02:45:30.746145+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "maxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s03",
+        "batch": 8,
+        "label": "detective list-graphs",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 detective list-graphs --max-results 5",
+        "service": "detective",
+        "action": "ListGraphs",
+        "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=AmazonDetective.ListGraphs",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/10a9a764\", \"CreatedTime\": \"2026-04-16T02:45:36Z\"}, {\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/bc8bc64d\", \"CreatedTime\": \"2026-04-16T02:45:36Z\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:30.786084+00:00",
+          "finished_at": "2026-04-16T02:45:36.639270+00:00"
+        },
+        "request": {
+          "service": "detective",
+          "action": "ListGraphs",
+          "url": "https://api.detective.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "AmazonDetective.ListGraphs",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "detective",
+            "operation": "ListGraphs",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListGraphs"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/10a9a764\", \"CreatedTime\": \"2026-04-16T02:45:36Z\"}, {\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/bc8bc64d\", \"CreatedTime\": \"2026-04-16T02:45:36Z\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5853.23,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:36.637773+00:00",
+            "finished_at": "2026-04-16T02:45:36.638217+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s04",
+        "batch": 8,
+        "label": "backup list-backup-vaults",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 backup list-backup-vaults --max-results 5",
+        "service": "backup",
+        "action": "ListBackupVaults",
+        "url": "https://backup.ap-northeast-2.amazonaws.com/",
+        "body": "{\"MaxResults\":5}",
+        "headers": [
+          "X-Amz-Target=BackupStorage.ListBackupVaults",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"BackupVaultList\": [{\"BackupVaultName\": \"backup-listbackupvaults\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/a1e28cd2\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/612db086\", \"CreatorRequestId\": \"req-6356c011b7a6d653\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}, {\"BackupVaultName\": \"backup-listbackupvaults-1\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/c99f1cb5\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/5af097ee\", \"CreatorRequestId\": \"req-9722965bc99fc052\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:36.666964+00:00",
+          "finished_at": "2026-04-16T02:45:40.139800+00:00"
+        },
+        "request": {
+          "service": "backup",
+          "action": "ListBackupVaults",
+          "url": "https://backup.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "BackupStorage.ListBackupVaults",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"MaxResults\":5}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "backup",
+            "operation": "ListBackupVaults",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ListBackupVaults"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"BackupVaultList\": [{\"BackupVaultName\": \"backup-listbackupvaults\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/a1e28cd2\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/612db086\", \"CreatorRequestId\": \"req-6356c011b7a6d653\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}, {\"BackupVaultName\": \"backup-listbackupvaults-1\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/c99f1cb5\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/5af097ee\", \"CreatorRequestId\": \"req-9722965bc99fc052\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 4474.934,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:40.137184+00:00",
+            "finished_at": "2026-04-16T02:45:40.137627+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b08_s05",
+        "batch": 8,
+        "label": "macie2 get-macie-session",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 macie2 get-macie-session",
+        "service": "macie2",
+        "action": "GetMacieSession",
+        "url": "https://macie2.ap-northeast-2.amazonaws.com/",
+        "body": "{}",
+        "headers": [
+          "X-Amz-Target=Macie2.GetMacieSession",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"createdAt\": \"2026-04-16T02:45:45Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"serviceRole\", \"status\": \"PAUSED\", \"updatedAt\": \"2026-04-16T02:45:45Z\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T02:45:40.162554+00:00",
+          "finished_at": "2026-04-16T02:45:45.841695+00:00"
+        },
+        "request": {
+          "service": "macie2",
+          "action": "GetMacieSession",
+          "url": "https://macie2.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "Macie2.GetMacieSession",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "macie2",
+            "operation": "GetMacieSession",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetMacieSession"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "baseline",
+          "risk_delta": 0.1,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "count": 2
+            },
+            "field_hints": {},
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"createdAt\": \"2026-04-16T02:45:45Z\", \"findingPublishingFrequency\": \"FIFTEEN_MINUTES\", \"serviceRole\": \"serviceRole\", \"status\": \"PAUSED\", \"updatedAt\": \"2026-04-16T02:45:45Z\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 5679.155,
+          "llm": {
+            "provider": "gpt",
+            "error": "provider_call_failed",
+            "started_at": "2026-04-16T02:45:45.839754+00:00",
+            "finished_at": "2026-04-16T02:45:45.840606+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": "provider_call_failed",
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 1,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 5
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b06_s01",
+    "batch": 6,
+    "label": "glue get-databases",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 glue get-databases --max-results 5",
+    "service": "glue",
+    "action": "GetDatabases",
+    "url": "https://glue.ap-northeast-2.amazonaws.com/",
+    "body": "{\"MaxResults\":5}",
+    "headers": [
+      "X-Amz-Target=AWSGlue.GetDatabases",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "MaxResults"
+    ]
+  },
+  "response_body": "{\"DatabaseList\": [{\"Name\": \"glue-getdatabases\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-23223e1c\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-7ec419a2\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}, {\"Name\": \"glue-getdatabases-1\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-8294926e\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-25e5c918\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:40.440236+00:00",
+      "finished_at": "2026-04-16T02:44:45.545205+00:00"
+    },
+    "request": {
+      "service": "glue",
+      "action": "GetDatabases",
+      "url": "https://glue.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSGlue.GetDatabases",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "glue",
+        "operation": "GetDatabases",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetDatabases"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"DatabaseList\": [{\"Name\": \"glue-getdatabases\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-23223e1c\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-7ec419a2\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}, {\"Name\": \"glue-getdatabases-1\", \"Description\": \"Description\", \"LocationUri\": \"LocationUri\", \"Parameters\": {}, \"CreateTime\": 1776307485, \"CreateTableDefaultPermissions\": [{\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}, {\"Principal\": {}, \"Permissions\": [\"ALL\", \"ALL\"]}], \"TargetDatabase\": {\"CatalogId\": \"glue-8294926e\", \"DatabaseName\": \"glue-getdatabases\", \"Region\": \"glue-getdatabases\"}, \"CatalogId\": \"glue-25e5c918\", \"FederatedDatabase\": {\"Identifier\": \"Identifier\", \"ConnectionName\": \"glue-getdatabases\", \"ConnectionType\": \"glue-getdatabases\"}}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5104.986,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:44:45.542968+00:00",
+        "finished_at": "2026-04-16T02:44:45.543372+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [
+      "MaxResults"
+    ],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

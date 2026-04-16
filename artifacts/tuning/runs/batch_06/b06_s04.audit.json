@@ -1,0 +1,76 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:44:55.185298+00:00",
+      "finished_at": "2026-04-16T02:45:00.116793+00:00"
+    },
+    "request": {
+      "service": "lakeformation",
+      "action": "ListPermissions",
+      "url": "https://lakeformation.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSLakeFormation.ListPermissions",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:aws:iam::123456789012:user/victim-admin\"}}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "lakeformation",
+        "operation": "ListPermissions",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListPermissions"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "DataLakePrincipalIdentifier": "arn:aws:iam::123456789012:user/victim-admin"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PrincipalResourcePermissions\": [{\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-e195d584\"}, \"Database\": {\"CatalogId\": \"lakeformation-2636f0b2\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-d97fa69e\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-a4444182\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-b3bd1581\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/83b52caf\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-4604c281\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-71b659ab\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-4f9cf8a6\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-465f727b\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/0d10cd16\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/dda762dd\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}, {\"Principal\": {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::123456789012:user/victim-admin\"}, \"Resource\": {\"Catalog\": {\"Id\": \"lakeformation-1230b2a8\"}, \"Database\": {\"CatalogId\": \"lakeformation-29806a67\", \"Name\": \"lakeformation-listpermissions\"}, \"Table\": {\"CatalogId\": \"lakeformation-3bd819f2\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"TableWildcard\": {}}, \"TableWithColumns\": {\"CatalogId\": \"lakeformation-cab4f55f\", \"DatabaseName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\", \"ColumnNames\": [\"lakeformation-listpermissions\", \"lakeformation-listpermissions-1\"], \"ColumnWildcard\": {}}, \"DataLocation\": {\"CatalogId\": \"lakeformation-80f820c3\", \"ResourceArn\": \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/a2128077\"}, \"DataCellsFilter\": {\"TableCatalogId\": \"lakeformation-9e7ce6d0\", \"DatabaseName\": \"lakeformation-listpermissions\", \"TableName\": \"lakeformation-listpermissions\", \"Name\": \"lakeformation-listpermissions\"}, \"LFTag\": {\"CatalogId\": \"lakeformation-92f96723\", \"TagKey\": \"lakeformation-listpermissions\", \"TagValues\": [\"TagValue\", \"TagValue\"]}, \"LFTagPolicy\": {\"CatalogId\": \"lakeformation-7eff03d7\", \"ResourceType\": \"DATABASE\", \"Expression\": [{}, {}], \"ExpressionName\": \"lakeformation-listpermissions\"}, \"LFTagExpression\": {\"CatalogId\": \"lakeformation-1b037791\", \"Name\": \"lakeformation-listpermissions\"}}, \"Condition\": {\"Expression\": \"Expression\"}, \"Permissions\": [\"ALL\", \"ALL\"], \"PermissionsWithGrantOption\": [\"ALL\", \"ALL\"], \"AdditionalDetails\": {\"ResourceShare\": [\"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/baf60bc8\", \"arn:aws:lakeformation:us-east-1:123456789012:listpermissions/9476b2a0\"]}, \"LastUpdated\": 1776307500, \"LastUpdatedBy\": \"lakeformation-listpermissions\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4931.51,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:00.112351+00:00",
+        "finished_at": "2026-04-16T02:45:00.112854+00:00"
+      }
+    }
+  }
+]

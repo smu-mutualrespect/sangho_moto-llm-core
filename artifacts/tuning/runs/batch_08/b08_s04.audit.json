@@ -1,0 +1,73 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:36.666964+00:00",
+      "finished_at": "2026-04-16T02:45:40.139800+00:00"
+    },
+    "request": {
+      "service": "backup",
+      "action": "ListBackupVaults",
+      "url": "https://backup.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "BackupStorage.ListBackupVaults",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "backup",
+        "operation": "ListBackupVaults",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListBackupVaults"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"BackupVaultList\": [{\"BackupVaultName\": \"backup-listbackupvaults\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/a1e28cd2\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/612db086\", \"CreatorRequestId\": \"req-6356c011b7a6d653\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}, {\"BackupVaultName\": \"backup-listbackupvaults-1\", \"BackupVaultArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/c99f1cb5\", \"VaultType\": \"BACKUP_VAULT\", \"VaultState\": \"AVAILABLE\", \"CreationDate\": 1776307540, \"EncryptionKeyArn\": \"arn:aws:backup:us-east-1:123456789012:listbackupvaults/5af097ee\", \"CreatorRequestId\": \"req-9722965bc99fc052\", \"NumberOfRecoveryPoints\": 1, \"Locked\": false, \"MinRetentionDays\": 1, \"MaxRetentionDays\": 1, \"LockDate\": 1776307540, \"EncryptionKeyType\": \"AWS_OWNED_KMS_KEY\"}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4474.934,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:40.137184+00:00",
+        "finished_at": "2026-04-16T02:45:40.137627+00:00"
+      }
+    }
+  }
+]

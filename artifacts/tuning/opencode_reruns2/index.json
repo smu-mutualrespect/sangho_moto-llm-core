@@ -1,0 +1,9 @@
+{
+  "batches": [
+    {
+      "batch": 7,
+      "summary_json": "artifacts/tuning/opencode_reruns2/batch_07/summary.json",
+      "summary_md": "artifacts/tuning/opencode_reruns2/batch_07/summary.md"
+    }
+  ]
+}

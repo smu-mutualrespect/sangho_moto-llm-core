@@ -1,0 +1,295 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:46:29.875015+00:00",
+      "finished_at": "2026-04-16T02:46:35.982057+00:00"
+    },
+    "request": {
+      "service": "mq",
+      "action": "ListBrokers",
+      "url": "https://mq.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonMQ.ListBrokers",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"MaxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "mq",
+        "operation": "ListBrokers",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListBrokers"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"brokerSummaries\": [{\"brokerArn\": \"arn:aws:mq:us-east-1:123456789012:listbrokers/daa8b6af\", \"brokerId\": \"mq-ba9f9a75\", \"brokerName\": \"mq-listbrokers\", \"brokerState\": \"CREATION_IN_PROGRESS\", \"created\": \"2026-04-16T02:46:35Z\", \"deploymentMode\": \"SINGLE_INSTANCE\", \"engineType\": \"ACTIVEMQ\", \"hostInstanceType\": \"t3.medium\"}, {\"brokerArn\": \"arn:aws:mq:us-east-1:123456789012:listbrokers/0a9cb907\", \"brokerId\": \"mq-dce21790\", \"brokerName\": \"mq-listbrokers-1\", \"brokerState\": \"CREATION_IN_PROGRESS\", \"created\": \"2026-04-16T02:46:35Z\", \"deploymentMode\": \"SINGLE_INSTANCE\", \"engineType\": \"ACTIVEMQ\", \"hostInstanceType\": \"t3.medium\"}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6107.059,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:46:35.980265+00:00",
+        "finished_at": "2026-04-16T02:46:35.980755+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:54:48.552938+00:00",
+      "finished_at": "2026-04-16T02:54:57.613433+00:00"
+    },
+    "request": {
+      "service": "accessanalyzer",
+      "action": "GetAnalyzer",
+      "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AccessAnalyzer.GetAnalyzer",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"analyzerName\":\"default\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "accessanalyzer",
+        "operation": "GetAnalyzer",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAnalyzer"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "analyzerName": "default"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"analyzer\": {\"arn\": \"arn:aws:accessanalyzer:us-east-1:123456789012:getanalyzer/406f2b54\", \"name\": \"accessanalyzer-getanalyzer\", \"type\": \"ACCOUNT\", \"createdAt\": \"2026-04-16T02:54:57Z\", \"lastResourceAnalyzed\": \"lastResourceAnalyzed\", \"lastResourceAnalyzedAt\": \"2026-04-16T02:54:57Z\", \"tags\": {}, \"status\": \"ACTIVE\", \"statusReason\": {\"code\": \"AWS_SERVICE_ACCESS_DISABLED\"}, \"configuration\": {\"unusedAccess\": {\"unusedAccessAge\": 1, \"analysisRule\": {\"exclusions\": [{}, {}]}}, \"internalAccess\": {\"analysisRule\": {\"inclusions\": [{}, {}]}}}}}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 9060.519,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:54:57.605609+00:00",
+        "finished_at": "2026-04-16T02:54:57.607454+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:58:04.194694+00:00",
+      "finished_at": "2026-04-16T02:58:11.151354+00:00"
+    },
+    "request": {
+      "service": "accessanalyzer",
+      "action": "GetAnalyzer",
+      "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AccessAnalyzer.GetAnalyzer",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"analyzerName\":\"default\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "accessanalyzer",
+        "operation": "GetAnalyzer",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAnalyzer"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "analyzerName": "default"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"analyzer\": {\"arn\": \"arn:aws:accessanalyzer:us-east-1:123456789012:getanalyzer/b984189c\", \"name\": \"accessanalyzer-getanalyzer\", \"type\": \"ACCOUNT\", \"createdAt\": \"2026-04-16T02:58:11Z\", \"lastResourceAnalyzed\": \"lastResourceAnalyzed\", \"lastResourceAnalyzedAt\": \"2026-04-16T02:58:11Z\", \"tags\": {}, \"status\": \"ACTIVE\", \"statusReason\": {\"code\": \"AWS_SERVICE_ACCESS_DISABLED\"}, \"configuration\": {\"unusedAccess\": {\"unusedAccessAge\": 1, \"analysisRule\": {\"exclusions\": [{}, {}]}}, \"internalAccess\": {\"analysisRule\": {\"inclusions\": [{}, {}]}}}}}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 6956.675,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:58:11.149036+00:00",
+        "finished_at": "2026-04-16T02:58:11.149796+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:46.041569+00:00",
+      "finished_at": "2026-04-16T02:59:49.189135+00:00"
+    },
+    "request": {
+      "service": "accessanalyzer",
+      "action": "GetAnalyzer",
+      "url": "https://access-analyzer.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AccessAnalyzer.GetAnalyzer",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"analyzerName\":\"default\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "accessanalyzer",
+        "operation": "GetAnalyzer",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAnalyzer"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2,
+          "echo_inputs": true
+        },
+        "field_hints": {
+          "analyzerName": "default"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"analyzer\": {\"arn\": \"arn:aws:accessanalyzer:us-east-1:123456789012:getanalyzer/fb64c384\", \"name\": \"default\", \"type\": \"ACCOUNT\", \"createdAt\": \"2026-04-16T02:59:49Z\", \"lastResourceAnalyzed\": \"arn:aws:ec2:us-east-1:123456789012:instance/i-ab72974b0a2fb34ef\", \"lastResourceAnalyzedAt\": \"2026-04-16T02:59:49Z\", \"tags\": {}, \"status\": \"ACTIVE\", \"statusReason\": {\"code\": \"AWS_SERVICE_ACCESS_DISABLED\"}, \"configuration\": {\"unusedAccess\": {\"unusedAccessAge\": 1, \"analysisRule\": {\"exclusions\": [{}, {}]}}, \"internalAccess\": {\"analysisRule\": {\"inclusions\": [{}, {}]}}}}}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 3147.578,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:49.187594+00:00",
+        "finished_at": "2026-04-16T02:59:49.187972+00:00"
+      }
+    }
+  }
+]

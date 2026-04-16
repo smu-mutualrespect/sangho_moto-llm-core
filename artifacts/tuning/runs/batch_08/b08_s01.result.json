@@ -1,0 +1,102 @@
+{
+  "scenario": {
+    "id": "b08_s01",
+    "batch": 8,
+    "label": "guardduty list-detectors",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 guardduty list-detectors --max-results 5",
+    "service": "guardduty",
+    "action": "ListDetectors",
+    "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+    "body": "{\"maxResults\":5}",
+    "headers": [
+      "X-Amz-Target=GuardDuty.ListDetectors",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": [
+      "maxResults"
+    ]
+  },
+  "response_body": "{\"detectorIds\": [\"guardduty-a01638c7\", \"guardduty-699eeae3\"], \"nextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:21.578435+00:00",
+      "finished_at": "2026-04-16T02:45:25.912085+00:00"
+    },
+    "request": {
+      "service": "guardduty",
+      "action": "ListDetectors",
+      "url": "https://guardduty.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "GuardDuty.ListDetectors",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "guardduty",
+        "operation": "ListDetectors",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDetectors"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"detectorIds\": [\"guardduty-a01638c7\", \"guardduty-699eeae3\"], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4333.661,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:25.911156+00:00",
+        "finished_at": "2026-04-16T02:45:25.911649+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": "provider_call_failed",
+    "expected_echo_count": 1,
+    "echoed": [],
+    "missing_echo": [
+      "maxResults"
+    ],
+    "placeholder_hits": []
+  }
+}

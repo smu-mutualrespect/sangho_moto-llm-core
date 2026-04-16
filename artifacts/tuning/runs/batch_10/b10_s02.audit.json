@@ -1,0 +1,286 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:46:16.207168+00:00",
+      "finished_at": "2026-04-16T02:46:20.657947+00:00"
+    },
+    "request": {
+      "service": "datazone",
+      "action": "ListDomains",
+      "url": "https://datazone.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "DataZone.ListDomains",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "datazone",
+        "operation": "ListDomains",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDomains"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"items\": [{\"id\": \"datazone-f24465c5\", \"name\": \"datazone-listdomains\", \"description\": \"description\", \"arn\": \"arn:aws:datazone:us-east-1:123456789012:listdomains/077d851f\", \"managedAccountId\": \"datazone-df46bb2a\", \"status\": \"AVAILABLE\", \"portalUrl\": \"mock://datazone/listdomains/1fa5b2d29228\", \"createdAt\": 1776307580, \"lastUpdatedAt\": 1776307580, \"domainVersion\": \"V1\"}, {\"id\": \"datazone-64504181\", \"name\": \"datazone-listdomains-1\", \"description\": \"description\", \"arn\": \"arn:aws:datazone:us-east-1:123456789012:listdomains/2eae4fd5\", \"managedAccountId\": \"datazone-83b2c09e\", \"status\": \"AVAILABLE\", \"portalUrl\": \"mock://datazone/listdomains/952a2c81fec4\", \"createdAt\": 1776307580, \"lastUpdatedAt\": 1776307580, \"domainVersion\": \"V1\"}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 4450.795,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:46:20.655784+00:00",
+        "finished_at": "2026-04-16T02:46:20.656370+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:54:27.768619+00:00",
+      "finished_at": "2026-04-16T02:54:33.512817+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListCoverage",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListCoverage",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListCoverage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListCoverage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"coveredResources\": [{\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-80d4621f\", \"accountId\": \"inspector2-785dca2b\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308073, \"lastInUseAt\": 1776308073, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-2c3c85af\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"inspector2-listcoverage\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/383f972d\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-96575e7d\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308073, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}, {\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-a4234d6c\", \"accountId\": \"inspector2-5011fcec\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308073, \"lastInUseAt\": 1776308073, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-2ee86095\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"inspector2-listcoverage\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/f91b9b6f\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-74e3ef41\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308073, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5744.22,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:54:33.507551+00:00",
+        "finished_at": "2026-04-16T02:54:33.508213+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:57:38.935666+00:00",
+      "finished_at": "2026-04-16T02:57:47.560850+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListCoverage",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListCoverage",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListCoverage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListCoverage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"coveredResources\": [{\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-420720af\", \"accountId\": \"inspector2-1a5a427d\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308267, \"lastInUseAt\": 1776308267, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-d8c81cc8\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"inspector2-listcoverage\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/a1290626\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-62eda347\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308267, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}, {\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-460a7e18\", \"accountId\": \"inspector2-f41335a3\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308267, \"lastInUseAt\": 1776308267, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-01c4d235\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"inspector2-listcoverage\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/faa71d15\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-8d460208\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308267, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 9648.444,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:57:47.554865+00:00",
+        "finished_at": "2026-04-16T02:57:47.555926+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:59:32.835191+00:00",
+      "finished_at": "2026-04-16T02:59:38.398784+00:00"
+    },
+    "request": {
+      "service": "inspector2",
+      "action": "ListCoverage",
+      "url": "https://inspector2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "Inspector2.ListCoverage",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "inspector2",
+        "operation": "ListCoverage",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListCoverage"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"nextToken\": \"\", \"coveredResources\": [{\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-162857ba\", \"accountId\": \"inspector2-99168d96\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-5a98bc4c\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/5ab3ff21\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-480fd675\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}, {\"resourceType\": \"AWS_EC2_INSTANCE\", \"resourceId\": \"inspector2-82061864\", \"accountId\": \"inspector2-527f4f7b\", \"scanType\": \"NETWORK\", \"scanStatus\": {\"statusCode\": \"ACTIVE\", \"reason\": \"PENDING_INITIAL_SCAN\"}, \"resourceMetadata\": {\"ecrRepository\": {\"name\": \"inspector2-listcoverage\", \"scanFrequency\": \"MANUAL\"}, \"ecrImage\": {\"tags\": [\"tag\", \"tag\"], \"imagePulledAt\": 1776308378, \"lastInUseAt\": 1776308378, \"inUseCount\": 2}, \"ec2\": {\"tags\": {}, \"amiId\": \"inspector2-8580436a\", \"platform\": \"WINDOWS\"}, \"lambdaFunction\": {\"functionTags\": {}, \"layers\": [\"layer\", \"layer\"], \"functionName\": \"functionName\", \"runtime\": \"NODEJS\"}, \"codeRepository\": {\"projectName\": \"demo\", \"integrationArn\": \"arn:aws:inspector2:us-east-1:123456789012:listcoverage/d7596319\", \"providerType\": \"providerType\", \"providerTypeVisibility\": \"providerTypeVisibility\", \"lastScannedCommitId\": \"inspector2-7903d2b8\", \"scanConfiguration\": {}, \"onDemandScan\": {}}}, \"lastScannedAt\": 1776308378, \"scanMode\": \"EC2_SSM_AGENT_BASED\"}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5563.609,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:59:38.395276+00:00",
+        "finished_at": "2026-04-16T02:59:38.395946+00:00"
+      }
+    }
+  }
+]

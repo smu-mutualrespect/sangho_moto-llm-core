@@ -1,0 +1,92 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T09:23:54.727578+00:00",
+      "finished_at": "2026-04-16T09:24:19.960554+00:00"
+    },
+    "request": {
+      "service": "eks",
+      "action": "DescribeCluster",
+      "url": "https://eks.ap-northeast-2.amazonaws.com/clusters/prod-cluster",
+      "headers": {
+        "X-Amz-Target": "DescribeCluster",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"name\":\"prod-cluster\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "eks",
+        "operation": "DescribeCluster",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeCluster"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "eks_prod-cluster_describe",
+      "risk_delta": 0.06,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "cluster_count": 1,
+          "name": "prod-cluster",
+          "region": "us-east-1"
+        },
+        "field_hints": {
+          "cluster.name": "prod-cluster",
+          "cluster.arn": "arn:aws:eks:us-east-1:123456789012:cluster/prod-cluster",
+          "cluster.status": "ACTIVE",
+          "cluster.version": "1.27",
+          "cluster.platformVersion": "eks.6",
+          "cluster.endpoint": "https://prod-cluster.us-east-1.eks.amazonaws.com",
+          "cluster.roleArn": "arn:aws:iam::123456789012:role/ReadOnlyOpsRole",
+          "cluster.resourcesVpcConfig.endpointPublicAccess": true,
+          "cluster.resourcesVpcConfig.endpointPrivateAccess": false,
+          "cluster.logging.clusterLogging[0].enabled": true
+        },
+        "omit_fields": [
+          "cluster.encryptionConfig",
+          "cluster.identity.oidc.issuer"
+        ]
+      }
+    },
+    "response": {
+      "body": "{\"cluster\": {\"name\": \"prod-cluster\", \"arn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/e8a0f884\", \"createdAt\": 1776331459, \"version\": \"1\", \"endpoint\": \"endpoint\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8aca4375\", \"resourcesVpcConfig\": {\"subnetIds\": [\"eks-0379b433\", \"eks-0fcd9849\"], \"securityGroupIds\": [\"eks-9dae3b63\", \"eks-ba4da7b2\"], \"clusterSecurityGroupId\": \"eks-7b9e411d\", \"vpcId\": \"eks-e5be54ea\", \"endpointPublicAccess\": false, \"endpointPrivateAccess\": false, \"publicAccessCidrs\": [\"publicAccessCidr\", \"publicAccessCidr\"]}, \"kubernetesNetworkConfig\": {\"serviceIpv4Cidr\": \"serviceIpv4Cidr\", \"serviceIpv6Cidr\": \"serviceIpv6Cidr\", \"ipFamily\": \"ipv4\", \"elasticLoadBalancing\": {\"enabled\": true}}, \"logging\": {\"clusterLogging\": [{\"types\": [\"api\", \"api\"], \"enabled\": true}, {\"types\": [\"api\", \"api\"], \"enabled\": true}]}, \"identity\": {\"oidc\": {\"issuer\": \"issuer\"}}, \"status\": \"CREATING\", \"certificateAuthority\": {\"data\": \"data\"}, \"clientRequestToken\": \"\", \"platformVersion\": \"2\", \"tags\": {}, \"encryptionConfig\": [{\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/8db4c7ed\"}}, {\"resources\": [\"resource\", \"resource\"], \"provider\": {\"keyArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/60ec7d01\"}}], \"connectorConfig\": {\"activationId\": \"eks-85b7b8cb\", \"activationCode\": \"activationCode\", \"activationExpiry\": 1776331459, \"provider\": \"provider\", \"roleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/bb7a5ea8\"}, \"id\": \"eks-a3bb92ba\", \"health\": {\"issues\": [{\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-8b1fcd91\", \"eks-8069dfb4\"]}, {\"code\": \"AccessDenied\", \"message\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic eks:DescribeCluster\\\"}\", \"resourceIds\": [\"eks-1bfa881b\", \"eks-a132a61c\"]}]}, \"outpostConfig\": {\"outpostArns\": [\"arn:aws:eks:us-east-1:123456789012:describecluster/d4d48b87\", \"arn:aws:eks:us-east-1:123456789012:describecluster/4693c247\"], \"controlPlaneInstanceType\": \"t3.medium\", \"controlPlanePlacement\": {\"groupName\": \"groupName\"}}, \"accessConfig\": {\"bootstrapClusterCreatorAdminPermissions\": false, \"authenticationMode\": \"API\"}, \"upgradePolicy\": {\"supportType\": \"STANDARD\"}, \"zonalShiftConfig\": {\"enabled\": true}, \"remoteNetworkConfig\": {\"remoteNodeNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}], \"remotePodNetworks\": [{\"cidrs\": [\"cidr\", \"cidr\"]}, {\"cidrs\": [\"cidr\", \"cidr\"]}]}, \"computeConfig\": {\"enabled\": true, \"nodePools\": [\"nodePool\", \"nodePool\"], \"nodeRoleArn\": \"arn:aws:eks:us-east-1:123456789012:describecluster/f2139043\"}, \"storageConfig\": {\"blockStorage\": {\"enabled\": true}}, \"deletionProtection\": false, \"controlPlaneScalingConfig\": {\"tier\": \"standard\"}}}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 26112.238,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 19860.14,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T09:24:00.963087+00:00",
+        "finished_at": "2026-04-16T09:24:19.957011+00:00"
+      }
+    }
+  }
+]

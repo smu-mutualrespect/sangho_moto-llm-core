@@ -1,0 +1,83 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T08:01:49.359140+00:00",
+      "finished_at": "2026-04-16T08:02:14.801933+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "GetAuthorizationToken",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.GetAuthorizationToken",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"domain\":\"corp\",\"domainOwner\":\"123456789012\"}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "GetAuthorizationToken",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetAuthorizationToken"
+      }
+    },
+    "decision": {
+      "intent_phase": "privilege_check",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "codeartifact_token_corp",
+      "risk_delta": 0.16,
+      "reason_tags": [
+        "credential_probe",
+        "permission_test",
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "domain": "corp",
+          "domainOwner": "123456789012",
+          "token_ttl_minutes": 720
+        },
+        "field_hints": {
+          "authorizationToken": "AQoDYXdzEJr//////////wEaDGVtb2RlZC10b2tlbi1jb3Jw",
+          "expiration": "2026-04-17T00:00:00Z"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"authorizationToken\": \"AQoDYXdzEJr//////////wEaDGVtb2RlZC10b2tlbi1jb3Jw\", \"expiration\": 1776384000}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 26294.978,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 26272.417,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T08:01:49.359384+00:00",
+        "finished_at": "2026-04-16T08:02:14.801255+00:00"
+      }
+    }
+  }
+]

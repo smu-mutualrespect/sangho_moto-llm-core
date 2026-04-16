@@ -1,0 +1,119 @@
+{
+  "scenario": {
+    "id": "b05_s04",
+    "batch": 5,
+    "label": "ec2 describe-images",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 ec2 describe-images --owners self",
+    "service": "ec2",
+    "action": "DescribeImages",
+    "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+    "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+    "headers": [
+      "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-51661fb7</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-147689e2</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-6d9b4ea2</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-92824bd6</imageOwnerId><creationDate>2026-04-16T07:54:57Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-c30afb00</productCode><type>devpay</type></item><item><productCode>ec2-843e161e</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-1d13b3ba</kernelId><ramdiskId>ec2-3a3dc66f</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-c91ab686</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-bd9cdce5</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-9c445f39</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-481388e7</imageOwnerId><creationDate>2026-04-16T07:54:57Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-6f2f579b</productCode><type>devpay</type></item><item><productCode>ec2-e8541694</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-079340c9</kernelId><ramdiskId>ec2-75d6dc18</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T07:54:31.117130+00:00",
+      "finished_at": "2026-04-16T07:54:57.644478+00:00"
+    },
+    "request": {
+      "service": "ec2",
+      "action": "DescribeImages",
+      "url": "https://ec2.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      "body": "Action=DescribeImages&Owner.1=self&Version=2016-11-15",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "ec2",
+        "operation": "DescribeImages",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "DescribeImages"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "ec2_describeimages_self_recon",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "image_count": 2,
+          "owners": [
+            "123456789012"
+          ],
+          "region": "us-east-1",
+          "image_ids": [
+            "ami-0c7a6d3e5b1f4a21c",
+            "ami-04f8c2b19d6a7e3f2"
+          ]
+        },
+        "field_hints": {
+          "Images.platform_details": "Linux/UNIX",
+          "Images.architecture": "x86_64",
+          "Images.root_device_type": "ebs",
+          "Images.virtualization_type": "hvm",
+          "Images.state": "available",
+          "Images.owner_id": "123456789012",
+          "Images.name_prefix": "amzn2-prod-",
+          "Images.description_contains": "Amazon Linux 2",
+          "Images.creation_date_order": "recent_first"
+        },
+        "omit_fields": [
+          "NextToken"
+        ]
+      }
+    },
+    "response": {
+      "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeImagesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><imagesSet><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-51661fb7</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-147689e2</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-6d9b4ea2</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-92824bd6</imageOwnerId><creationDate>2026-04-16T07:54:57Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-c30afb00</productCode><type>devpay</type></item><item><productCode>ec2-843e161e</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-1d13b3ba</kernelId><ramdiskId>ec2-3a3dc66f</ramdiskId><platform>Windows</platform></item><item><platformDetails>PlatformDetails</platformDetails><usageOperation>UsageOperation</usageOperation><blockDeviceMapping><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item><item><ebs/><noDevice>NoDevice</noDevice><deviceName>DeviceName</deviceName><virtualName>VirtualName</virtualName></item></blockDeviceMapping><description>Description</description><enaSupport>false</enaSupport><hypervisor>ovm</hypervisor><imageOwnerAlias>ImageOwnerAlias</imageOwnerAlias><name>ec2-describeimages</name><rootDeviceName>RootDeviceName</rootDeviceName><rootDeviceType>ebs</rootDeviceType><sriovNetSupport>SriovNetSupport</sriovNetSupport><stateReason><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeImages\"}</message></stateReason><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><virtualizationType>hvm</virtualizationType><bootMode>legacy-bios</bootMode><tpmSupport>v2.0</tpmSupport><deprecationTime>DeprecationTime</deprecationTime><imdsSupport>v2.0</imdsSupport><sourceInstanceId>ec2-c91ab686</sourceInstanceId><deregistrationProtection>DeregistrationProtection</deregistrationProtection><lastLaunchedTime>LastLaunchedTime</lastLaunchedTime><imageAllowed>false</imageAllowed><sourceImageId>ec2-bd9cdce5</sourceImageId><sourceImageRegion>SourceImageRegion</sourceImageRegion><freeTierEligible>false</freeTierEligible><imageId>ami-9c445f39</imageId><imageLocation>ImageLocation</imageLocation><imageState>pending</imageState><imageOwnerId>ec2-481388e7</imageOwnerId><creationDate>2026-04-16T07:54:57Z</creationDate><isPublic>false</isPublic><productCodes><item><productCode>ec2-6f2f579b</productCode><type>devpay</type></item><item><productCode>ec2-e8541694</productCode><type>devpay</type></item></productCodes><architecture>i386</architecture><imageType>machine</imageType><kernelId>ec2-079340c9</kernelId><ramdiskId>ec2-75d6dc18</ramdiskId><platform>Windows</platform></item></imagesSet><requestId>request-id</requestId></DescribeImagesResponse>",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "xml",
+      "response_format_detected": "xml",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": true,
+      "xml_root_tag": "DescribeImagesResponse",
+      "json_top_level_type": "",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 27275.189,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 24698.455,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:54:33.685023+00:00",
+        "finished_at": "2026-04-16T07:54:57.641982+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

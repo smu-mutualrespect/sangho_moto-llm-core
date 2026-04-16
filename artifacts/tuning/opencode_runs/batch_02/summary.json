@@ -1,0 +1,561 @@
+{
+  "results": [
+    {
+      "scenario": {
+        "id": "b02_s01",
+        "batch": 2,
+        "label": "ssm describe-instance-information",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm describe-instance-information",
+        "service": "ssm",
+        "action": "DescribeInstanceInformation",
+        "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+        "body": "Action=DescribeInstanceInformation&Version=2014-11-06",
+        "headers": [
+          "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"InstanceInformationList\": [{\"InstanceId\": \"i-e44ae4839227db8f2\", \"PingStatus\": \"Online\", \"LastPingDateTime\": 1776325711, \"AgentVersion\": \"3.2.700.0\", \"IsLatestVersion\": false, \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"ActivationId\": \"ssm-f4c03176\", \"IamRole\": \"ReadOnlyOpsRole\", \"RegistrationDate\": 1776325711, \"ResourceType\": \"ManagedInstance\", \"Name\": \"ip-10-42-9-104\", \"IPAddress\": \"10.42.8.42\", \"ComputerName\": \"ip-10-42-1-186\", \"AssociationStatus\": \"Success\", \"LastAssociationExecutionDate\": 1776325711, \"LastSuccessfulAssociationExecutionDate\": 1776325711, \"AssociationOverview\": {\"DetailedStatus\": \"Success\", \"InstanceAssociationStatusAggregatedCount\": {}}, \"SourceId\": \"ssm-33601a94\", \"SourceType\": \"AWS::EC2::Instance\"}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:48:13.393192+00:00",
+          "finished_at": "2026-04-16T07:48:31.864538+00:00"
+        },
+        "request": {
+          "service": "ssm",
+          "action": "DescribeInstanceInformation",
+          "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          "body": "Action=DescribeInstanceInformation&Version=2014-11-06",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ssm",
+            "operation": "DescribeInstanceInformation",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeInstanceInformation"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ssm_describe_instanceinfo_empty",
+          "risk_delta": 0.05,
+          "reason_tags": [
+            "enum_pattern",
+            "high_rate"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "InstanceInformationList_count": 0,
+              "instance_count": 1
+            },
+            "field_hints": {
+              "NextToken": ""
+            },
+            "omit_fields": [
+              "NextToken"
+            ]
+          }
+        },
+        "response": {
+          "body": "{\"InstanceInformationList\": [{\"InstanceId\": \"i-e44ae4839227db8f2\", \"PingStatus\": \"Online\", \"LastPingDateTime\": 1776325711, \"AgentVersion\": \"3.2.700.0\", \"IsLatestVersion\": false, \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"ActivationId\": \"ssm-f4c03176\", \"IamRole\": \"ReadOnlyOpsRole\", \"RegistrationDate\": 1776325711, \"ResourceType\": \"ManagedInstance\", \"Name\": \"ip-10-42-9-104\", \"IPAddress\": \"10.42.8.42\", \"ComputerName\": \"ip-10-42-1-186\", \"AssociationStatus\": \"Success\", \"LastAssociationExecutionDate\": 1776325711, \"LastSuccessfulAssociationExecutionDate\": 1776325711, \"AssociationOverview\": {\"DetailedStatus\": \"Success\", \"InstanceAssociationStatusAggregatedCount\": {}}, \"SourceId\": \"ssm-33601a94\", \"SourceType\": \"AWS::EC2::Instance\"}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 19267.37,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 15270.732,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:48:16.578170+00:00",
+            "finished_at": "2026-04-16T07:48:31.861558+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b02_s02",
+        "batch": 2,
+        "label": "ssm describe-automation-executions",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm describe-automation-executions --max-results 5",
+        "service": "ssm",
+        "action": "DescribeAutomationExecutions",
+        "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+        "body": "Action=DescribeAutomationExecutions&MaxResults=5&Version=2014-11-06",
+        "headers": [
+          "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"AutomationExecutionMetadataList\": []}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:48:31.882951+00:00",
+          "finished_at": "2026-04-16T07:48:49.677748+00:00"
+        },
+        "request": {
+          "service": "ssm",
+          "action": "DescribeAutomationExecutions",
+          "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          "body": "Action=DescribeAutomationExecutions&MaxResults=5&Version=2014-11-06",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ssm",
+            "operation": "DescribeAutomationExecutions",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "DescribeAutomationExecutions"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ssm_autoexec_empty_01",
+          "risk_delta": 0.03,
+          "reason_tags": [
+            "enum_pattern"
+          ],
+          "response_plan": {
+            "mode": "empty",
+            "posture": "sparse",
+            "entity_hints": {
+              "AutomationExecutionMetadataList": {
+                "count": 0
+              }
+            },
+            "field_hints": {},
+            "omit_fields": [
+              "NextToken"
+            ]
+          }
+        },
+        "response": {
+          "body": "{\"AutomationExecutionMetadataList\": []}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 18615.431,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 18605.668,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:48:31.883118+00:00",
+            "finished_at": "2026-04-16T07:48:49.677365+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [],
+        "missing_echo": [
+          "MaxResults"
+        ],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b02_s03",
+        "batch": 2,
+        "label": "ssm get-inventory",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 ssm get-inventory --max-results 5",
+        "service": "ssm",
+        "action": "GetInventory",
+        "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+        "body": "Action=GetInventory&MaxResults=5&Version=2014-11-06",
+        "headers": [
+          "Content-Type=application/x-www-form-urlencoded; charset=utf-8"
+        ],
+        "expected_echo": [
+          "MaxResults"
+        ]
+      },
+      "response_body": "{\"Entities\": [{\"Id\": \"ssm-8086c3c0\", \"Data\": {}}, {\"Id\": \"ssm-a4138d5e\", \"Data\": {}}], \"NextToken\": \"\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:48:49.695023+00:00",
+          "finished_at": "2026-04-16T07:49:06.548494+00:00"
+        },
+        "request": {
+          "service": "ssm",
+          "action": "GetInventory",
+          "url": "https://ssm.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          "body": "Action=GetInventory&MaxResults=5&Version=2014-11-06",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "ssm",
+            "operation": "GetInventory",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetInventory"
+          }
+        },
+        "decision": {
+          "intent_phase": "recon",
+          "response_posture": "sparse",
+          "error_mode": "none",
+          "decoy_bundle_id": "ssm_inventory_recon_a1",
+          "risk_delta": 0.04,
+          "reason_tags": [
+            "enum_pattern",
+            "high_rate"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "sparse",
+            "entity_hints": {
+              "InventoryResultEntityList": {
+                "count": 2,
+                "identifiers": [
+                  "i-e44ae4839227db8f2",
+                  "ssm-f4c03176"
+                ]
+              }
+            },
+            "field_hints": {
+              "NextToken": null,
+              "entity_type": "AWS:InstanceInformation",
+              "platform_name": "Amazon Linux",
+              "platform_version": "2",
+              "agent_version": "3.2.700.0"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"Entities\": [{\"Id\": \"ssm-8086c3c0\", \"Data\": {}}, {\"Id\": \"ssm-a4138d5e\", \"Data\": {}}], \"NextToken\": \"\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 16853.48,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 16846.509,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:48:49.695264+00:00",
+            "finished_at": "2026-04-16T07:49:06.548103+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 1,
+        "echoed": [
+          "MaxResults"
+        ],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b02_s04",
+        "batch": 2,
+        "label": "secretsmanager validate-resource-policy",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"secretsmanager:GetSecretValue\",\"Resource\":\"*\"}]}'",
+        "service": "secretsmanager",
+        "action": "ValidateResourcePolicy",
+        "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+        "body": "{\"SecretId\":\"prod/db/password\",\"ResourcePolicy\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":\\\"secretsmanager:GetSecretValue\\\",\\\"Resource\\\":\\\"*\\\"}]}\"}",
+        "headers": [
+          "X-Amz-Target=secretsmanager.ValidateResourcePolicy",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"PolicyValidationPassed\": false, \"ValidationErrors\": [{\"CheckName\": \"PUBLIC_POLICY\", \"ErrorMessage\": \"This resource policy allows broad access via wildcard principal.\"}]}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:49:06.571196+00:00",
+          "finished_at": "2026-04-16T07:49:25.143035+00:00"
+        },
+        "request": {
+          "service": "secretsmanager",
+          "action": "ValidateResourcePolicy",
+          "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "secretsmanager.ValidateResourcePolicy",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"SecretId\":\"prod/db/password\",\"ResourcePolicy\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":\\\"secretsmanager:GetSecretValue\\\",\\\"Resource\\\":\\\"*\\\"}]}\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "secretsmanager",
+            "operation": "ValidateResourcePolicy",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "ValidateResourcePolicy"
+          }
+        },
+        "decision": {
+          "intent_phase": "privilege_check",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "secrets_valpolicy_01",
+          "risk_delta": 0.12,
+          "reason_tags": [
+            "enum_pattern",
+            "permission_test"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "secret_id": "prod/db/password",
+              "validation_error_count": 1
+            },
+            "field_hints": {
+              "PolicyValidationPassed": false,
+              "ValidationErrors": [
+                {
+                  "CheckName": "PUBLIC_POLICY",
+                  "ErrorMessage": "This resource policy allows broad access via wildcard principal.",
+                  "Recommendation": "Restrict the Principal element to specific AWS principals and limit resource scope."
+                }
+              ]
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"PolicyValidationPassed\": false, \"ValidationErrors\": [{\"CheckName\": \"PUBLIC_POLICY\", \"ErrorMessage\": \"This resource policy allows broad access via wildcard principal.\"}]}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 19318.602,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 16544.651,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:49:09.337115+00:00",
+            "finished_at": "2026-04-16T07:49:25.142733+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    },
+    {
+      "scenario": {
+        "id": "b02_s05",
+        "batch": 2,
+        "label": "secretsmanager get-resource-policy",
+        "command": "aws --endpoint-url=http://127.0.0.1:5001 secretsmanager get-resource-policy --secret-id prod/db/password",
+        "service": "secretsmanager",
+        "action": "GetResourcePolicy",
+        "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+        "body": "{\"SecretId\":\"prod/db/password\"}",
+        "headers": [
+          "X-Amz-Target=secretsmanager.GetResourcePolicy",
+          "Content-Type=application/x-amz-json-1.1"
+        ],
+        "expected_echo": []
+      },
+      "response_body": "{\"ARN\": \"arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3\", \"Name\": \"prod/db/password\", \"ResourcePolicy\": \"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Sid\\\":\\\"AllowBroadRead\\\",\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":[\\\"secretsmanager:GetSecretValue\\\",\\\"secretsmanager:DescribeSecret\\\"],\\\"Resource\\\":\\\"arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3\\\"}]}\"}",
+      "audit": {
+        "timestamps": {
+          "started_at": "2026-04-16T07:49:25.159136+00:00",
+          "finished_at": "2026-04-16T07:49:48.062244+00:00"
+        },
+        "request": {
+          "service": "secretsmanager",
+          "action": "GetResourcePolicy",
+          "url": "https://secretsmanager.ap-northeast-2.amazonaws.com/",
+          "headers": {
+            "X-Amz-Target": "secretsmanager.GetResourcePolicy",
+            "Content-Type": "application/x-amz-json-1.1"
+          },
+          "body": "{\"SecretId\":\"prod/db/password\"}",
+          "reason": "tuning_batch_probe",
+          "source": "scripts.run_honeypot_tuning_batches",
+          "canonical": {
+            "service": "secretsmanager",
+            "operation": "GetResourcePolicy",
+            "principal_type": "unknown",
+            "probe_style": "enumeration",
+            "raw_action": "GetResourcePolicy"
+          }
+        },
+        "decision": {
+          "intent_phase": "privilege_check",
+          "response_posture": "normal",
+          "error_mode": "none",
+          "decoy_bundle_id": "secrets_policy_wildcard_01",
+          "risk_delta": 0.09,
+          "reason_tags": [
+            "enum_pattern",
+            "permission_test",
+            "rare_api_chain"
+          ],
+          "response_plan": {
+            "mode": "success",
+            "posture": "normal",
+            "entity_hints": {
+              "secret_id": "prod/db/password",
+              "name": "prod/db/password",
+              "arn": "arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3"
+            },
+            "field_hints": {
+              "ARN": "arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3",
+              "Name": "prod/db/password",
+              "ResourcePolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowBroadRead\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":[\"secretsmanager:GetSecretValue\",\"secretsmanager:DescribeSecret\"],\"Resource\":\"arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3\"}]}"
+            },
+            "omit_fields": []
+          }
+        },
+        "response": {
+          "body": "{\"ARN\": \"arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3\", \"Name\": \"prod/db/password\", \"ResourcePolicy\": \"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Sid\\\":\\\"AllowBroadRead\\\",\\\"Effect\\\":\\\"Allow\\\",\\\"Principal\\\":\\\"*\\\",\\\"Action\\\":[\\\"secretsmanager:GetSecretValue\\\",\\\"secretsmanager:DescribeSecret\\\"],\\\"Resource\\\":\\\"arn:aws:secretsmanager:us-east-1:123456789012:secret:prod/db/password-a1b2c3\\\"}]}\"}",
+          "validation_passed": true,
+          "validation_reason": "ok"
+        },
+        "comparison_points": {
+          "protocol_family_expected": "json",
+          "response_format_detected": "json",
+          "format_match": true,
+          "response_parseable": true,
+          "parse_error": "",
+          "xml_namespace_present": false,
+          "xml_root_tag": "",
+          "json_top_level_type": "dict",
+          "validator_passed": true,
+          "validator_reason": "ok",
+          "fallback_triggered": false
+        },
+        "metrics": {
+          "total_duration_ms": 22903.12,
+          "llm": {
+            "provider": "opencode",
+            "model": "openai/gpt-5.4",
+            "duration_ms": 22895.881,
+            "stderr": "",
+            "returncode": 0,
+            "started_at": "2026-04-16T07:49:25.159282+00:00",
+            "finished_at": "2026-04-16T07:49:48.061921+00:00"
+          }
+        }
+      },
+      "heuristics": {
+        "validation_passed": true,
+        "safe_fallback": false,
+        "llm_error": null,
+        "expected_echo_count": 0,
+        "echoed": [],
+        "missing_echo": [],
+        "placeholder_hits": []
+      }
+    }
+  ],
+  "aggregate": {
+    "scenario_count": 5,
+    "validation_passed": 5,
+    "safe_fallback": 0,
+    "missing_echo_total": 1,
+    "placeholder_hits_total": 0,
+    "llm_provider_failures": 0
+  }
+}

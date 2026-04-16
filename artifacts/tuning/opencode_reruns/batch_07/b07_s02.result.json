@@ -1,0 +1,120 @@
+{
+  "scenario": {
+    "id": "b07_s02",
+    "batch": 7,
+    "label": "organizations list-roots",
+    "command": "aws --endpoint-url=http://127.0.0.1:5001 organizations list-roots",
+    "service": "organizations",
+    "action": "ListRoots",
+    "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+    "body": "{}",
+    "headers": [
+      "X-Amz-Target=AWSOrganizationsV20161128.ListRoots",
+      "Content-Type=application/x-amz-json-1.1"
+    ],
+    "expected_echo": []
+  },
+  "response_body": "{\"Roots\": [{\"Id\": \"r-7k3m\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:root/o-9x4pql0r2n/r-7k3m\", \"Name\": \"Root\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}], \"NextToken\": \"\"}",
+  "audit": {
+    "timestamps": {
+      "started_at": "2026-04-16T09:23:01.440618+00:00",
+      "finished_at": "2026-04-16T09:23:13.589110+00:00"
+    },
+    "request": {
+      "service": "organizations",
+      "action": "ListRoots",
+      "url": "https://organizations.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AWSOrganizationsV20161128.ListRoots",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "organizations",
+        "operation": "ListRoots",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListRoots"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "organizations_listroots",
+      "risk_delta": 0.04,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "root_count": 1,
+          "has_next_token": false,
+          "root_ids": [
+            "r-7k3m"
+          ]
+        },
+        "field_hints": {
+          "Roots": [
+            {
+              "Id": "r-7k3m",
+              "Arn": "arn:aws:organizations::123456789012:root/o-9x4pql0r2n/r-7k3m",
+              "Name": "Root",
+              "PolicyTypes": [
+                {
+                  "Type": "SERVICE_CONTROL_POLICY",
+                  "Status": "ENABLED"
+                }
+              ]
+            }
+          ],
+          "NextToken": null
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"Roots\": [{\"Id\": \"r-7k3m\", \"Arn\": \"arn:aws:organizations:us-east-1:123456789012:root/o-9x4pql0r2n/r-7k3m\", \"Name\": \"Root\", \"PolicyTypes\": [{\"Type\": \"SERVICE_CONTROL_POLICY\", \"Status\": \"ENABLED\"}]}], \"NextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 12148.509,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 12131.62,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T09:23:01.440848+00:00",
+        "finished_at": "2026-04-16T09:23:13.588048+00:00"
+      }
+    }
+  },
+  "heuristics": {
+    "validation_passed": true,
+    "safe_fallback": false,
+    "llm_error": null,
+    "expected_echo_count": 0,
+    "echoed": [],
+    "missing_echo": [],
+    "placeholder_hits": []
+  }
+}

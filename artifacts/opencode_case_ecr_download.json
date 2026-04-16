@@ -1,0 +1,80 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:17:41.292058+00:00",
+      "finished_at": "2026-04-16T07:17:58.045520+00:00"
+    },
+    "request": {
+      "service": "ecr",
+      "action": "GetDownloadUrlForLayer",
+      "url": "https://api.ecr.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"repositoryName\":\"demo\",\"layerDigest\":\"sha256:abc\"}",
+      "reason": "manual_runtime_probe",
+      "source": "scripts.run_llm_agent_call",
+      "canonical": {
+        "service": "ecr",
+        "operation": "GetDownloadUrlForLayer",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetDownloadUrlForLayer"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "sparse",
+      "error_mode": "none",
+      "decoy_bundle_id": "ecr-layer-probe-01",
+      "risk_delta": 0.08,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "sparse",
+        "entity_hints": {
+          "repositoryName": "demo",
+          "layer_count": 1
+        },
+        "field_hints": {
+          "downloadUrl": "https://prod-us-east-1-starport-layer-bucket.s3.us-east-1.amazonaws.com/blobs/sha256/ab/sha256abc?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=redacted%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=redacted",
+          "layerDigest": "sha256:abc"
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"__type\": \"AccessDeniedException\", \"message\": \"Request blocked by honeypot guardrails for ecr:GetDownloadUrlForLayer\"}",
+      "validation_passed": false,
+      "validation_reason": "Safety pattern denied: https?://"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": false,
+      "validator_reason": "Safety pattern denied: https?://",
+      "fallback_triggered": true
+    },
+    "metrics": {
+      "total_duration_ms": 17768.104,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 16359.178,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:17:42.694901+00:00",
+        "finished_at": "2026-04-16T07:17:58.044843+00:00"
+      }
+    }
+  }
+]

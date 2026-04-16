@@ -1,0 +1,91 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T07:58:17.304932+00:00",
+      "finished_at": "2026-04-16T07:58:35.339775+00:00"
+    },
+    "request": {
+      "service": "resourcegroupstaggingapi",
+      "action": "GetResources",
+      "url": "https://tagging.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetResources",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"ResourcesPerPage\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "resourcegroupstaggingapi",
+        "operation": "GetResources",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "GetResources"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "tagging_getresources_recon_01",
+      "risk_delta": 0.03,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "resource_count": 5,
+          "pagination_token_present": true,
+          "resource_prefixes": [
+            "arn:aws:ec2:us-east-1:123456789012:instance/",
+            "arn:aws:s3:::",
+            "arn:aws:rds:us-east-1:123456789012:db:"
+          ],
+          "account_id": "123456789012",
+          "region": "us-east-1"
+        },
+        "field_hints": {
+          "PaginationToken": "gtag-5f2c9a1e",
+          "ResourceTagMappingList.tag_count_range": [
+            1,
+            4
+          ],
+          "compliance_details": false
+        },
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"PaginationToken\": \"gtag-5f2c9a1e\", \"ResourceTagMappingList\": [{\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/092fe7ef\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}, {\"ResourceARN\": \"arn:aws:resourcegroupstaggingapi:us-east-1:123456789012:getresources/fd72fdd7\", \"Tags\": [{\"Key\": \"Key\", \"Value\": \"Value\"}, {\"Key\": \"Key\", \"Value\": \"Value\"}], \"ComplianceDetails\": {\"NoncompliantKeys\": [\"NoncompliantKey\", \"NoncompliantKey\"], \"KeysWithNoncompliantValues\": [\"KeysWithNoncompliantValue\", \"KeysWithNoncompliantValue\"], \"ComplianceStatus\": false}}]}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 18034.86,
+      "llm": {
+        "provider": "opencode",
+        "model": "openai/gpt-5.4",
+        "duration_ms": 15124.521,
+        "stderr": "",
+        "returncode": 0,
+        "started_at": "2026-04-16T07:58:20.207855+00:00",
+        "finished_at": "2026-04-16T07:58:35.338406+00:00"
+      }
+    }
+  }
+]

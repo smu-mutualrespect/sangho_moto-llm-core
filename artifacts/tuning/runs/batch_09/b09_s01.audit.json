@@ -1,0 +1,215 @@
+[
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:45:45.897894+00:00",
+      "finished_at": "2026-04-16T02:45:51.768866+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "ListDomains",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.ListDomains",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "ListDomains",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDomains"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"domains\": [{\"name\": \"codeartifact-listdomains\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/f79086bf\", \"status\": \"Active\", \"createdTime\": 1776307551, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/a7dfd56e\"}, {\"name\": \"codeartifact-listdomains-1\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/4afe30a7\", \"status\": \"Active\", \"createdTime\": 1776307551, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/ecdb2bb9\"}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5870.995,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:45:51.765875+00:00",
+        "finished_at": "2026-04-16T02:45:51.766330+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:54:22.080329+00:00",
+      "finished_at": "2026-04-16T02:54:27.643950+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "ListDomains",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.ListDomains",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "ListDomains",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDomains"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"domains\": [{\"name\": \"codeartifact-listdomains\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/b5ea3873\", \"status\": \"Active\", \"createdTime\": 1776308067, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/4217c2e7\"}, {\"name\": \"codeartifact-listdomains-1\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/499e865e\", \"status\": \"Active\", \"createdTime\": 1776308067, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/b871ac07\"}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 5563.646,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:54:27.551697+00:00",
+        "finished_at": "2026-04-16T02:54:27.642217+00:00"
+      }
+    }
+  },
+  {
+    "timestamps": {
+      "started_at": "2026-04-16T02:55:21.223552+00:00",
+      "finished_at": "2026-04-16T02:55:28.368445+00:00"
+    },
+    "request": {
+      "service": "codeartifact",
+      "action": "ListDomains",
+      "url": "https://codeartifact.ap-northeast-2.amazonaws.com/",
+      "headers": {
+        "X-Amz-Target": "CodeArtifact_20180701.ListDomains",
+        "Content-Type": "application/x-amz-json-1.1"
+      },
+      "body": "{\"maxResults\":5}",
+      "reason": "tuning_batch_probe",
+      "source": "scripts.run_honeypot_tuning_batches",
+      "canonical": {
+        "service": "codeartifact",
+        "operation": "ListDomains",
+        "principal_type": "unknown",
+        "probe_style": "enumeration",
+        "raw_action": "ListDomains"
+      }
+    },
+    "decision": {
+      "intent_phase": "recon",
+      "response_posture": "normal",
+      "error_mode": "none",
+      "decoy_bundle_id": "baseline",
+      "risk_delta": 0.1,
+      "reason_tags": [
+        "enum_pattern"
+      ],
+      "response_plan": {
+        "mode": "success",
+        "posture": "normal",
+        "entity_hints": {
+          "count": 2
+        },
+        "field_hints": {},
+        "omit_fields": []
+      }
+    },
+    "response": {
+      "body": "{\"domains\": [{\"name\": \"codeartifact-listdomains\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/a0e7f33e\", \"status\": \"Active\", \"createdTime\": 1776308128, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/6afc4442\"}, {\"name\": \"codeartifact-listdomains-1\", \"owner\": \"owner\", \"arn\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/87422437\", \"status\": \"Active\", \"createdTime\": 1776308128, \"encryptionKey\": \"arn:aws:codeartifact:us-east-1:123456789012:listdomains/7ed23307\"}], \"nextToken\": \"\"}",
+      "validation_passed": true,
+      "validation_reason": "ok"
+    },
+    "comparison_points": {
+      "protocol_family_expected": "json",
+      "response_format_detected": "json",
+      "format_match": true,
+      "response_parseable": true,
+      "parse_error": "",
+      "xml_namespace_present": false,
+      "xml_root_tag": "",
+      "json_top_level_type": "dict",
+      "validator_passed": true,
+      "validator_reason": "ok",
+      "fallback_triggered": false
+    },
+    "metrics": {
+      "total_duration_ms": 7144.912,
+      "llm": {
+        "provider": "gpt",
+        "error": "provider_call_failed",
+        "started_at": "2026-04-16T02:55:28.305842+00:00",
+        "finished_at": "2026-04-16T02:55:28.367144+00:00"
+      }
+    }
+  }
+]

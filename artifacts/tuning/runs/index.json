@@ -1,0 +1,9 @@
+{
+  "batches": [
+    {
+      "batch": 10,
+      "summary_json": "artifacts/tuning/runs/batch_10/summary.json",
+      "summary_md": "artifacts/tuning/runs/batch_10/summary.md"
+    }
+  ]
+}

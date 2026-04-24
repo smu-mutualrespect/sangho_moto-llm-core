@@ -9,8 +9,8 @@ from typing import Any
 
 from moto.core.utils import get_service_model
 
-from .normalizer import CanonicalRequest
-from .response_plan import ResponsePlan
+from .tools.planning_tools import ResponsePlan
+from .tools.request_tools import CanonicalRequest
 
 _MAX_DEPTH = 4
 

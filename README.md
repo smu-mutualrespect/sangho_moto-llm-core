@@ -1,6 +1,6 @@
 # moto-llm-core
 
-`moto`의 미구현 AWS API 경로를 허니팟 응답기로 전환하기 위한 LLM fallback 실험 저장소다. 지금 상태는 단순한 `"llm_fallback!!"` 수준을 넘어서, `single agent -> response plan -> shape adapter -> protocol renderer -> validator` 흐름으로 응답을 생성하고, 실제 `opencode` 경로까지 붙여서 live tuning을 돌린 상태다.
+`moto`의 미구현 AWS API 경로를 허니팟 응답기로 전환하기 위한 LLM fallback 실험 저장소다. 지금 상태는 단순한 `"llm_fallback!!"` 수준을 넘어서, `single agent -> response plan -> shape adapter -> protocol renderer -> validator` 흐름으로 응답을 생성하고, 기본 경로는 direct OpenAI Responses API 호출이며 `opencode`는 호환용 opt-in transport로 남겨둔 상태다.
 
 ## 이번에 바꾼 것
 
@@ -18,7 +18,7 @@
 - `response_plan` 단계에서 핵심 field omit 금지, 빈 reconnaissance 응답 금지 같은 안정화 로직을 넣었다.
 
 3. 실제 모델 경로 연결 및 튜닝
-- `providers.py`에 `opencode` transport를 복구해서 실제 모델 호출이 가능하게 했다.
+- `providers.py`에 direct OpenAI Responses API fast path를 기본 경로로 두고, `opencode` transport는 선택적으로 유지했다.
 - `TUNING_PLAN.md`, `artifacts/tuning/command_corpus.json`, `scripts/run_honeypot_tuning_batches.py`를 추가해서 50개 공격성 높은 명령 corpus를 batch로 돌릴 수 있게 했다.
 - live `opencode` 기준으로 튜닝하면서 timestamp 자연어 힌트, 공용 URL, account-id 불일치 ARN, 빈 SSM inventory 같은 문제를 잡았다.
 
@@ -37,7 +37,7 @@
 - `moto/core/llm_agents/validator.py`
   - safety/quality/world-state 검증
 - `moto/core/llm_agents/providers.py`
-  - OpenAI / Claude / `opencode` 호출
+  - OpenAI / Claude 호출, optional `opencode` transport
 - `scripts/run_honeypot_tuning_batches.py`
   - tuning corpus batch runner
 

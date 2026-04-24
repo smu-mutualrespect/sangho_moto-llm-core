@@ -19,8 +19,12 @@ class CanonicalRequest:
     body_format: str
 
 
-def normalize_aws_request(
-    service: Optional[str], action: Optional[str], url: str, headers: dict[str, Any], body: Any
+def normalize_request_tool(
+    service: Optional[str],
+    action: Optional[str],
+    url: str,
+    headers: dict[str, Any],
+    body: Any,
 ) -> CanonicalRequest:
     normalized_service = (service or _service_from_host(url) or "unknown").lower()
     request_params, body_format = _extract_request_params(headers, body)
@@ -56,25 +60,21 @@ def normalize_aws_request(
 def _extract_action(action: Optional[str], headers: dict[str, Any], body: Any) -> str:
     if action:
         return str(action)
-
     target = headers.get("X-Amz-Target") or headers.get("x-amz-target")
     if target:
         return str(target).split(".")[-1]
-
     body_text = body.decode("utf-8", errors="ignore") if isinstance(body, bytes) else str(body or "")
     if "Action=" in body_text:
         params = parse_qs(body_text, keep_blank_values=True)
         values = params.get("Action")
         if values and values[0]:
             return values[0]
-
     return "UnknownAction"
 
 
 def _extract_request_params(headers: dict[str, Any], body: Any) -> tuple[dict[str, Any], str]:
     body_text = body.decode("utf-8", errors="ignore") if isinstance(body, bytes) else str(body or "")
     stripped = body_text.strip()
-
     if stripped.startswith("{") or stripped.startswith("["):
         try:
             parsed = json.loads(stripped)
@@ -83,17 +83,12 @@ def _extract_request_params(headers: dict[str, Any], body: Any) -> tuple[dict[st
         if isinstance(parsed, dict):
             return parsed, "json"
         return {"_root": parsed}, "json"
-
     if "=" in body_text and "&" in body_text or body_text.startswith("Action="):
         params = parse_qs(body_text, keep_blank_values=True)
         normalized: dict[str, Any] = {}
         for key, values in params.items():
-            if len(values) == 1:
-                normalized[key] = values[0]
-            else:
-                normalized[key] = values
+            normalized[key] = values[0] if len(values) == 1 else values
         return normalized, "query"
-
     target = headers.get("X-Amz-Target") or headers.get("x-amz-target")
     if target and stripped:
         try:
@@ -102,7 +97,6 @@ def _extract_request_params(headers: dict[str, Any], body: Any) -> tuple[dict[st
             return {}, "target-text"
         if isinstance(parsed, dict):
             return parsed, "target-json"
-
     return {}, "text"
 
 
@@ -125,11 +119,8 @@ def _extract_target_identifiers(request_params: dict[str, Any]) -> dict[str, str
         if any(token in lowered for token in ("arn", "name", "id", "digest", "secret", "repository", "user")):
             identifiers[key] = str(value)
             if lowered.endswith("s") and len(key) > 1:
-                singular = key[:-1]
-                identifiers.setdefault(singular, str(value))
-            if lowered.endswith("arns"):
                 identifiers.setdefault(key[:-1], str(value))
-            if lowered.endswith("digests"):
+            if lowered.endswith("arns") or lowered.endswith("digests"):
                 identifiers.setdefault(key[:-1], str(value))
 
     visit("", request_params)
@@ -137,10 +128,7 @@ def _extract_target_identifiers(request_params: dict[str, Any]) -> dict[str, str
 
 
 def _canonical_operation(raw_action: str) -> str:
-    action = raw_action.strip()
-    action = action.split(":")[-1]
-    action = action.split(".")[-1]
-    action = re.sub(r"[^A-Za-z0-9]+", " ", action)
+    action = re.sub(r"[^A-Za-z0-9]+", " ", raw_action.split(":")[-1].split(".")[-1].strip())
     parts = [p for p in action.split() if p]
     if not parts:
         return "UnknownAction"

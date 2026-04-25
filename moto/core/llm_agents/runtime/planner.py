@@ -11,11 +11,14 @@ from ..tools.request_tools import CanonicalRequest
 
 _ALLOWED_PHASES = {"recon", "privilege_check", "lateral_probe", "impact_probe"}
 _ALLOWED_ERROR_MODES = {"none", "access_denied", "throttling", "not_found"}
+_ALLOWED_POSTURES = {"sparse", "normal", "rich"}
 
 
 @dataclass(frozen=True)
 class AgentOutput:
     intent_phase: str
+    response_posture: str
+    decoy_bundle_id: str
     risk_delta: float
     reason_tags: list[str]
     error_mode: str
@@ -25,6 +28,8 @@ class AgentOutput:
 
 DEFAULT_OUTPUT = AgentOutput(
     intent_phase="recon",
+    response_posture="normal",
+    decoy_bundle_id="baseline",
     risk_delta=0.1,
     reason_tags=["enum_pattern"],
     error_mode="none",
@@ -39,12 +44,16 @@ def build_agent_prompt(
     history_context: str,
     reason: str,
     source: str,
+    latest_observation: str = "",
+    available_tools: list[str] | None = None,
 ) -> str:
     schema_context = build_full_schema(canonical)
     account_id = str(world_state.get("consistency_locks", {}).get("account_id", "123456789012"))
     region = str(world_state.get("region", "us-east-1"))
     exposed_assets = world_state.get("exposed_assets", [])
     last_actions = world_state.get("last_actions", [])
+    tool_block = json.dumps(available_tools or [], ensure_ascii=False)
+    latest_observation_block = latest_observation or "None"
 
     return f"""{load_agent_system_prompt()}
 
@@ -69,6 +78,12 @@ phase={world_state.get("phase", "recon")}
 SESSION_HISTORY:
 {history_context}
 
+AVAILABLE_TOOLS:
+{tool_block}
+
+LATEST_OBSERVATION:
+{latest_observation_block}
+
 OUTPUT_SCHEMA (botocore definition for {canonical.service}:{canonical.operation}):
 {schema_context}
 
@@ -87,6 +102,8 @@ Rules:
 Respond ONLY with this JSON structure:
 {{
   "intent_phase": "recon|privilege_check|lateral_probe|impact_probe",
+  "response_posture": "sparse|normal|rich",
+  "decoy_bundle_id": "bundle-id",
   "risk_delta": 0.1,
   "reason_tags": ["enum_pattern"],
   "error_mode": "none|access_denied|throttling|not_found",
@@ -105,6 +122,8 @@ def parse_agent_output(raw_text: str) -> AgentOutput:
         return DEFAULT_OUTPUT
 
     intent_phase = _coerce_enum(parsed.get("intent_phase"), _ALLOWED_PHASES, DEFAULT_OUTPUT.intent_phase)
+    response_posture = _coerce_enum(parsed.get("response_posture"), _ALLOWED_POSTURES, DEFAULT_OUTPUT.response_posture)
+    decoy_bundle_id = _coerce_bundle_id(parsed.get("decoy_bundle_id"), DEFAULT_OUTPUT.decoy_bundle_id)
     risk_delta = max(-0.2, min(0.5, _coerce_float(parsed.get("risk_delta"), DEFAULT_OUTPUT.risk_delta)))
 
     reason_tags = parsed.get("reason_tags")
@@ -118,6 +137,8 @@ def parse_agent_output(raw_text: str) -> AgentOutput:
 
     return AgentOutput(
         intent_phase=intent_phase,
+        response_posture=response_posture,
+        decoy_bundle_id=decoy_bundle_id,
         risk_delta=risk_delta,
         reason_tags=reason_tags,
         error_mode=error_mode,
@@ -154,3 +175,10 @@ def _coerce_float(value: Any, default: float) -> float:
         return float(value)
     except Exception:
         return default
+
+
+def _coerce_bundle_id(value: Any, default: str) -> str:
+    s = str(value or "").strip().lower()
+    if re.fullmatch(r"[a-z0-9_-]{3,64}", s):
+        return s
+    return default

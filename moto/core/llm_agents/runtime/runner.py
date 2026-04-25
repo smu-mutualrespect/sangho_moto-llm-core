@@ -1,0 +1,138 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+import os
+from typing import Any
+
+from ..shape_adapter import adapt_response_plan
+from ..tools import build_response_plan_tool, validate_rendered_response_tool
+from ..tools.request_tools import CanonicalRequest
+from ..tools.render_tools import serialize_response_tool
+from .planner import AgentOutput, DEFAULT_OUTPUT, build_agent_prompt, parse_agent_output
+from .provider import _load_dotenv_if_present, call_claude_api_with_meta, call_gpt_api_with_meta
+from .tool_registry import get_available_tool_names
+
+
+@dataclass(frozen=True)
+class AgentRunResult:
+    agent_output: AgentOutput
+    response_body: str
+    rendered_meta: dict[str, Any]
+    field_values: dict[str, Any]
+    planner_meta: dict[str, Any]
+
+
+def run_agent_loop(
+    canonical: CanonicalRequest,
+    world_state: dict[str, Any],
+    history_context: str,
+    reason: str,
+    source: str,
+    max_attempts: int = 2,
+) -> AgentRunResult:
+    latest_observation = ""
+    available_tools = get_available_tool_names()
+    last_planner_meta: dict[str, Any] = {}
+
+    for attempt in range(1, max_attempts + 1):
+        agent_output, raw_text, planner_meta = _call_agent_once(
+            canonical=canonical,
+            world_state=world_state,
+            history_context=history_context,
+            reason=reason,
+            source=source,
+            latest_observation=latest_observation,
+            available_tools=available_tools,
+        )
+        last_planner_meta = dict(planner_meta)
+        last_planner_meta["attempt"] = attempt
+
+        if agent_output.error_mode != "none":
+            return AgentRunResult(
+                agent_output=agent_output,
+                response_body="",
+                rendered_meta={
+                    "assets": [],
+                    "protocol": "error",
+                    "validation_passed": True,
+                    "validation_reason": "agent_requested_error_mode",
+                    "attempts": attempt,
+                },
+                field_values={},
+                planner_meta=last_planner_meta,
+            )
+
+        response_plan = build_response_plan_tool(canonical, agent_output, world_state, raw_text)
+        field_values, plan_meta = adapt_response_plan(canonical, response_plan, world_state)
+        response_body, rendered_meta = serialize_response_tool(canonical, field_values)
+
+        if not response_body:
+            latest_observation = "serializer returned empty body; return a safer and more explicit response_plan"
+            continue
+
+        validation_passed, validation_reason = validate_rendered_response_tool(canonical, response_body, world_state)
+        merged_meta = {
+            **plan_meta,
+            **rendered_meta,
+            "validation_passed": validation_passed,
+            "validation_reason": validation_reason,
+            "attempts": attempt,
+        }
+        if validation_passed:
+            return AgentRunResult(
+                agent_output=agent_output,
+                response_body=response_body,
+                rendered_meta=merged_meta,
+                field_values=field_values,
+                planner_meta=last_planner_meta,
+            )
+
+        latest_observation = (
+            f"attempt={attempt} validation_failed reason={validation_reason}; "
+            "correct the response_plan, preserve core members, and reduce complexity"
+        )
+
+    return AgentRunResult(
+        agent_output=DEFAULT_OUTPUT,
+        response_body="",
+        rendered_meta={
+            "assets": [],
+            "protocol": "unknown",
+            "validation_passed": False,
+            "validation_reason": "agent_loop_exhausted",
+            "attempts": max_attempts,
+        },
+        field_values={},
+        planner_meta=last_planner_meta,
+    )
+
+
+def _call_agent_once(
+    *,
+    canonical: CanonicalRequest,
+    world_state: dict[str, Any],
+    history_context: str,
+    reason: str,
+    source: str,
+    latest_observation: str,
+    available_tools: list[str],
+) -> tuple[AgentOutput, str, dict[str, Any]]:
+    _load_dotenv_if_present()
+    prompt = build_agent_prompt(
+        canonical,
+        world_state,
+        history_context,
+        reason,
+        source,
+        latest_observation=latest_observation,
+        available_tools=available_tools,
+    )
+    provider = os.getenv("MOTO_LLM_PROVIDER", "gpt").lower()
+    try:
+        if provider == "claude":
+            raw, meta = call_claude_api_with_meta(prompt)
+        else:
+            raw, meta = call_gpt_api_with_meta(prompt)
+    except Exception:
+        return DEFAULT_OUTPUT, "", {"provider": provider, "error": "provider_call_failed"}
+    return parse_agent_output(raw), raw, meta

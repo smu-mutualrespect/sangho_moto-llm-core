@@ -57,6 +57,8 @@ artifacts/agentic_runtime/offline_sample_7_*
 artifacts/agentic_runtime/live_sample_7_gpt*
 artifacts/agentic_runtime/live_sample_7_tokens40_*
 artifacts/agentic_runtime/live_sample_7_verbose_*
+artifacts/agentic_runtime/live_sample_7_agent_tools_*
+artifacts/agentic_runtime/live_full_40_agent_tools_*
 artifacts/agentic_runtime_cli_20_*
 artifacts/remaining_20_*
 artifacts/runtime_cli_*

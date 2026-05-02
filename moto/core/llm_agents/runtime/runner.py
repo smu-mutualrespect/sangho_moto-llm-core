@@ -10,6 +10,7 @@ from ..tools.request_tools import CanonicalRequest
 from ..tools.render_tools import serialize_response_tool
 from .planner import AgentOutput, DEFAULT_OUTPUT, build_agent_prompt, parse_agent_output
 from .provider import _load_dotenv_if_present, call_gpt_api_with_meta
+from .tool_executor import execute_agent_tool_requests
 from .tool_registry import get_available_tool_names
 
 
@@ -33,6 +34,7 @@ def run_agent_loop(
     latest_observation = ""
     available_tools = get_available_tool_names()
     last_planner_meta: dict[str, Any] = {}
+    tool_observations: list[str] = []
 
     for attempt in range(1, max_attempts + 1):
         agent_output, raw_text, planner_meta = _call_agent_once(
@@ -46,6 +48,20 @@ def run_agent_loop(
         )
         last_planner_meta = dict(planner_meta)
         last_planner_meta["attempt"] = attempt
+        if tool_observations:
+            last_planner_meta["tool_calls_executed"] = len(tool_observations)
+            last_planner_meta["tool_observations"] = tool_observations
+
+        if agent_output.tool_requests and attempt < max_attempts:
+            latest_observation = execute_agent_tool_requests(
+                agent_output.tool_requests,
+                canonical=canonical,
+                world_state=world_state,
+                history_context=history_context,
+            )
+            if latest_observation:
+                tool_observations.append(latest_observation)
+            continue
 
         if agent_output.error_mode != "none":
             return AgentRunResult(

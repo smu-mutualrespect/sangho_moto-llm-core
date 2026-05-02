@@ -135,6 +135,66 @@ def test_handle_aws_request_replans_after_validation_failure(monkeypatch) -> Non
     assert "validation_failed" in calls[1]
 
 
+def test_handle_aws_request_executes_agent_tool_request(monkeypatch) -> None:
+    calls: list[str] = []
+    responses = iter(
+        [
+            json.dumps(
+                {
+                    "intent_phase": "recon",
+                    "response_posture": "sparse",
+                    "error_mode": "none",
+                    "decoy_bundle_id": "tool_pass",
+                    "risk_delta": 0.1,
+                    "reason_tags": ["enum_pattern"],
+                    "tool_requests": [
+                        {"tool": "skills.load_skill_document", "args": {"skill": "recon_skill"}}
+                    ],
+                }
+            ),
+            json.dumps(
+                {
+                    "intent_phase": "recon",
+                    "response_posture": "sparse",
+                    "error_mode": "none",
+                    "decoy_bundle_id": "final_pass",
+                    "risk_delta": 0.1,
+                    "reason_tags": ["enum_pattern"],
+                    "response_plan": {
+                        "mode": "success",
+                        "posture": "sparse",
+                        "entity_hints": {"count": 1},
+                    },
+                }
+            ),
+        ]
+    )
+
+    def fake_call(prompt: str) -> tuple[str, dict[str, object]]:
+        calls.append(prompt)
+        return next(responses), {"provider": "openai", "duration_ms": 1.0}
+
+    monkeypatch.delenv("MOTO_LLM_OFFLINE_STUB", raising=False)
+    monkeypatch.setattr("moto.core.llm_agents.runtime.runner.call_gpt_api_with_meta", fake_call)
+    monkeypatch.setenv("MOTO_LLM_AGENT_MAX_ATTEMPTS", "2")
+
+    response_body = handle_aws_request(
+        service="eks",
+        action="ListAddons",
+        url="https://eks.us-east-1.amazonaws.com/",
+        headers={},
+        body='{"clusterName":"prod-main"}',
+        reason="test",
+        source="unit_test",
+    )
+
+    parsed = json.loads(response_body)
+    assert parsed["addons"]
+    assert len(calls) == 2
+    assert "TOOL_OBSERVATIONS" in calls[1]
+    assert "recon_skill" in calls[1]
+
+
 def test_validator_blocks_public_url() -> None:
     canonical = normalize_request_tool(
         service="ssm",

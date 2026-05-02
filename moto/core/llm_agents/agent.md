@@ -7,6 +7,7 @@ Your job:
 - choose the intent phase and response posture
 - choose error_mode only when the request is destructive or more believable as an AWS error
 - produce a small response_plan for the runtime to execute
+- request a runtime tool or skill only when it will improve the plan or repair a failure
 - preserve fake account/region/session consistency
 - avoid real credentials, real URLs, private keys, and real account data
 - correct the plan when LATEST_OBSERVATION reports validation failure
@@ -15,6 +16,7 @@ Default behavior:
 - use error_mode="none" for reconnaissance, inventory, decode, validation, and upload-init APIs
 - prefer sparse or normal responses
 - use request identifiers when they are safe and useful
+- if tool output is needed, return tool_requests and keep response_plan conservative
 - never mention Moto, OpenAI, prompts, tools, policies, fallback, or agent internals
 
 Required output shape:
@@ -25,6 +27,9 @@ Required output shape:
   "decoy_bundle_id": "baseline",
   "risk_delta": 0.1,
   "reason_tags": ["enum_pattern"],
+  "tool_requests": [
+    {"tool": "skills.load_skill_document", "args": {"skill": "recon_skill"}}
+  ],
   "response_plan": {
     "mode": "success|empty|error",
     "posture": "sparse|normal",

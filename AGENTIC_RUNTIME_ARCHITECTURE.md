@@ -2,22 +2,24 @@
 
 이 문서는 이 코드를 처음 보는 사람이 현재 LLM fallback runtime의 구조, 설계 이유, 실제 검증 결과를 한 번에 이해할 수 있도록 정리한 문서입니다.
 
-핵심 결론부터 말하면 현재 구조는 **단일 planner-agent + deterministic AWS renderer/validator**입니다. LLM이 최종 JSON/XML 응답을 직접 쓰지 않고, LLM은 응답 계획만 만들며, 실제 AWS 응답 구조는 botocore shape와 Moto serializer가 만듭니다.
+핵심 결론부터 말하면 현재 구조는 **단일 planner-agent + optional runtime tool/skill requests + deterministic AWS renderer/validator**입니다. LLM이 최종 JSON/XML 응답을 직접 쓰지 않고, LLM은 `agent.md`를 source of truth로 읽은 prompt에서 응답 계획을 만들며, 실제 AWS 응답 구조는 botocore shape와 Moto serializer가 만듭니다.
 
 ## 1. Live 40개 실험 평균 요약
 
-아래 표는 실제 OpenAI Responses API live mode로 40개 command corpus를 실행한 결과입니다. `max_output_tokens=80`은 현재 기본 실험이고, `max_output_tokens=40`은 3초 목표를 위해 추가로 수행한 token cap 비교 실험입니다.
+아래 표는 실제 OpenAI Responses API live mode로 40개 command corpus를 실행한 결과입니다. `agent.md + tool_requests` 행은 verbose prompt 분기를 제거하고, agent가 필요 시 runtime tool/skill을 JSON으로 요청할 수 있게 만든 최신 코드 기준입니다.
 
 | 실험 | 명령어 수 | 평균 latency | 중앙값 | p95 근사 | 최대 | 3초 이내 | 4초 이내 | 총 tokens | 평균 tokens | Provider OK | AWS recursive shape |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | live full 40, max_output_tokens=80 | 40 | 2649.933ms | 2482.343ms | 4027.804ms | 5280.574ms | 22/40 | 37/40 | 10907 | 272.7 | 40/40 | 40/40 |
 | live full 40, max_output_tokens=40 | 40 | 2380.287ms | 1948.734ms | 3992.605ms | 5289.984ms | 25/40 | 38/40 | 9307 | 232.7 | 40/40 | 40/40 |
+| live full 40, agent.md + tool_requests, max_output_tokens=80 | 40 | 2310.177ms | 2190.462ms | 4318.843ms | 4406.252ms | 30/40 | 37/40 | 30497 | 762.4 | 40/40 | 40/40 |
 
 해석:
 
 - 평균 latency는 3초 이내입니다.
 - 하지만 목표였던 “40개 각각이 모두 3초 이내”는 아직 아닙니다.
-- `max_output_tokens=40`은 token 사용량과 평균 latency를 줄였지만, tail latency 때문에 p100 3초 목표는 달성하지 못했습니다.
+- 최신 `agent.md + tool_requests` 구조는 평균 latency 2.31초로 3초 이내입니다. 다만 tail latency 때문에 3개 command는 4초를 넘었습니다.
+- `max_output_tokens=40`은 이전 compact prompt에서는 token 사용량과 평균 latency를 줄였지만, 최신 agent.md 구조에서 `max_output_tokens=60` 샘플은 tail latency 개선이 일관적이지 않았습니다.
 - AWS CLI reference와 botocore recursive output shape 기준 구조 품질은 live 40개 모두 통과했습니다.
 
 ## 2. Live 40개 실제 응답, Token, Latency 표
@@ -108,8 +110,12 @@ handle_aws_request
   -> get_session_history_tool
   -> run_agent_loop
        -> build_agent_prompt
+            -> agent.md 로드
+            -> compact request context와 사용 가능한 tool 목록 추가
        -> OpenAI Responses API direct call
        -> parse_agent_output
+       -> tool_requests가 있으면 runtime tool/skill 실행
+            -> TOOL_OBSERVATIONS를 다음 attempt prompt에 주입
        -> build_response_plan_tool
        -> adapt_response_plan
             -> botocore output shape 조회
@@ -124,13 +130,13 @@ handle_aws_request
   -> response body 반환
 ```
 
-중요한 경계는 `run_agent_loop` 안에 있습니다. OpenAI 호출은 계획을 얻기 위해 한 번 발생하고, 그 뒤의 AWS 응답 body 생성은 `shape_adapter.py`와 `render_tools.py`가 처리합니다.
+중요한 경계는 `run_agent_loop` 안에 있습니다. OpenAI 호출은 계획을 얻기 위해 발생하고, agent가 `tool_requests`를 낸 경우에만 제한된 runtime tool/skill을 실행한 뒤 한 번 더 계획을 받습니다. 그 뒤의 AWS 응답 body 생성은 `shape_adapter.py`와 `render_tools.py`가 처리합니다.
 
 ## 5. 단일 agent인가?
 
 네. 현재 fallback path는 단일 agentic runtime입니다.
 
-`handle_aws_request(...)`는 항상 `run_agent_loop(...)`로 들어갑니다. 이전처럼 `workflow`와 `agentic` 두 경로가 분기해서 경쟁하는 구조가 아닙니다.
+`handle_aws_request(...)`는 항상 `run_agent_loop(...)`로 들어갑니다. 이전처럼 `workflow`와 `agentic` 두 경로가 분기해서 경쟁하는 구조가 아닙니다. `verbose` prompt 분기도 제거되어 실제 prompt의 정책 부분은 `moto/core/llm_agents/agent.md`에서 로드됩니다.
 
 정확한 표현은 아래와 같습니다.
 
@@ -139,6 +145,38 @@ single planner-agent + deterministic AWS shape adapter + deterministic serialize
 ```
 
 이 구조는 multi-agent system이 아닙니다. 여러 agent가 서로 토론하거나 역할 분담을 하지 않습니다. 하나의 planner-agent가 응답 계획을 만들고, deterministic runtime이 AWS correctness를 보장합니다.
+
+## 5.1 Tool/Skill 사용 방식
+
+현재 tool/skill은 OpenAI function calling protocol이 아니라, agent가 JSON output 안에 `tool_requests`를 넣으면 runtime이 실행하는 내부 agent tool 방식입니다.
+
+```json
+{
+  "tool_requests": [
+    {"tool": "skills.load_skill_document", "args": {"skill": "recon_skill"}}
+  ]
+}
+```
+
+지원되는 agent 요청 도구는 다음과 같습니다.
+
+| Tool | 역할 |
+| --- | --- |
+| `skills.load_skill_document` | `moto/core/llm_agents/skills/*.md`에서 필요한 skill 문서를 읽어 다음 attempt에 전달 |
+| `schema.inspect_output_shape` | 현재 AWS operation의 botocore output shape 요약을 전달 |
+| `runtime.summarize_request_context` | service/operation/params/identifiers/history를 짧게 요약 |
+
+흐름은 아래와 같습니다.
+
+```text
+agent output에 tool_requests 존재
+  -> execute_agent_tool_requests
+  -> TOOL_OBSERVATIONS=[...] 생성
+  -> 다음 attempt의 LATEST_OBSERVATION에 삽입
+  -> agent가 최종 response_plan 작성
+```
+
+주의할 점은 최신 live 40개 benchmark에서는 agent가 대부분 바로 충분한 `response_plan`을 냈기 때문에 실제 tool call 수는 0이었습니다. 즉 현재 코드는 agent가 자율적으로 tool/skill을 요청할 수 있는 구조이고, 해당 경로는 단위 테스트로 검증되어 있지만, latency를 위해 모든 요청에서 tool 사용을 강제하지는 않습니다.
 
 ## 6. 일반 LLM 호출과의 차이
 

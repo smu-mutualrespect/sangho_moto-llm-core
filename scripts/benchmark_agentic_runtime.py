@@ -578,6 +578,8 @@ def _usage_from_audit(record: dict[str, Any]) -> dict[str, Any]:
         "model": llm.get("model", "unknown") if isinstance(llm, dict) else "unknown",
         "response_id": llm.get("response_id", "") if isinstance(llm, dict) else "",
         "error": llm.get("error", "") if isinstance(llm, dict) else "",
+        "attempt": llm.get("attempt", 0) if isinstance(llm, dict) else 0,
+        "tool_calls_executed": llm.get("tool_calls_executed", 0) if isinstance(llm, dict) else 0,
     }
 
 
@@ -595,6 +597,7 @@ def _diagnose_latency(latency_ms: float, usage: dict[str, Any], audit_record: di
         "input_tokens": usage.get("input_tokens", 0),
         "output_tokens": usage.get("output_tokens", 0),
         "total_tokens": usage.get("total_tokens", 0),
+        "tool_calls_executed": usage.get("tool_calls_executed", 0),
         "suggested_actions": _latency_suggestions(latency_ms, usage, llm_duration),
     }
 
@@ -619,6 +622,7 @@ def _summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     under_3s = sum(1 for item in results if item["under_3s"])
     under_4s = sum(1 for item in results if item["under_4s"])
     total_tokens = sum(int(item["token_usage"].get("total_tokens") or 0) for item in results)
+    tool_calls_executed = sum(int(item["token_usage"].get("tool_calls_executed") or 0) for item in results)
     aws_shape_pass = sum(1 for item in results if item["aws_output_shape_pass"])
     recursive_shape_pass = sum(1 for item in results if item["aws_output_shape_recursive_pass"])
     reference_verified = sum(1 for item in results if item["aws_cli_reference_verified"])
@@ -634,6 +638,7 @@ def _summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
         "aws_cli_reference_verified": reference_verified,
         "provider_call_ok": provider_call_ok,
         "total_tokens": total_tokens,
+        "tool_calls_executed": tool_calls_executed,
     }
 
 
@@ -653,16 +658,18 @@ def _render_summary(payload: dict[str, Any]) -> str:
         f"- AWS recursive shape pass: {payload['summary']['aws_output_shape_recursive_pass']}/{payload['summary']['total']}",
         f"- AWS CLI reference verified: {payload['summary']['aws_cli_reference_verified']}/{payload['summary']['total']}",
         f"- Total tokens: {payload['summary']['total_tokens']}",
+        f"- Agent tool calls executed: {payload['summary'].get('tool_calls_executed', 0)}",
         "",
-        "| ID | Latency ms | <3s | <4s | Provider | AWS shape | Recursive | Ref | Quality | Tokens |",
-        "| --- | ---: | --- | --- | --- | --- | --- | --- | --- | ---: |",
+        "| ID | Latency ms | <3s | <4s | Provider | AWS shape | Recursive | Ref | Quality | Tokens | Tool calls |",
+        "| --- | ---: | --- | --- | --- | --- | --- | --- | --- | ---: | ---: |",
     ]
     for item in payload["results"]:
         lines.append(
             f"| {item['id']} | {item['latency_ms']} | {item['under_3s']} | "
             f"{item['under_4s']} | {item['provider_call_ok']} | {item['aws_output_shape_pass']} | "
             f"{item['aws_output_shape_recursive_pass']} | {item['aws_cli_reference_verified']} | "
-            f"{item['quality_pass']} | {item['token_usage'].get('total_tokens', 0)} |"
+            f"{item['quality_pass']} | {item['token_usage'].get('total_tokens', 0)} | "
+            f"{item['token_usage'].get('tool_calls_executed', 0)} |"
         )
     return "\n".join(lines) + "\n"
 

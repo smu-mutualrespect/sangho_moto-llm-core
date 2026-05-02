@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from .skill_loader import load_agent_system_prompt
@@ -23,6 +23,7 @@ class AgentOutput:
     error_mode: str
     field_values: dict[str, Any]
     environment_delta: dict[str, Any]
+    tool_requests: list[dict[str, Any]] = field(default_factory=list)
 
 
 DEFAULT_OUTPUT = AgentOutput(
@@ -81,6 +82,7 @@ def _build_compact_agent_prompt(
         f"tools={tool_block} LATEST_OBSERVATION={latest_observation_block}. "
         'OUTPUT_JSON_SCHEMA: {"intent_phase":"recon","response_posture":"sparse|normal","error_mode":"none|access_denied|throttling|not_found",'
         '"decoy_bundle_id":"baseline","risk_delta":0.1,"reason_tags":["enum_pattern"],'
+        '"tool_requests":[{"tool":"skills.load_skill_document","args":{"skill":"recon_skill"}}],'
         '"response_plan":{"mode":"success","posture":"sparse","entity_hints":{"count":1},"field_hints":{},"omit_fields":[]},'
         '"environment_delta":{}}'
     )
@@ -104,6 +106,8 @@ def parse_agent_output(raw_text: str) -> AgentOutput:
     error_mode = _coerce_enum(parsed.get("error_mode"), _ALLOWED_ERROR_MODES, DEFAULT_OUTPUT.error_mode)
     field_values = parsed.get("field_values") if isinstance(parsed.get("field_values"), dict) else {}
     environment_delta = parsed.get("environment_delta") if isinstance(parsed.get("environment_delta"), dict) else {}
+    tool_requests = parsed.get("tool_requests") if isinstance(parsed.get("tool_requests"), list) else []
+    tool_requests = [item for item in tool_requests if isinstance(item, dict)][:3]
 
     return AgentOutput(
         intent_phase=intent_phase,
@@ -114,6 +118,7 @@ def parse_agent_output(raw_text: str) -> AgentOutput:
         error_mode=error_mode,
         field_values=field_values,
         environment_delta=environment_delta,
+        tool_requests=tool_requests,
     )
 
 

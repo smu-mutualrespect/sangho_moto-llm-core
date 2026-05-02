@@ -1,28 +1,104 @@
-# Agentic Runtime Architecture
+# Agentic Runtime 구조 설명 및 Live Benchmark 결과
 
-## Summary
+이 문서는 이 코드를 처음 보는 사람이 현재 LLM fallback runtime의 구조, 설계 이유, 실제 검증 결과를 한 번에 이해할 수 있도록 정리한 문서입니다.
 
-This repository now uses a single agentic fallback runtime for Moto LLM-backed AWS responses.
-The runtime is not a free-form "LLM writes the whole response" path. It is a constrained planner-agent plus deterministic AWS response renderer.
+핵심 결론부터 말하면 현재 구조는 **단일 planner-agent + deterministic AWS renderer/validator**입니다. LLM이 최종 JSON/XML 응답을 직접 쓰지 않고, LLM은 응답 계획만 만들며, 실제 AWS 응답 구조는 botocore shape와 Moto serializer가 만듭니다.
 
-The main goal is:
+## 1. Live 40개 실험 평균 요약
 
-- keep one runtime path instead of maintaining separate workflow and agentic paths
-- let the LLM make only the high-level response plan
-- let deterministic code build AWS-shaped payloads from botocore models
-- serialize responses with Moto's protocol serializers
-- validate parseability, protocol, safety, and AWS output shape before returning
-- record latency, token usage, provider metadata, and audit evidence
+아래 표는 실제 OpenAI Responses API live mode로 40개 command corpus를 실행한 결과입니다. `max_output_tokens=80`은 현재 기본 실험이고, `max_output_tokens=40`은 3초 목표를 위해 추가로 수행한 token cap 비교 실험입니다.
 
-## Current Request Flow
+| 실험 | 명령어 수 | 평균 latency | 중앙값 | p95 근사 | 최대 | 3초 이내 | 4초 이내 | 총 tokens | 평균 tokens | Provider OK | AWS recursive shape |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| live full 40, max_output_tokens=80 | 40 | 2649.933ms | 2482.343ms | 4027.804ms | 5280.574ms | 22/40 | 37/40 | 10907 | 272.7 | 40/40 | 40/40 |
+| live full 40, max_output_tokens=40 | 40 | 2380.287ms | 1948.734ms | 3992.605ms | 5289.984ms | 25/40 | 38/40 | 9307 | 232.7 | 40/40 | 40/40 |
 
-Entry point:
+해석:
+
+- 평균 latency는 3초 이내입니다.
+- 하지만 목표였던 “40개 각각이 모두 3초 이내”는 아직 아닙니다.
+- `max_output_tokens=40`은 token 사용량과 평균 latency를 줄였지만, tail latency 때문에 p100 3초 목표는 달성하지 못했습니다.
+- AWS CLI reference와 botocore recursive output shape 기준 구조 품질은 live 40개 모두 통과했습니다.
+
+## 2. Live 40개 실제 응답, Token, Latency 표
+
+아래 표는 `artifacts/agentic_runtime/live_full_40_results.json` 기준입니다. “실제 응답” 칸은 접을 수 있게 넣었습니다.
+
+| # | Command ID | AWS CLI command | Latency | <3s | <4s | Tokens | Input | Output | AWS shape | 실제 응답 |
+| ---: | --- | --- | ---: | --- | --- | ---: | ---: | ---: | --- | --- |
+| 1 | `bedrock_list_foundation_models` | <code>aws bedrock list-foundation-models</code> | 4249.759ms | N | N | 254 | 174 | 80 | Y | <details><summary><code>{"modelSummaries": [{"modelArn": "arn:aws:bedrock:us-east-1:123456789012:listfoundationmodels/fc107387", "modelId": "bedrock-d68c7ba7", "modelName": "modelName", "providerName": "providerName", "inputModalities": ["TEXT" ...</code></summary><pre><code>{"modelSummaries": [{"modelArn": "arn:aws:bedrock:us-east-1:123456789012:listfoundationmodels/fc107387", "modelId": "bedrock-d68c7ba7", "modelName": "modelName", "providerName": "providerName", "inputModalities": ["TEXT", "TEXT"], "outputModalities": ["TEXT", "TEXT"], "responseStreamingSupported": false, "customizationsSupported": ["FINE_TUNING", "FINE_TUNING"], "inferenceTypesSupported": ["ON_DEMAND", "ON_DEMAND"], "modelLifecycle": {"status": "ACTIVE", "startOfLifeTime": "2026-05-02T13:59:08Z", "endOfLifeTime": "2026-05-02T13:59:08Z", "legacyTime": "2026-05-02T13:59:08Z", "publicExtendedAccessTime": "2026-05-02T13:59:08Z"}}, {"modelArn": "arn:aws:bedrock:us-east-1:123456789012:listfoundationmodels/ddfa6055", "modelId": "bedrock-d7881197", "modelName": "modelName", "providerName": "providerName", "inputModalities": ["TEXT", "TEXT"], "outputModalities": ["TEXT", "TEXT"], "responseStreamingSupported": false, "customizationsSupported": ["FINE_TUNING", "FINE_TUNING"], "inferenceTypesSupported": ["ON_DEMAND", "ON_DEMAND"], "modelLifecycle": {"status": "ACTIVE", "startOfLifeTime": "2026-05-02T13:59:08Z", "endOfLifeTime": "2026-05-02T13:59:08Z", "legacyTime": "2026-05-02T13:59:08Z", "publicExtendedAccessTime": "2026-05-02T13:59:08Z"}}]}</code></pre></details> |
+| 2 | `ec2_monitor_instances` | <code>aws ec2 monitor-instances --instance-ids i-1234567890abcdef0</code> | 3601.850ms | N | Y | 272 | 192 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;MonitorInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;instancesSet&gt;&lt;item&gt;&lt;instanceId&gt;i-bb1d72251578d9d87&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/monito ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;MonitorInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;instancesSet&gt;&lt;item&gt;&lt;instanceId&gt;i-bb1d72251578d9d87&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/monitoring&gt;&lt;/item&gt;&lt;item&gt;&lt;instanceId&gt;i-fe0b3edeb304d3746&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/monitoring&gt;&lt;/item&gt;&lt;/instancesSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/MonitorInstancesResponse&gt;</code></pre></details> |
+| 3 | `ec2_unmonitor_instances` | <code>aws ec2 unmonitor-instances --instance-ids i-1234567890abcdef0</code> | 1533.212ms | Y | Y | 274 | 194 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;UnmonitorInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;instancesSet&gt;&lt;item&gt;&lt;instanceId&gt;i-40a429754f362ef94&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/moni ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;UnmonitorInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;instancesSet&gt;&lt;item&gt;&lt;instanceId&gt;i-40a429754f362ef94&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/monitoring&gt;&lt;/item&gt;&lt;item&gt;&lt;instanceId&gt;i-0e4bb51cd89bd774c&lt;/instanceId&gt;&lt;monitoring&gt;&lt;state&gt;disabled&lt;/state&gt;&lt;/monitoring&gt;&lt;/item&gt;&lt;/instancesSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/UnmonitorInstancesResponse&gt;</code></pre></details> |
+| 4 | `ec2_describe_reserved_instances` | <code>aws ec2 describe-reserved-instances</code> | 3214.116ms | N | Y | 260 | 180 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;DescribeReservedInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesSet&gt;&lt;item&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;instanceTenancy&gt;default&lt;/instanceTena ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;DescribeReservedInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesSet&gt;&lt;item&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;instanceTenancy&gt;default&lt;/instanceTenancy&gt;&lt;offeringClass&gt;standard&lt;/offeringClass&gt;&lt;offeringType&gt;Heavy Utilization&lt;/offeringType&gt;&lt;recurringCharges&gt;&lt;item&gt;&lt;amount&gt;1.0&lt;/amount&gt;&lt;frequency&gt;Hourly&lt;/frequency&gt;&lt;/item&gt;&lt;item&gt;&lt;amount&gt;1.0&lt;/amount&gt;&lt;frequency&gt;Hourly&lt;/frequency&gt;&lt;/item&gt;&lt;/recurringCharges&gt;&lt;scope&gt;Availability Zone&lt;/scope&gt;&lt;tagSet&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;/tagSet&gt;&lt;availabilityZoneId&gt;ec2-bceb9855&lt;/availabilityZoneId&gt;&lt;reservedInstancesId&gt;ec2-e51b4e4f&lt;/reservedInstancesId&gt;&lt;instanceType&gt;a1.medium&lt;/instanceType&gt;&lt;availabilityZone&gt;us-east-1a&lt;/availabilityZone&gt;&lt;start&gt;2026-05-02T13:59:14.000Z&lt;/start&gt;&lt;end&gt;2026-05-02T13:59:14.000Z&lt;/end&gt;&lt;duration&gt;1&lt;/duration&gt;&lt;usagePrice&gt;1.0&lt;/usagePrice&gt;&lt;fixedPrice&gt;1.0&lt;/fixedPrice&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;productDescription&gt;Linux/UNIX&lt;/productDescription&gt;&lt;state&gt;payment-pending&lt;/state&gt;&lt;/item&gt;&lt;item&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;instanceTenancy&gt;default&lt;/instanceTenancy&gt;&lt;offeringClass&gt;standard&lt;/offeringClass&gt;&lt;offeringType&gt;Heavy Utilization&lt;/offeringType&gt;&lt;recurringCharges&gt;&lt;item&gt;&lt;amount&gt;1.0&lt;/amount&gt;&lt;frequency&gt;Hourly&lt;/frequency&gt;&lt;/item&gt;&lt;item&gt;&lt;amount&gt;1.0&lt;/amount&gt;&lt;frequency&gt;Hourly&lt;/frequency&gt;&lt;/item&gt;&lt;/recurringCharges&gt;&lt;scope&gt;Availability Zone&lt;/scope&gt;&lt;tagSet&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;/tagSet&gt;&lt;availabilityZoneId&gt;ec2-e976c550&lt;/availabilityZoneId&gt;&lt;reservedInstancesId&gt;ec2-256bd89d&lt;/reservedInstancesId&gt;&lt;instanceType&gt;a1.medium&lt;/instanceType&gt;&lt;availabilityZone&gt;us-east-1a&lt;/availabilityZone&gt;&lt;start&gt;2026-05-02T13:59:14.000Z&lt;/start&gt;&lt;end&gt;2026-05-02T13:59:14.000Z&lt;/end&gt;&lt;duration&gt;1&lt;/duration&gt;&lt;usagePrice&gt;1.0&lt;/usagePrice&gt;&lt;fixedPrice&gt;1.0&lt;/fixedPrice&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;productDescription&gt;Linux/UNIX&lt;/productDescription&gt;&lt;state&gt;payment-pending&lt;/state&gt;&lt;/item&gt;&lt;/reservedInstancesSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/DescribeReservedInstancesResponse&gt;</code></pre></details> |
+| 5 | `ec2_describe_reserved_instances_listings` | <code>aws ec2 describe-reserved-instances-listings</code> | 2364.917ms | Y | Y | 262 | 182 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;DescribeReservedInstancesListingsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesListingsSet&gt;&lt;item&gt;&lt;clientToken/&gt;&lt;createDate&gt;2026-05-02T13:59:16.000Z&lt;/cr ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;DescribeReservedInstancesListingsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesListingsSet&gt;&lt;item&gt;&lt;clientToken/&gt;&lt;createDate&gt;2026-05-02T13:59:16.000Z&lt;/createDate&gt;&lt;instanceCounts&gt;&lt;item&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;state&gt;available&lt;/state&gt;&lt;/item&gt;&lt;item&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;state&gt;available&lt;/state&gt;&lt;/item&gt;&lt;/instanceCounts&gt;&lt;priceSchedules&gt;&lt;item&gt;&lt;active&gt;false&lt;/active&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;price&gt;1.0&lt;/price&gt;&lt;term&gt;1&lt;/term&gt;&lt;/item&gt;&lt;item&gt;&lt;active&gt;false&lt;/active&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;price&gt;1.0&lt;/price&gt;&lt;term&gt;1&lt;/term&gt;&lt;/item&gt;&lt;/priceSchedules&gt;&lt;reservedInstancesId&gt;ec2-c63d5ae6&lt;/reservedInstancesId&gt;&lt;reservedInstancesListingId&gt;ec2-7eb86d37&lt;/reservedInstancesListingId&gt;&lt;status&gt;active&lt;/status&gt;&lt;statusMessage&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic ec2:DescribeReservedInstancesListings"}&lt;/statusMessage&gt;&lt;tagSet&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;/tagSet&gt;&lt;updateDate&gt;2026-05-02T13:59:16.000Z&lt;/updateDate&gt;&lt;/item&gt;&lt;item&gt;&lt;clientToken/&gt;&lt;createDate&gt;2026-05-02T13:59:16.000Z&lt;/createDate&gt;&lt;instanceCounts&gt;&lt;item&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;state&gt;available&lt;/state&gt;&lt;/item&gt;&lt;item&gt;&lt;instanceCount&gt;2&lt;/instanceCount&gt;&lt;state&gt;available&lt;/state&gt;&lt;/item&gt;&lt;/instanceCounts&gt;&lt;priceSchedules&gt;&lt;item&gt;&lt;active&gt;false&lt;/active&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;price&gt;1.0&lt;/price&gt;&lt;term&gt;1&lt;/term&gt;&lt;/item&gt;&lt;item&gt;&lt;active&gt;false&lt;/active&gt;&lt;currencyCode&gt;USD&lt;/currencyCode&gt;&lt;price&gt;1.0&lt;/price&gt;&lt;term&gt;1&lt;/term&gt;&lt;/item&gt;&lt;/priceSchedules&gt;&lt;reservedInstancesId&gt;ec2-16409a7f&lt;/reservedInstancesId&gt;&lt;reservedInstancesListingId&gt;ec2-e0484fea&lt;/reservedInstancesListingId&gt;&lt;status&gt;active&lt;/status&gt;&lt;statusMessage&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic ec2:DescribeReservedInstancesListings"}&lt;/statusMessage&gt;&lt;tagSet&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;item&gt;&lt;key&gt;Key&lt;/key&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/item&gt;&lt;/tagSet&gt;&lt;updateDate&gt;2026-05-02T13:59:16.000Z&lt;/updateDate&gt;&lt;/item&gt;&lt;/reservedInstancesListingsSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/DescribeReservedInstancesListingsResponse&gt;</code></pre></details> |
+| 6 | `ec2_purchase_reserved_instances_offering` | <code>aws ec2 purchase-reserved-instances-offering --reserved-instances-offering-id aaaaaa11-bbbb-cccc-ddd-example1 --instance-count 1</code> | 2525.531ms | Y | Y | 301 | 221 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;PurchaseReservedInstancesOfferingResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesId&gt;ec2-f80b72f1&lt;/reservedInstancesId&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/ ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;PurchaseReservedInstancesOfferingResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;reservedInstancesId&gt;ec2-f80b72f1&lt;/reservedInstancesId&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/PurchaseReservedInstancesOfferingResponse&gt;</code></pre></details> |
+| 7 | `ec2_describe_volume_status` | <code>aws ec2 describe-volume-status --volume-ids vol-1234567890abcdef0</code> | 3104.389ms | N | Y | 274 | 194 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;DescribeVolumeStatusResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;nextToken/&gt;&lt;volumeStatusSet&gt;&lt;item&gt;&lt;actionsSet&gt;&lt;item&gt;&lt;code&gt;Code&lt;/code&gt;&lt;description&gt;Description&lt;/descrip ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;DescribeVolumeStatusResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;nextToken/&gt;&lt;volumeStatusSet&gt;&lt;item&gt;&lt;actionsSet&gt;&lt;item&gt;&lt;code&gt;Code&lt;/code&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-c9454e48&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;/item&gt;&lt;item&gt;&lt;code&gt;Code&lt;/code&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-7a100fb2&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;/item&gt;&lt;/actionsSet&gt;&lt;availabilityZone&gt;us-east-1a&lt;/availabilityZone&gt;&lt;outpostArn&gt;arn:aws:ec2:us-east-1:123456789012:describevolumestatus/5db243e1&lt;/outpostArn&gt;&lt;eventsSet&gt;&lt;item&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-56d8e572&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;notAfter&gt;2026-05-02T13:59:22.000Z&lt;/notAfter&gt;&lt;notBefore&gt;2026-05-02T13:59:22.000Z&lt;/notBefore&gt;&lt;instanceId&gt;i-1a867a2a0ed05ca84&lt;/instanceId&gt;&lt;/item&gt;&lt;item&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-7fcb5afb&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;notAfter&gt;2026-05-02T13:59:22.000Z&lt;/notAfter&gt;&lt;notBefore&gt;2026-05-02T13:59:22.000Z&lt;/notBefore&gt;&lt;instanceId&gt;i-ee1880b8aa516526b&lt;/instanceId&gt;&lt;/item&gt;&lt;/eventsSet&gt;&lt;volumeId&gt;ec2-e03828bb&lt;/volumeId&gt;&lt;volumeStatus&gt;&lt;details&gt;&lt;item&gt;&lt;name&gt;io-enabled&lt;/name&gt;&lt;status&gt;Status&lt;/status&gt;&lt;/item&gt;&lt;item&gt;&lt;name&gt;io-enabled&lt;/name&gt;&lt;status&gt;Status&lt;/status&gt;&lt;/item&gt;&lt;/details&gt;&lt;status&gt;ok&lt;/status&gt;&lt;/volumeStatus&gt;&lt;attachmentStatuses&gt;&lt;item&gt;&lt;ioPerformance&gt;IoPerformance&lt;/ioPerformance&gt;&lt;instanceId&gt;i-bac307a8c08ae1835&lt;/instanceId&gt;&lt;/item&gt;&lt;item&gt;&lt;ioPerformance&gt;IoPerformance&lt;/ioPerformance&gt;&lt;instanceId&gt;i-9b9991b58fae36458&lt;/instanceId&gt;&lt;/item&gt;&lt;/attachmentStatuses&gt;&lt;initializationStatusDetails&gt;&lt;initializationType&gt;default&lt;/initializationType&gt;&lt;progress&gt;1&lt;/progress&gt;&lt;estimatedTimeToCompleteInSeconds&gt;1&lt;/estimatedTimeToCompleteInSeconds&gt;&lt;/initializationStatusDetails&gt;&lt;availabilityZoneId&gt;ec2-1413d117&lt;/availabilityZoneId&gt;&lt;/item&gt;&lt;item&gt;&lt;actionsSet&gt;&lt;item&gt;&lt;code&gt;Code&lt;/code&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-c461abf0&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;/item&gt;&lt;item&gt;&lt;code&gt;Code&lt;/code&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-0cedb4b9&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;/item&gt;&lt;/actionsSet&gt;&lt;availabilityZone&gt;us-east-1a&lt;/availabilityZone&gt;&lt;outpostArn&gt;arn:aws:ec2:us-east-1:123456789012:describevolumestatus/6043b8ef&lt;/outpostArn&gt;&lt;eventsSet&gt;&lt;item&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-ea60b7af&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;notAfter&gt;2026-05-02T13:59:22.000Z&lt;/notAfter&gt;&lt;notBefore&gt;2026-05-02T13:59:22.000Z&lt;/notBefore&gt;&lt;instanceId&gt;i-7d81e18166dca3c9d&lt;/instanceId&gt;&lt;/item&gt;&lt;item&gt;&lt;description&gt;Description&lt;/description&gt;&lt;eventId&gt;ec2-eaf3bae4&lt;/eventId&gt;&lt;eventType&gt;EventType&lt;/eventType&gt;&lt;notAfter&gt;2026-05-02T13:59:22.000Z&lt;/notAfter&gt;&lt;notBefore&gt;2026-05-02T13:59:22.000Z&lt;/notBefore&gt;&lt;instanceId&gt;i-f81a31801495d277a&lt;/instanceId&gt;&lt;/item&gt;&lt;/eventsSet&gt;&lt;volumeId&gt;ec2-b1d36544&lt;/volumeId&gt;&lt;volumeStatus&gt;&lt;details&gt;&lt;item&gt;&lt;name&gt;io-enabled&lt;/name&gt;&lt;status&gt;Status&lt;/status&gt;&lt;/item&gt;&lt;item&gt;&lt;name&gt;io-enabled&lt;/name&gt;&lt;status&gt;Status&lt;/status&gt;&lt;/item&gt;&lt;/details&gt;&lt;status&gt;ok&lt;/status&gt;&lt;/volumeStatus&gt;&lt;attachmentStatuses&gt;&lt;item&gt;&lt;ioPerformance&gt;IoPerformance&lt;/ioPerformance&gt;&lt;instanceId&gt;i-48d211b44953cbc9c&lt;/instanceId&gt;&lt;/item&gt;&lt;item&gt;&lt;ioPerformance&gt;IoPerformance&lt;/ioPerformance&gt;&lt;instanceId&gt;i-9c9dec293d23f8bf9&lt;/instanceId&gt;&lt;/item&gt;&lt;/attachmentStatuses&gt;&lt;initializationStatusDetails&gt;&lt;initializationType&gt;default&lt;/initializationType&gt;&lt;progress&gt;1&lt;/progress&gt;&lt;estimatedTimeToCompleteInSeconds&gt;1&lt;/estimatedTimeToCompleteInSeconds&gt;&lt;/initializationStatusDetails&gt;&lt;availabilityZoneId&gt;ec2-c2290631&lt;/availabilityZoneId&gt;&lt;/item&gt;&lt;/volumeStatusSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/DescribeVolumeStatusResponse&gt;</code></pre></details> |
+| 8 | `ec2_modify_volume_attribute` | <code>aws ec2 modify-volume-attribute --volume-id vol-1234567890abcdef0 --auto-enable-io</code> | 1740.757ms | Y | Y | 290 | 210 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;ModifyVolumeAttributeResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/ModifyVolumeAttributeResponse&gt;</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ModifyVolumeAttributeResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/ModifyVolumeAttributeResponse&gt;</code></pre></details> |
+| 9 | `ec2_create_spot_datafeed_subscription` | <code>aws ec2 create-spot-datafeed-subscription --bucket my-honeypot-bucket</code> | 1731.398ms | Y | Y | 274 | 194 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;CreateSpotDatafeedSubscriptionResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;spotDatafeedSubscription&gt;&lt;bucket&gt;my-honeypot-bucket&lt;/bucket&gt;&lt;fault&gt;&lt;code&gt;Code&lt;/code&gt;&lt;message ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;CreateSpotDatafeedSubscriptionResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;spotDatafeedSubscription&gt;&lt;bucket&gt;my-honeypot-bucket&lt;/bucket&gt;&lt;fault&gt;&lt;code&gt;Code&lt;/code&gt;&lt;message&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic ec2:CreateSpotDatafeedSubscription"}&lt;/message&gt;&lt;/fault&gt;&lt;ownerId&gt;ec2-1ebd59bc&lt;/ownerId&gt;&lt;prefix&gt;Prefix&lt;/prefix&gt;&lt;state&gt;Active&lt;/state&gt;&lt;/spotDatafeedSubscription&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/CreateSpotDatafeedSubscriptionResponse&gt;</code></pre></details> |
+| 10 | `ec2_describe_bundle_tasks` | <code>aws ec2 describe-bundle-tasks</code> | 2449.953ms | Y | Y | 260 | 180 | 80 | Y | <details><summary><code>&lt;?xml version="1.0" encoding="utf-8"?&gt; &lt;DescribeBundleTasksResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;bundleInstanceTasksSet&gt;&lt;item&gt;&lt;instanceId&gt;i-11367d27bc870786b&lt;/instanceId&gt;&lt;bundleId&gt;ec2-83a156d1&lt;/bundle ...</code></summary><pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;DescribeBundleTasksResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15"&gt;&lt;bundleInstanceTasksSet&gt;&lt;item&gt;&lt;instanceId&gt;i-11367d27bc870786b&lt;/instanceId&gt;&lt;bundleId&gt;ec2-83a156d1&lt;/bundleId&gt;&lt;state&gt;pending&lt;/state&gt;&lt;startTime&gt;2026-05-02T13:59:28.000Z&lt;/startTime&gt;&lt;updateTime&gt;2026-05-02T13:59:28.000Z&lt;/updateTime&gt;&lt;storage&gt;&lt;S3&gt;&lt;AWSAccessKeyId&gt;ec2-cc322d68&lt;/AWSAccessKeyId&gt;&lt;bucket&gt;Bucket&lt;/bucket&gt;&lt;prefix&gt;Prefix&lt;/prefix&gt;&lt;uploadPolicySignature&gt;UploadPolicySignature&lt;/uploadPolicySignature&gt;&lt;/S3&gt;&lt;/storage&gt;&lt;progress&gt;Progress&lt;/progress&gt;&lt;error&gt;&lt;code&gt;Code&lt;/code&gt;&lt;message&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic ec2:DescribeBundleTasks"}&lt;/message&gt;&lt;/error&gt;&lt;/item&gt;&lt;item&gt;&lt;instanceId&gt;i-7b1060d0e14a81ef7&lt;/instanceId&gt;&lt;bundleId&gt;ec2-199fed7d&lt;/bundleId&gt;&lt;state&gt;pending&lt;/state&gt;&lt;startTime&gt;2026-05-02T13:59:28.000Z&lt;/startTime&gt;&lt;updateTime&gt;2026-05-02T13:59:28.000Z&lt;/updateTime&gt;&lt;storage&gt;&lt;S3&gt;&lt;AWSAccessKeyId&gt;ec2-ca61dd83&lt;/AWSAccessKeyId&gt;&lt;bucket&gt;Bucket&lt;/bucket&gt;&lt;prefix&gt;Prefix&lt;/prefix&gt;&lt;uploadPolicySignature&gt;UploadPolicySignature&lt;/uploadPolicySignature&gt;&lt;/S3&gt;&lt;/storage&gt;&lt;progress&gt;Progress&lt;/progress&gt;&lt;error&gt;&lt;code&gt;Code&lt;/code&gt;&lt;message&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic ec2:DescribeBundleTasks"}&lt;/message&gt;&lt;/error&gt;&lt;/item&gt;&lt;/bundleInstanceTasksSet&gt;&lt;requestId&gt;request-id&lt;/requestId&gt;&lt;/DescribeBundleTasksResponse&gt;</code></pre></details> |
+| 11 | `resource_explorer_list_indexes` | <code>aws resource-explorer-2 list-indexes</code> | 1915.997ms | Y | Y | 256 | 176 | 80 | Y | <details><summary><code>{"Indexes": [{"Region": "us-east-1", "Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:listindexes/7e3d384a", "Type": "LOCAL"}, {"Region": "us-east-1", "Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012: ...</code></summary><pre><code>{"Indexes": [{"Region": "us-east-1", "Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:listindexes/7e3d384a", "Type": "LOCAL"}, {"Region": "us-east-1", "Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:listindexes/ef54e854", "Type": "LOCAL"}], "NextToken": ""}</code></pre></details> |
+| 12 | `resource_explorer_list_views` | <code>aws resource-explorer-2 list-views</code> | 1634.158ms | Y | Y | 256 | 176 | 80 | Y | <details><summary><code>{"Views": ["View", "View"], "NextToken": ""}</code></summary><pre><code>{"Views": ["View", "View"], "NextToken": ""}</code></pre></details> |
+| 13 | `resource_explorer_search` | <code>aws resource-explorer-2 search --query-string "*" --view-arn arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000</code> | 2514.734ms | Y | Y | 346 | 266 | 80 | Y | <details><summary><code>{"Resources": [{"Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:search/4fb06801", "OwningAccountId": "resource-explorer-2-433e53fd", "Region": "us-east-1", "ResourceType": "AWS::EC2::Instance", "Service": "Ser ...</code></summary><pre><code>{"Resources": [{"Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:search/4fb06801", "OwningAccountId": "resource-explorer-2-433e53fd", "Region": "us-east-1", "ResourceType": "AWS::EC2::Instance", "Service": "Service", "LastReportedAt": "2026-05-02T13:59:34Z", "Properties": [{"Name": "resource-explorer-2-search", "LastReportedAt": "2026-05-02T13:59:34Z", "Data": {}}, {"Name": "resource-explorer-2-search", "LastReportedAt": "2026-05-02T13:59:34Z", "Data": {}}]}, {"Arn": "arn:aws:resource-explorer-2:us-east-1:123456789012:search/20f61aeb", "OwningAccountId": "resource-explorer-2-4890a3db", "Region": "us-east-1", "ResourceType": "AWS::EC2::Instance", "Service": "Service", "LastReportedAt": "2026-05-02T13:59:34Z", "Properties": [{"Name": "resource-explorer-2-search", "LastReportedAt": "2026-05-02T13:59:34Z", "Data": {}}, {"Name": "resource-explorer-2-search", "LastReportedAt": "2026-05-02T13:59:34Z", "Data": {}}]}], "NextToken": "", "ViewArn": "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000", "Count": {"TotalResources": 1, "Complete": false}}</code></pre></details> |
+| 14 | `support_describe_services` | <code>aws support describe-services --region us-east-1</code> | 2042.395ms | Y | Y | 252 | 172 | 80 | Y | <details><summary><code>{"services": [{"code": "code", "name": "support-describeservices", "categories": [{"code": "code", "name": "support-describeservices"}, {"code": "code", "name": "support-describeservices"}]}, {"code": "code", "name": "su ...</code></summary><pre><code>{"services": [{"code": "code", "name": "support-describeservices", "categories": [{"code": "code", "name": "support-describeservices"}, {"code": "code", "name": "support-describeservices"}]}, {"code": "code", "name": "support-describeservices", "categories": [{"code": "code", "name": "support-describeservices"}, {"code": "code", "name": "support-describeservices"}]}]}</code></pre></details> |
+| 15 | `support_describe_trusted_advisor_check_result` | <code>aws support describe-trusted-advisor-check-result --check-id eW7HH0l7J9 --language en --region us-east-1</code> | 1486.051ms | Y | Y | 285 | 205 | 80 | Y | <details><summary><code>{"result": {"checkId": "eW7HH0l7J9", "timestamp": "timestamp", "status": "status", "resourcesSummary": {"resourcesProcessed": 1, "resourcesFlagged": 1, "resourcesIgnored": 1, "resourcesSuppressed": 1}, "categorySpecificS ...</code></summary><pre><code>{"result": {"checkId": "eW7HH0l7J9", "timestamp": "timestamp", "status": "status", "resourcesSummary": {"resourcesProcessed": 1, "resourcesFlagged": 1, "resourcesIgnored": 1, "resourcesSuppressed": 1}, "categorySpecificSummary": {"costOptimizing": {"estimatedMonthlySavings": 1.0, "estimatedPercentMonthlySavings": 1.0}}, "flaggedResources": [{"status": "status", "region": "us-east-1", "resourceId": "support-5430dfcc", "isSuppressed": false, "metadata": ["metadata", "metadata"]}, {"status": "status", "region": "us-east-1", "resourceId": "support-db882edc", "isSuppressed": false, "metadata": ["metadata", "metadata"]}]}}</code></pre></details> |
+| 16 | `support_describe_trusted_advisor_check_summaries` | <code>aws support describe-trusted-advisor-check-summaries --check-ids eW7HH0l7J9 --region us-east-1</code> | 1497.711ms | Y | Y | 296 | 216 | 80 | Y | <details><summary><code>{"summaries": [{"checkId": "eW7HH0l7J9", "timestamp": "timestamp", "status": "status", "hasFlaggedResources": false, "resourcesSummary": {"resourcesProcessed": 1, "resourcesFlagged": 1, "resourcesIgnored": 1, "resourcesS ...</code></summary><pre><code>{"summaries": [{"checkId": "eW7HH0l7J9", "timestamp": "timestamp", "status": "status", "hasFlaggedResources": false, "resourcesSummary": {"resourcesProcessed": 1, "resourcesFlagged": 1, "resourcesIgnored": 1, "resourcesSuppressed": 1}, "categorySpecificSummary": {"costOptimizing": {"estimatedMonthlySavings": 1.0, "estimatedPercentMonthlySavings": 1.0}}}, {"checkId": "eW7HH0l7J9", "timestamp": "timestamp", "status": "status", "hasFlaggedResources": false, "resourcesSummary": {"resourcesProcessed": 1, "resourcesFlagged": 1, "resourcesIgnored": 1, "resourcesSuppressed": 1}, "categorySpecificSummary": {"costOptimizing": {"estimatedMonthlySavings": 1.0, "estimatedPercentMonthlySavings": 1.0}}}]}</code></pre></details> |
+| 17 | `eks_list_addons` | <code>aws eks list-addons --cluster-name prod-main</code> | 1475.132ms | Y | Y | 265 | 185 | 80 | Y | <details><summary><code>{"addons": ["addon", "addon"], "nextToken": ""}</code></summary><pre><code>{"addons": ["addon", "addon"], "nextToken": ""}</code></pre></details> |
+| 18 | `eks_describe_addon_versions` | <code>aws eks describe-addon-versions</code> | 1557.155ms | Y | Y | 253 | 173 | 80 | Y | <details><summary><code>{"addons": [{"addonName": "addonName", "type": "type", "addonVersions": [{"addonVersion": "1", "architecture": ["architecture", "architecture"], "computeTypes": ["computeType", "computeType"], "compatibilities": [{"clust ...</code></summary><pre><code>{"addons": [{"addonName": "addonName", "type": "type", "addonVersions": [{"addonVersion": "1", "architecture": ["architecture", "architecture"], "computeTypes": ["computeType", "computeType"], "compatibilities": [{"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}, {"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}], "requiresConfiguration": false, "requiresIamPermissions": false}, {"addonVersion": "1", "architecture": ["architecture", "architecture"], "computeTypes": ["computeType", "computeType"], "compatibilities": [{"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}, {"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}], "requiresConfiguration": false, "requiresIamPermissions": false}], "publisher": "publisher", "owner": "owner", "marketplaceInformation": {"productId": "eks-49633884", "productUrl": "mock://eks/describeaddonversions/5acc52fbdb62"}, "defaultNamespace": "defaultNamespace"}, {"addonName": "addonName", "type": "type", "addonVersions": [{"addonVersion": "1", "architecture": ["architecture", "architecture"], "computeTypes": ["computeType", "computeType"], "compatibilities": [{"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}, {"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}], "requiresConfiguration": false, "requiresIamPermissions": false}, {"addonVersion": "1", "architecture": ["architecture", "architecture"], "computeTypes": ["computeType", "computeType"], "compatibilities": [{"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}, {"clusterVersion": "1", "platformVersions": ["2", "2"], "defaultVersion": false}], "requiresConfiguration": false, "requiresIamPermissions": false}], "publisher": "publisher", "owner": "owner", "marketplaceInformation": {"productId": "eks-6b433153", "productUrl": "mock://eks/describeaddonversions/6fc97d2f13ea"}, "defaultNamespace": "defaultNamespace"}], "nextToken": ""}</code></pre></details> |
+| 19 | `ssm_start_session` | <code>aws ssm start-session --target i-1234567890abcdef0</code> | 1472.177ms | Y | Y | 263 | 183 | 80 | Y | <details><summary><code>{"SessionId": "ssm-66876629", "TokenValue": "", "StreamUrl": "mock://ssm/startsession/a8ba2a33db08"}</code></summary><pre><code>{"SessionId": "ssm-66876629", "TokenValue": "", "StreamUrl": "mock://ssm/startsession/a8ba2a33db08"}</code></pre></details> |
+| 20 | `ecs_execute_command` | <code>aws ecs execute-command --cluster prod-main --task 1234567890abcdef0123456789abcdef --container app --interactive --command "/bin/sh"</code> | 1582.021ms | Y | Y | 284 | 204 | 80 | Y | <details><summary><code>{"clusterArn": "arn:aws:ecs:us-east-1:123456789012:executecommand/8763ca88", "containerArn": "arn:aws:ecs:us-east-1:123456789012:executecommand/ea6a9c18", "containerName": "containerName", "interactive": true, "session": ...</code></summary><pre><code>{"clusterArn": "arn:aws:ecs:us-east-1:123456789012:executecommand/8763ca88", "containerArn": "arn:aws:ecs:us-east-1:123456789012:executecommand/ea6a9c18", "containerName": "containerName", "interactive": true, "session": {"sessionId": "ecs-16bdbf04", "streamUrl": "mock://ecs/executecommand/3aa06f6f62bf", "tokenValue": ""}, "taskArn": "arn:aws:ecs:us-east-1:123456789012:executecommand/79da0e05"}</code></pre></details> |
+| 21 | `billingconductor_list_billing_groups` | <code>aws billingconductor list-billing-groups</code> | 3392.332ms | N | Y | 255 | 175 | 80 | Y | <details><summary><code>{"BillingGroups": [{"Name": "billingconductor-listbillinggroups", "Arn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/c9fb369d", "Description": "Description", "PrimaryAccountId": "billingconductor-5 ...</code></summary><pre><code>{"BillingGroups": [{"Name": "billingconductor-listbillinggroups", "Arn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/c9fb369d", "Description": "Description", "PrimaryAccountId": "billingconductor-5189a148", "ComputationPreference": {"PricingPlanArn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/25a764ea"}, "Size": 1, "CreationTime": 1, "LastModifiedTime": 1, "Status": "ACTIVE", "StatusReason": "StatusReason", "AccountGrouping": {"AutoAssociate": false, "ResponsibilityTransferArn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/c5f54d42"}, "BillingGroupType": "STANDARD"}, {"Name": "billingconductor-listbillinggroups", "Arn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/ebdd9cef", "Description": "Description", "PrimaryAccountId": "billingconductor-426820e0", "ComputationPreference": {"PricingPlanArn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/f3ac9917"}, "Size": 1, "CreationTime": 1, "LastModifiedTime": 1, "Status": "ACTIVE", "StatusReason": "StatusReason", "AccountGrouping": {"AutoAssociate": false, "ResponsibilityTransferArn": "arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/ee0bf889"}, "BillingGroupType": "STANDARD"}], "NextToken": ""}</code></pre></details> |
+| 22 | `frauddetector_get_detectors` | <code>aws frauddetector get-detectors</code> | 3644.341ms | N | Y | 256 | 176 | 80 | Y | <details><summary><code>{"detectors": [{"detectorId": "frauddetector-afbbeabe", "description": "description", "eventTypeName": "eventTypeName", "lastUpdatedTime": "lastUpdatedTime", "createdTime": "createdTime", "arn": "arn:aws:frauddetector:us ...</code></summary><pre><code>{"detectors": [{"detectorId": "frauddetector-afbbeabe", "description": "description", "eventTypeName": "eventTypeName", "lastUpdatedTime": "lastUpdatedTime", "createdTime": "createdTime", "arn": "arn:aws:frauddetector:us-east-1:123456789012:getdetectors/850940cc"}, {"detectorId": "frauddetector-633f3261", "description": "description", "eventTypeName": "eventTypeName", "lastUpdatedTime": "lastUpdatedTime", "createdTime": "createdTime", "arn": "arn:aws:frauddetector:us-east-1:123456789012:getdetectors/e8592867"}], "nextToken": ""}</code></pre></details> |
+| 23 | `detective_list_graphs` | <code>aws detective list-graphs</code> | 3370.504ms | N | Y | 253 | 173 | 80 | Y | <details><summary><code>{"GraphList": [{"Arn": "arn:aws:detective:us-east-1:123456789012:listgraphs/eb8b063f", "CreatedTime": "2026-05-02T13:59:53Z"}, {"Arn": "arn:aws:detective:us-east-1:123456789012:listgraphs/0d4f0fef", "CreatedTime": "2026- ...</code></summary><pre><code>{"GraphList": [{"Arn": "arn:aws:detective:us-east-1:123456789012:listgraphs/eb8b063f", "CreatedTime": "2026-05-02T13:59:53Z"}, {"Arn": "arn:aws:detective:us-east-1:123456789012:listgraphs/0d4f0fef", "CreatedTime": "2026-05-02T13:59:53Z"}], "NextToken": ""}</code></pre></details> |
+| 24 | `auditmanager_list_assessments` | <code>aws auditmanager list-assessments</code> | 3965.128ms | N | Y | 254 | 174 | 80 | Y | <details><summary><code>{"assessmentMetadata": [{"name": "auditmanager-listassessments", "id": "auditmanager-fca9f5f0", "complianceType": "complianceType", "status": "ACTIVE", "roles": [{"roleType": "PROCESS_OWNER", "roleArn": "arn:aws:auditman ...</code></summary><pre><code>{"assessmentMetadata": [{"name": "auditmanager-listassessments", "id": "auditmanager-fca9f5f0", "complianceType": "complianceType", "status": "ACTIVE", "roles": [{"roleType": "PROCESS_OWNER", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/056745c7"}, {"roleType": "PROCESS_OWNER", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/c4b703a2"}], "delegations": [{"id": "auditmanager-1a8621b1", "assessmentName": "assessmentName", "assessmentId": "auditmanager-46cb9cfd", "status": "IN_PROGRESS", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/18b37adc", "roleType": "PROCESS_OWNER", "creationTime": 1777730397, "lastUpdated": 1777730397, "controlSetId": "auditmanager-8360a405", "comment": "comment", "createdBy": "createdBy"}, {"id": "auditmanager-8fa97d03", "assessmentName": "assessmentName", "assessmentId": "auditmanager-5e84dd03", "status": "IN_PROGRESS", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/e4af49af", "roleType": "PROCESS_OWNER", "creationTime": 1777730397, "lastUpdated": 1777730397, "controlSetId": "auditmanager-c88fac58", "comment": "comment", "createdBy": "createdBy"}], "creationTime": 1777730397, "lastUpdated": 1777730397}, {"name": "auditmanager-listassessments", "id": "auditmanager-c119e01c", "complianceType": "complianceType", "status": "ACTIVE", "roles": [{"roleType": "PROCESS_OWNER", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/96f07a1b"}, {"roleType": "PROCESS_OWNER", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/987e5e52"}], "delegations": [{"id": "auditmanager-67473189", "assessmentName": "assessmentName", "assessmentId": "auditmanager-ec113f86", "status": "IN_PROGRESS", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/8213dc91", "roleType": "PROCESS_OWNER", "creationTime": 1777730397, "lastUpdated": 1777730397, "controlSetId": "auditmanager-4800703a", "comment": "comment", "createdBy": "createdBy"}, {"id": "auditmanager-d6138add", "assessmentName": "assessmentName", "assessmentId": "auditmanager-2cddd146", "status": "IN_PROGRESS", "roleArn": "arn:aws:auditmanager:us-east-1:123456789012:listassessments/1e6d51b3", "roleType": "PROCESS_OWNER", "creationTime": 1777730397, "lastUpdated": 1777730397, "controlSetId": "auditmanager-bdf4c762", "comment": "comment", "createdBy": "createdBy"}], "creationTime": 1777730397, "lastUpdated": 1777730397}], "nextToken": ""}</code></pre></details> |
+| 25 | `outposts_list_outposts` | <code>aws outposts list-outposts</code> | 3259.228ms | N | Y | 254 | 174 | 80 | Y | <details><summary><code>{"Outposts": [{"OutpostId": "outposts-70959ce0", "OwnerId": "outposts-27cdfe9d", "OutpostArn": "arn:aws:outposts:us-east-1:123456789012:listoutposts/755b0f9e", "SiteId": "outposts-1155d260", "Name": "outposts-listoutpost ...</code></summary><pre><code>{"Outposts": [{"OutpostId": "outposts-70959ce0", "OwnerId": "outposts-27cdfe9d", "OutpostArn": "arn:aws:outposts:us-east-1:123456789012:listoutposts/755b0f9e", "SiteId": "outposts-1155d260", "Name": "outposts-listoutposts", "Description": "Description", "LifeCycleStatus": "LifeCycleStatus", "AvailabilityZone": "us-east-1a", "AvailabilityZoneId": "outposts-f5384934", "Tags": {}, "SiteArn": "arn:aws:outposts:us-east-1:123456789012:listoutposts/0945d9fb", "SupportedHardwareType": "RACK"}, {"OutpostId": "outposts-f77559cd", "OwnerId": "outposts-5851a961", "OutpostArn": "arn:aws:outposts:us-east-1:123456789012:listoutposts/66e06846", "SiteId": "outposts-a9d0e237", "Name": "outposts-listoutposts", "Description": "Description", "LifeCycleStatus": "LifeCycleStatus", "AvailabilityZone": "us-east-1a", "AvailabilityZoneId": "outposts-14b575d9", "Tags": {}, "SiteArn": "arn:aws:outposts:us-east-1:123456789012:listoutposts/9994ec1c", "SupportedHardwareType": "RACK"}], "NextToken": ""}</code></pre></details> |
+| 26 | `appflow_list_flows` | <code>aws appflow list-flows</code> | 3770.978ms | N | Y | 253 | 173 | 80 | Y | <details><summary><code>{"flows": [{"flowArn": "arn:aws:appflow:us-east-1:123456789012:listflows/4b3f0677", "description": "description", "flowName": "flowName", "flowStatus": "Active", "sourceConnectorType": "Salesforce", "sourceConnectorLabel ...</code></summary><pre><code>{"flows": [{"flowArn": "arn:aws:appflow:us-east-1:123456789012:listflows/4b3f0677", "description": "description", "flowName": "flowName", "flowStatus": "Active", "sourceConnectorType": "Salesforce", "sourceConnectorLabel": "sourceConnectorLabel", "destinationConnectorType": "Salesforce", "destinationConnectorLabel": "destinationConnectorLabel", "triggerType": "Scheduled", "createdAt": 1777730404, "lastUpdatedAt": 1777730404, "createdBy": "createdBy", "lastUpdatedBy": "lastUpdatedBy", "tags": {}, "lastRunExecutionDetails": {"mostRecentExecutionMessage": "{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic appflow:ListFlows\"}", "mostRecentExecutionTime": 1777730404, "mostRecentExecutionStatus": "InProgress"}}, {"flowArn": "arn:aws:appflow:us-east-1:123456789012:listflows/2aec6dc8", "description": "description", "flowName": "flowName", "flowStatus": "Active", "sourceConnectorType": "Salesforce", "sourceConnectorLabel": "sourceConnectorLabel", "destinationConnectorType": "Salesforce", "destinationConnectorLabel": "destinationConnectorLabel", "triggerType": "Scheduled", "createdAt": 1777730404, "lastUpdatedAt": 1777730404, "createdBy": "createdBy", "lastUpdatedBy": "lastUpdatedBy", "tags": {}, "lastRunExecutionDetails": {"mostRecentExecutionMessage": "{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic appflow:ListFlows\"}", "mostRecentExecutionTime": 1777730404, "mostRecentExecutionStatus": "InProgress"}}], "nextToken": ""}</code></pre></details> |
+| 27 | `omics_list_runs` | <code>aws omics list-runs</code> | 3686.797ms | N | Y | 252 | 172 | 80 | Y | <details><summary><code>{"items": [{"arn": "arn:aws:omics:us-east-1:123456789012:listruns/e071d644", "id": "omics-744ab6cc", "status": "PENDING", "workflowId": "omics-e6e5f710", "batchId": "omics-7fe2be8b", "name": "omics-listruns", "priority": ...</code></summary><pre><code>{"items": [{"arn": "arn:aws:omics:us-east-1:123456789012:listruns/e071d644", "id": "omics-744ab6cc", "status": "PENDING", "workflowId": "omics-e6e5f710", "batchId": "omics-7fe2be8b", "name": "omics-listruns", "priority": 1, "storageCapacity": 1, "creationTime": "2026-05-02T14:00:07Z", "startTime": "2026-05-02T14:00:07Z", "stopTime": "2026-05-02T14:00:07Z", "storageType": "STATIC", "workflowVersionName": "1"}, {"arn": "arn:aws:omics:us-east-1:123456789012:listruns/54e74cc1", "id": "omics-77ce29e0", "status": "PENDING", "workflowId": "omics-1c4c94c2", "batchId": "omics-f46d11e3", "name": "omics-listruns", "priority": 1, "storageCapacity": 1, "creationTime": "2026-05-02T14:00:07Z", "startTime": "2026-05-02T14:00:07Z", "stopTime": "2026-05-02T14:00:07Z", "storageType": "STATIC", "workflowVersionName": "1"}], "nextToken": ""}</code></pre></details> |
+| 28 | `mgn_describe_source_servers` | <code>aws mgn describe-source-servers</code> | 3846.870ms | N | Y | 253 | 173 | 80 | Y | <details><summary><code>{"items": [{"sourceServerID": "mgn-f4946836", "arn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/95c7688b", "isArchived": false, "tags": {}, "launchedInstance": {"ec2InstanceID": "mgn-5d33076e", "jobID": "j ...</code></summary><pre><code>{"items": [{"sourceServerID": "mgn-f4946836", "arn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/95c7688b", "isArchived": false, "tags": {}, "launchedInstance": {"ec2InstanceID": "mgn-5d33076e", "jobID": "job-b66cffefdf", "firstBoot": "WAITING"}, "dataReplicationInfo": {"lagDuration": "lagDuration", "etaDateTime": "etaDateTime", "replicatedDisks": [{"deviceName": "deviceName", "totalStorageBytes": 1, "replicatedStorageBytes": 1, "rescannedStorageBytes": 1, "backloggedStorageBytes": 1}, {"deviceName": "deviceName", "totalStorageBytes": 1, "replicatedStorageBytes": 1, "rescannedStorageBytes": 1, "backloggedStorageBytes": 1}], "dataReplicationState": "STOPPED", "dataReplicationInitiation": {"startDateTime": "startDateTime", "nextAttemptDateTime": "nextAttemptDateTime", "steps": [{"name": "WAIT", "status": "NOT_STARTED"}, {"name": "WAIT", "status": "NOT_STARTED"}]}, "dataReplicationError": {"error": "AGENT_NOT_SEEN", "rawError": "rawError"}, "lastSnapshotDateTime": "lastSnapshotDateTime", "replicatorId": "mgn-5751c708"}, "lifeCycle": {"addedToServiceDateTime": "addedToServiceDateTime", "firstByteDateTime": "firstByteDateTime", "elapsedReplicationDuration": "elapsedReplicationDuration", "lastSeenByServiceDateTime": "lastSeenByServiceDateTime", "lastTest": {"initiated": {"apiCallDateTime": "apiCallDateTime", "jobID": "job-7a28e99863"}, "reverted": {"apiCallDateTime": "apiCallDateTime"}, "finalized": {"apiCallDateTime": "apiCallDateTime"}}, "lastCutover": {"initiated": {"apiCallDateTime": "apiCallDateTime", "jobID": "job-6fbe600fcf"}, "reverted": {"apiCallDateTime": "apiCallDateTime"}, "finalized": {"apiCallDateTime": "apiCallDateTime"}}, "state": "STOPPED"}, "sourceProperties": {"lastUpdatedDateTime": "lastUpdatedDateTime", "recommendedInstanceType": "t3.medium", "identificationHints": {"fqdn": "fqdn", "hostname": "hostname", "vmWareUuid": "mgn-50451539", "awsInstanceID": "mgn-14a5ad9c", "vmPath": "vmPath"}, "networkInterfaces": [{"macAddress": "macAddress", "ips": ["ip", "ip"], "isPrimary": false}, {"macAddress": "macAddress", "ips": ["ip", "ip"], "isPrimary": false}], "disks": [{"deviceName": "deviceName", "bytes": 1}, {"deviceName": "deviceName", "bytes": 1}], "cpus": [{"cores": 1, "modelName": "modelName"}, {"cores": 1, "modelName": "modelName"}], "ramBytes": 1, "os": {"fullString": "fullString"}}, "replicationType": "AGENT_BASED", "vcenterClientID": "mgn-50f3de25", "applicationID": "mgn-6d8c8e03", "userProvidedID": "mgn-c4d5e248", "fqdnForActionFramework": "fqdnForActionFramework", "connectorAction": {"credentialsSecretArn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/9962045a", "connectorArn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/f771b6d7"}}, {"sourceServerID": "mgn-73a449b0", "arn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/8875873c", "isArchived": false, "tags": {}, "launchedInstance": {"ec2InstanceID": "mgn-a40695f2", "jobID": "job-2502d5b0d5", "firstBoot": "WAITING"}, "dataReplicationInfo": {"lagDuration": "lagDuration", "etaDateTime": "etaDateTime", "replicatedDisks": [{"deviceName": "deviceName", "totalStorageBytes": 1, "replicatedStorageBytes": 1, "rescannedStorageBytes": 1, "backloggedStorageBytes": 1}, {"deviceName": "deviceName", "totalStorageBytes": 1, "replicatedStorageBytes": 1, "rescannedStorageBytes": 1, "backloggedStorageBytes": 1}], "dataReplicationState": "STOPPED", "dataReplicationInitiation": {"startDateTime": "startDateTime", "nextAttemptDateTime": "nextAttemptDateTime", "steps": [{"name": "WAIT", "status": "NOT_STARTED"}, {"name": "WAIT", "status": "NOT_STARTED"}]}, "dataReplicationError": {"error": "AGENT_NOT_SEEN", "rawError": "rawError"}, "lastSnapshotDateTime": "lastSnapshotDateTime", "replicatorId": "mgn-7d5e7418"}, "lifeCycle": {"addedToServiceDateTime": "addedToServiceDateTime", "firstByteDateTime": "firstByteDateTime", "elapsedReplicationDuration": "elapsedReplicationDuration", "lastSeenByServiceDateTime": "lastSeenByServiceDateTime", "lastTest": {"initiated": {"apiCallDateTime": "apiCallDateTime", "jobID": "job-db19cd0079"}, "reverted": {"apiCallDateTime": "apiCallDateTime"}, "finalized": {"apiCallDateTime": "apiCallDateTime"}}, "lastCutover": {"initiated": {"apiCallDateTime": "apiCallDateTime", "jobID": "job-1b170978b4"}, "reverted": {"apiCallDateTime": "apiCallDateTime"}, "finalized": {"apiCallDateTime": "apiCallDateTime"}}, "state": "STOPPED"}, "sourceProperties": {"lastUpdatedDateTime": "lastUpdatedDateTime", "recommendedInstanceType": "t3.medium", "identificationHints": {"fqdn": "fqdn", "hostname": "hostname", "vmWareUuid": "mgn-7cd879a1", "awsInstanceID": "mgn-28599f61", "vmPath": "vmPath"}, "networkInterfaces": [{"macAddress": "macAddress", "ips": ["ip", "ip"], "isPrimary": false}, {"macAddress": "macAddress", "ips": ["ip", "ip"], "isPrimary": false}], "disks": [{"deviceName": "deviceName", "bytes": 1}, {"deviceName": "deviceName", "bytes": 1}], "cpus": [{"cores": 1, "modelName": "modelName"}, {"cores": 1, "modelName": "modelName"}], "ramBytes": 1, "os": {"fullString": "fullString"}}, "replicationType": "AGENT_BASED", "vcenterClientID": "mgn-38bb6ba2", "applicationID": "mgn-6e920e0c", "userProvidedID": "mgn-f9a25da9", "fqdnForActionFramework": "fqdnForActionFramework", "connectorAction": {"credentialsSecretArn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/b9e71b09", "connectorArn": "arn:aws:mgn:us-east-1:123456789012:describesourceservers/c6028578"}}], "nextToken": ""}</code></pre></details> |
+| 29 | `codeguru_reviewer_list_repository_associations` | <code>aws codeguru-reviewer list-repository-associations</code> | 3139.286ms | N | Y | 257 | 177 | 80 | Y | <details><summary><code>{"RepositoryAssociationSummaries": [{"AssociationArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/f4e54d87", "ConnectionArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listreposi ...</code></summary><pre><code>{"RepositoryAssociationSummaries": [{"AssociationArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/f4e54d87", "ConnectionArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/1a2c8ceb", "LastUpdatedTimeStamp": 1777730414, "AssociationId": "codeguru-reviewer-73ba00f5", "Name": "codeguru-reviewer-listrepositoryassociations", "Owner": "Owner", "ProviderType": "CodeCommit", "State": "Associated"}, {"AssociationArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/8215108d", "ConnectionArn": "arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/fe4c5d0f", "LastUpdatedTimeStamp": 1777730414, "AssociationId": "codeguru-reviewer-8ad7ab22", "Name": "codeguru-reviewer-listrepositoryassociations", "Owner": "Owner", "ProviderType": "CodeCommit", "State": "Associated"}], "NextToken": ""}</code></pre></details> |
+| 30 | `backup_gateway_list_gateways` | <code>aws backup-gateway list-gateways</code> | 3664.287ms | N | Y | 255 | 175 | 80 | Y | <details><summary><code>{"Gateways": [{"GatewayArn": "arn:aws:backup-gateway:us-east-1:123456789012:listgateways/c8f85bd7", "GatewayDisplayName": "GatewayDisplayName", "GatewayType": "BACKUP_VM", "HypervisorId": "backup-gateway-76519263", "Last ...</code></summary><pre><code>{"Gateways": [{"GatewayArn": "arn:aws:backup-gateway:us-east-1:123456789012:listgateways/c8f85bd7", "GatewayDisplayName": "GatewayDisplayName", "GatewayType": "BACKUP_VM", "HypervisorId": "backup-gateway-76519263", "LastSeenTime": 1777730416}, {"GatewayArn": "arn:aws:backup-gateway:us-east-1:123456789012:listgateways/cef52a20", "GatewayDisplayName": "GatewayDisplayName", "GatewayType": "BACKUP_VM", "HypervisorId": "backup-gateway-134a59f7", "LastSeenTime": 1777730416}], "NextToken": ""}</code></pre></details> |
+| 31 | `ssm_describe_instance_information` | <code>aws ssm describe-instance-information</code> | 2099.807ms | Y | Y | 269 | 189 | 80 | Y | <details><summary><code>{"InstanceInformationList": [{"InstanceId": "i-37e8fd04069db7e88", "PingStatus": "Online", "LastPingDateTime": 1777730418, "AgentVersion": "3.2.700.0", "IsLatestVersion": false, "PlatformType": "Linux", "PlatformName": " ...</code></summary><pre><code>{"InstanceInformationList": [{"InstanceId": "i-37e8fd04069db7e88", "PingStatus": "Online", "LastPingDateTime": 1777730418, "AgentVersion": "3.2.700.0", "IsLatestVersion": false, "PlatformType": "Linux", "PlatformName": "Amazon Linux", "PlatformVersion": "2", "ActivationId": "ssm-dc69b11d", "IamRole": "ReadOnlyOpsRole", "RegistrationDate": 1777730418, "ResourceType": "ManagedInstance", "Name": "ip-10-42-0-78", "IPAddress": "10.42.2.194", "ComputerName": "ip-10-42-6-164", "AssociationStatus": "Success", "LastAssociationExecutionDate": 1777730418, "LastSuccessfulAssociationExecutionDate": 1777730418, "AssociationOverview": {"DetailedStatus": "Success", "InstanceAssociationStatusAggregatedCount": {}}, "SourceId": "ssm-069a8bb4", "SourceType": "AWS::EC2::Instance"}, {"InstanceId": "i-95c7e2b469b212484", "PingStatus": "Online", "LastPingDateTime": 1777730418, "AgentVersion": "3.2.700.0", "IsLatestVersion": false, "PlatformType": "Linux", "PlatformName": "Amazon Linux", "PlatformVersion": "2", "ActivationId": "ssm-27248026", "IamRole": "ReadOnlyOpsRole", "RegistrationDate": 1777730418, "ResourceType": "ManagedInstance", "Name": "ip-10-42-9-150", "IPAddress": "10.42.4.22", "ComputerName": "ip-10-42-4-63-1", "AssociationStatus": "Success", "LastAssociationExecutionDate": 1777730418, "LastSuccessfulAssociationExecutionDate": 1777730418, "AssociationOverview": {"DetailedStatus": "Success", "InstanceAssociationStatusAggregatedCount": {}}, "SourceId": "ssm-b26a9915", "SourceType": "AWS::EC2::Instance"}], "NextToken": ""}</code></pre></details> |
+| 32 | `ecr_batch_check_layer_availability` | <code>aws ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc</code> | 3268.060ms | N | Y | 291 | 211 | 80 | Y | <details><summary><code>{"layers": [{"layerDigest": "sha256:abc", "layerAvailability": "AVAILABLE", "layerSize": 5242880, "mediaType": "application/vnd.docker.image.rootfs.diff.tar"}, {"layerDigest": "sha256:abc", "layerAvailability": "AVAILABL ...</code></summary><pre><code>{"layers": [{"layerDigest": "sha256:abc", "layerAvailability": "AVAILABLE", "layerSize": 5242880, "mediaType": "application/vnd.docker.image.rootfs.diff.tar"}, {"layerDigest": "sha256:abc", "layerAvailability": "AVAILABLE", "layerSize": 5242880, "mediaType": "application/vnd.docker.image.rootfs.diff.tar"}], "failures": []}</code></pre></details> |
+| 33 | `ecr_get_download_url_for_layer` | <code>aws ecr get-download-url-for-layer --repository-name demo --layer-digest sha256:abc</code> | 1426.795ms | Y | Y | 281 | 201 | 80 | Y | <details><summary><code>{"downloadUrl": "mock://ecr/getdownloadurlforlayer/08b0398d9887", "layerDigest": "sha256:abc"}</code></summary><pre><code>{"downloadUrl": "mock://ecr/getdownloadurlforlayer/08b0398d9887", "layerDigest": "sha256:abc"}</code></pre></details> |
+| 34 | `ecr_initiate_layer_upload` | <code>aws ecr initiate-layer-upload --repository-name demo</code> | 1846.760ms | Y | Y | 264 | 184 | 80 | Y | <details><summary><code>{"uploadId": "upload-d1489f8def7a", "partSize": 20971520}</code></summary><pre><code>{"uploadId": "upload-d1489f8def7a", "partSize": 20971520}</code></pre></details> |
+| 35 | `ecr_complete_layer_upload` | <code>aws ecr complete-layer-upload --repository-name demo --upload-id test --layer-digests sha256:abc</code> | 1611.151ms | Y | Y | 308 | 228 | 80 | Y | <details><summary><code>{"registryId": "123456789012", "repositoryName": "demo", "uploadId": "test", "layerDigest": "sha256:abc"}</code></summary><pre><code>{"registryId": "123456789012", "repositoryName": "demo", "uploadId": "test", "layerDigest": "sha256:abc"}</code></pre></details> |
+| 36 | `iam_get_context_keys_for_principal_policy` | <code>aws iam get-context-keys-for-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin</code> | 4027.804ms | N | N | 303 | 223 | 80 | Y | <details><summary><code>&lt;GetContextKeysForPrincipalPolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;GetContextKeysForPrincipalPolicyResult&gt;&lt;ContextKeyNames&gt;&lt;member&gt;aws:RequestedRegion&lt;/member&gt;&lt;member&gt;aws:RequestedRegion&lt;/member ...</code></summary><pre><code>&lt;GetContextKeysForPrincipalPolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;GetContextKeysForPrincipalPolicyResult&gt;&lt;ContextKeyNames&gt;&lt;member&gt;aws:RequestedRegion&lt;/member&gt;&lt;member&gt;aws:RequestedRegion&lt;/member&gt;&lt;member&gt;aws:RequestedRegion&lt;/member&gt;&lt;/ContextKeyNames&gt;&lt;/GetContextKeysForPrincipalPolicyResult&gt;&lt;ResponseMetadata&gt;&lt;RequestId&gt;request-id&lt;/RequestId&gt;&lt;/ResponseMetadata&gt;&lt;/GetContextKeysForPrincipalPolicyResponse&gt;</code></pre></details> |
+| 37 | `iam_list_service_specific_credentials` | <code>aws iam list-service-specific-credentials --user-name victim-admin</code> | 1665.744ms | Y | Y | 275 | 195 | 80 | Y | <details><summary><code>&lt;ListServiceSpecificCredentialsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;ListServiceSpecificCredentialsResult&gt;&lt;ServiceSpecificCredentials&gt;&lt;member&gt;&lt;UserName&gt;victim-admin&lt;/UserName&gt;&lt;Status&gt;Active&lt;/Status&gt; ...</code></summary><pre><code>&lt;ListServiceSpecificCredentialsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;ListServiceSpecificCredentialsResult&gt;&lt;ServiceSpecificCredentials&gt;&lt;member&gt;&lt;UserName&gt;victim-admin&lt;/UserName&gt;&lt;Status&gt;Active&lt;/Status&gt;&lt;ServiceUserName&gt;victim-admin&lt;/ServiceUserName&gt;&lt;ServiceCredentialAlias&gt;codecommit-702fbd&lt;/ServiceCredentialAlias&gt;&lt;CreateDate&gt;2026-05-02T14:00:32Z&lt;/CreateDate&gt;&lt;ExpirationDate&gt;2026-05-02T14:00:32Z&lt;/ExpirationDate&gt;&lt;ServiceSpecificCredentialId&gt;iam-8442bad3&lt;/ServiceSpecificCredentialId&gt;&lt;ServiceName&gt;codecommit.amazonaws.com&lt;/ServiceName&gt;&lt;/member&gt;&lt;/ServiceSpecificCredentials&gt;&lt;Marker/&gt;&lt;IsTruncated&gt;false&lt;/IsTruncated&gt;&lt;/ListServiceSpecificCredentialsResult&gt;&lt;ResponseMetadata&gt;&lt;RequestId&gt;request-id&lt;/RequestId&gt;&lt;/ResponseMetadata&gt;&lt;/ListServiceSpecificCredentialsResponse&gt;</code></pre></details> |
+| 38 | `iam_generate_service_last_accessed_details` | <code>aws iam generate-service-last-accessed-details --arn arn:aws:iam::123456789012:user/victim-admin</code> | 1776.638ms | Y | Y | 299 | 219 | 80 | Y | <details><summary><code>&lt;GenerateServiceLastAccessedDetailsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;GenerateServiceLastAccessedDetailsResult&gt;&lt;JobId&gt;job-5f9d0d38ea&lt;/JobId&gt;&lt;/GenerateServiceLastAccessedDetailsResult&gt;&lt;ResponseMet ...</code></summary><pre><code>&lt;GenerateServiceLastAccessedDetailsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/"&gt;&lt;GenerateServiceLastAccessedDetailsResult&gt;&lt;JobId&gt;job-5f9d0d38ea&lt;/JobId&gt;&lt;/GenerateServiceLastAccessedDetailsResult&gt;&lt;ResponseMetadata&gt;&lt;RequestId&gt;request-id&lt;/RequestId&gt;&lt;/ResponseMetadata&gt;&lt;/GenerateServiceLastAccessedDetailsResponse&gt;</code></pre></details> |
+| 39 | `secretsmanager_validate_resource_policy` | <code>aws secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":"*","Action":"secretsmanager:GetSecretValue","Resource":"*"}]}'</code> | 3560.828ms | N | Y | 310 | 230 | 80 | Y | <details><summary><code>{"PolicyValidationPassed": true, "ValidationErrors": []}</code></summary><pre><code>{"PolicyValidationPassed": true, "ValidationErrors": []}</code></pre></details> |
+| 40 | `sts_decode_authorization_message` | <code>aws sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=</code> | 5280.574ms | N | N | 288 | 208 | 80 | Y | <details><summary><code>&lt;DecodeAuthorizationMessageResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/"&gt;&lt;DecodeAuthorizationMessageResult&gt;&lt;DecodedMessage&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic sts:DecodeAuthorization ...</code></summary><pre><code>&lt;DecodeAuthorizationMessageResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/"&gt;&lt;DecodeAuthorizationMessageResult&gt;&lt;DecodedMessage&gt;{"allowed":false,"matchedStatements":[],"context":"synthetic sts:DecodeAuthorizationMessage"}&lt;/DecodedMessage&gt;&lt;/DecodeAuthorizationMessageResult&gt;&lt;ResponseMetadata&gt;&lt;RequestId&gt;request-id&lt;/RequestId&gt;&lt;/ResponseMetadata&gt;&lt;/DecodeAuthorizationMessageResponse&gt;</code></pre></details> |
+
+## 3. 이 runtime이 해결하려는 문제
+
+Moto의 LLM fallback은 AWS API처럼 보이는 응답을 만들어야 합니다. 여기서 어려운 점은 단순히 그럴듯한 문장을 만드는 것이 아니라, 서비스별 AWS protocol과 output shape를 맞춰야 한다는 점입니다.
+
+일반적인 LLM 직접 응답 방식은 다음과 같습니다.
 
 ```text
-moto.core.llm_agents.agent.handle_aws_request(...)
+요청 -> prompt -> LLM이 최종 JSON/XML body를 직접 작성 -> 반환
 ```
 
-Runtime flow:
+이 방식은 빠르게 만들 수 있지만, AWS 응답에서는 위험합니다. LLM이 field 이름, nested list 구조, XML wrapper, protocol별 casing을 조금만 틀려도 실제 AWS CLI가 기대하는 구조와 달라집니다.
+
+현재 구조는 이 문제를 피하기 위해 다음 방식으로 나눴습니다.
+
+```text
+요청 -> LLM은 응답 계획만 생성 -> deterministic runtime이 botocore shape 기반 payload 생성 -> Moto serializer가 JSON/XML body 생성 -> validator가 검증
+```
+
+즉 LLM은 “무슨 자세로 어떤 fake resource를 보여줄지”를 정하고, AWS wire-format correctness는 코드가 책임집니다.
+
+## 4. 현재 코드 흐름
+
+진입점은 `moto/core/llm_agents/agent.py`의 `handle_aws_request(...)`입니다.
 
 ```text
 handle_aws_request
@@ -36,238 +112,126 @@ handle_aws_request
        -> parse_agent_output
        -> build_response_plan_tool
        -> adapt_response_plan
-            -> read botocore output shape
-            -> generate deterministic field values
+            -> botocore output shape 조회
+            -> deterministic field value 생성
        -> serialize_response_tool
-            -> Moto AWS protocol serializer
+            -> Moto AWS protocol serializer로 JSON/XML 생성
        -> validate_rendered_response_tool
-       -> retry at most once if validation fails
+       -> 실패 시 최대 1회 재시도
   -> add_to_session_history_tool
   -> update_world_state_tool
-  -> write audit record
-  -> return AWS response body
+  -> audit record 저장
+  -> response body 반환
 ```
 
-The important boundary is that the LLM does not render the final AWS response body.
-The final JSON/XML body is produced by deterministic runtime code.
+중요한 경계는 `run_agent_loop` 안에 있습니다. OpenAI 호출은 계획을 얻기 위해 한 번 발생하고, 그 뒤의 AWS 응답 body 생성은 `shape_adapter.py`와 `render_tools.py`가 처리합니다.
 
-## Is This a Single Agent?
+## 5. 단일 agent인가?
 
-Yes, in the current implementation the fallback path is a single agentic runtime.
+네. 현재 fallback path는 단일 agentic runtime입니다.
 
-The public handler always calls:
+`handle_aws_request(...)`는 항상 `run_agent_loop(...)`로 들어갑니다. 이전처럼 `workflow`와 `agentic` 두 경로가 분기해서 경쟁하는 구조가 아닙니다.
 
-```python
-run_agent_loop(...)
-```
-
-The older split between a `workflow` path and an `agentic` path has been removed from the active runtime path.
-Provider execution is also narrowed to OpenAI Responses API direct calls.
-OpenCode/opencode transport and alternate Claude provider paths are not part of the current live benchmark path.
-
-More precisely, the architecture is:
+정확한 표현은 아래와 같습니다.
 
 ```text
 single planner-agent + deterministic AWS shape adapter + deterministic serializer + validator
 ```
 
-It is intentionally not a multi-agent system.
+이 구조는 multi-agent system이 아닙니다. 여러 agent가 서로 토론하거나 역할 분담을 하지 않습니다. 하나의 planner-agent가 응답 계획을 만들고, deterministic runtime이 AWS correctness를 보장합니다.
 
-## Difference From a Plain LLM Call
+## 6. 일반 LLM 호출과의 차이
 
-A plain LLM fallback would ask the model to directly produce the final response body:
+일반 LLM 직접 호출과 현재 구조의 차이는 아래와 같습니다.
 
-```text
-request -> prompt -> LLM writes JSON/XML -> return body
+| 구분 | 일반 LLM 직접 응답 | 현재 agentic runtime |
+| --- | --- | --- |
+| LLM 역할 | 최종 JSON/XML body 작성 | 응답 계획 작성 |
+| AWS 구조 책임 | LLM prompt에 의존 | botocore output shape + serializer |
+| nested field 안정성 | 낮음 | recursive shape 검증 가능 |
+| retry | 보통 prompt 재시도 | validation 실패 시 최대 1회 |
+| audit | 별도 구현 필요 | request/decision/response/metrics 기록 |
+| token 비용 | 최종 body를 쓰면 커질 수 있음 | compact plan 중심 |
+| 실패 형태 | 그럴듯하지만 틀린 body 가능 | validator가 mismatch를 잡음 |
+
+## 7. 주요 파일 역할
+
+| 파일 | 역할 |
+| --- | --- |
+| `moto/core/llm_agents/agent.py` | public fallback handler, session/world state orchestration, audit logging |
+| `moto/core/llm_agents/runtime/runner.py` | 단일 agent loop, provider call, render, validate, bounded retry |
+| `moto/core/llm_agents/runtime/planner.py` | compact prompt 생성, LLM output parser, default output |
+| `moto/core/llm_agents/runtime/provider.py` | OpenAI Responses API direct 호출, usage/response id 기록 |
+| `moto/core/llm_agents/shape_adapter.py` | botocore output shape 기반 deterministic payload 생성 |
+| `moto/core/llm_agents/tools/render_tools.py` | Moto serializer로 protocol-correct body 생성 |
+| `scripts/benchmark_agentic_runtime.py` | 40 command benchmark, AWS CLI reference check, recursive shape validation, live latency/token 기록 |
+
+## 8. 왜 이렇게 짰는가
+
+### 8.1 AWS 구조 정확성을 LLM에게 맡기지 않기 위해
+
+AWS CLI command reference의 `Output` 구조는 botocore model과 연결됩니다. 그래서 runtime은 LLM에게 “전체 body를 써라”라고 하지 않고, botocore shape를 읽어서 deterministic payload를 만듭니다.
+
+이번 검증에서 실제로 `DescribeVolumeStatus`의 nested 구조 문제가 잡혔습니다. top-level은 맞았지만 `VolumeStatuses[].VolumeStatus.Details[]`가 AWS 문서 기준 structure여야 했고, 이 문제를 recursive validator가 잡았습니다.
+
+### 8.2 token과 latency를 줄이기 위해
+
+기본 prompt는 compact prompt입니다. 전체 botocore schema를 매번 LLM에게 보내지 않습니다. runtime이 이미 schema를 알고 있기 때문에 LLM은 posture와 hints만 주면 됩니다.
+
+### 8.3 테스트 가능한 구조를 만들기 위해
+
+전체 동작을 하나의 prompt에 몰아넣으면 실패 원인 분석이 어렵습니다. 지금은 normalization, planning, shape adaptation, serialization, validation, audit가 분리되어 있어서 각 단계별로 테스트와 benchmark가 가능합니다.
+
+### 8.4 runaway agent loop를 막기 위해
+
+agent loop는 기본 최대 2 attempt입니다. validation이 실패하면 observation을 넣고 한 번만 다시 시도합니다. 무한 반복으로 비용이 늘어나는 구조가 아닙니다.
+
+## 9. 검증 방식
+
+검증은 세 층으로 나눴습니다.
+
+1. AWS CLI reference URL 검증
+   - 40개 command page URL 확인
+   - `Output` section 확인
+   - botocore service/operation/output shape 매핑 확인
+
+2. Recursive AWS output shape 검증
+   - top-level field뿐 아니라 nested structure/list/map/scalar까지 확인
+   - 실제 response body를 parse해서 botocore output shape와 비교
+
+3. Live OpenAI Responses API benchmark
+   - provider OK 여부
+   - input/output/total token usage
+   - latency
+   - 3초/4초 목표 달성 여부
+
+실행한 주요 검증 명령은 다음과 같습니다.
+
+```bash
+PYTHONPATH=/tmp/codex_pytest:. python3 -m pytest tests/test_core/test_llm_agents_runtime.py
+python3 scripts/benchmark_agentic_runtime.py --check-aws-cli-reference --all --results artifacts/agentic_runtime/aws_cli_reference_check.json --summary artifacts/agentic_runtime/aws_cli_reference_check_summary.md
+python3 scripts/benchmark_agentic_runtime.py --all --seed 1 --results artifacts/agentic_runtime/offline_full_40_results.json --summary artifacts/agentic_runtime/offline_full_40_summary.md
+python3 scripts/benchmark_agentic_runtime.py --sample-size 7 --seed 1 --live --latency-diagnosis --results artifacts/agentic_runtime/live_sample_7_results.json --summary artifacts/agentic_runtime/live_sample_7_summary.md
+python3 scripts/benchmark_agentic_runtime.py --all --seed 1 --live --latency-diagnosis --results artifacts/agentic_runtime/live_full_40_results.json --summary artifacts/agentic_runtime/live_full_40_summary.md
+python3 scripts/benchmark_agentic_runtime.py --all --seed 1 --live --latency-diagnosis --max-output-tokens 40 --results artifacts/agentic_runtime/live_full_40_tokens40_results.json --summary artifacts/agentic_runtime/live_full_40_tokens40_summary.md
 ```
 
-That is risky for this use case because AWS responses need to match service-specific protocols and output shapes.
-The model can easily produce plausible-looking but structurally wrong XML/JSON.
+## 10. 현재 남은 문제
 
-The current runtime instead does this:
+현재 구조 품질 문제는 해결됐지만, latency p100 문제는 남아 있습니다.
 
-```text
-request -> LLM writes compact response plan -> deterministic code renders AWS body
-```
+- 평균 latency는 3초 이내입니다.
+- 모든 command가 3초 이내인 것은 아닙니다.
+- `max_output_tokens=40`으로 낮추면 평균과 token은 줄지만 tail latency가 완전히 사라지지는 않습니다.
+- 일부 요청은 provider latency가 원인이고, 일부는 runtime overhead가 섞여 있습니다.
 
-The LLM output is limited to fields such as:
+다음 최적화 후보는 아래입니다.
 
-- intent phase
-- response posture
-- error mode
-- entity hints
-- field hints
-- environment delta
+- stable read/list operation에 deterministic fast path 추가
+- service model / serializer setup cache 강화
+- obvious한 response_plan은 LLM 호출 없이 생성
+- recursive shape validation은 benchmark mode 중심으로 유지하고 hot path 비용 최소화
 
-Then deterministic code handles:
+## 11. 한 줄 요약
 
-- botocore output shape lookup
-- fake but consistent resource value generation
-- AWS JSON/XML/query/ec2 protocol serialization
-- validation and retry
-- audit and benchmark metadata
-
-This gives the LLM room to act like an agent without trusting it to hand-write final AWS wire output.
-
-## Why This Design
-
-### 1. AWS output shape correctness matters
-
-Moto fallback responses must look like real AWS responses.
-AWS CLI output examples are backed by botocore service models, so the runtime uses botocore output shapes as the source of truth.
-
-The benchmark now verifies:
-
-- command page URL exists in AWS CLI reference
-- `Output` section exists
-- botocore service and operation mapping exists
-- top-level output members match
-- nested structures, lists, maps, and scalar positions match recursively
-
-This caught a real mismatch in `DescribeVolumeStatus`.
-The top-level response was correct, but nested fields under `VolumeStatuses[].VolumeStatus.Details[]` were wrong.
-The fix was to make nested structure generation compatible with deeper AWS shapes.
-
-### 2. LLM output should be small and cheap
-
-The compact prompt is the default.
-It intentionally avoids sending the full botocore schema to the model on every request.
-The runtime already has the schema locally and can render the body without asking the model to describe every field.
-
-This reduces input tokens and keeps the model focused on planning.
-
-### 3. Deterministic rendering is easier to test
-
-Response generation is split into testable stages:
-
-- request normalization
-- agent plan parsing
-- response plan construction
-- shape adaptation
-- protocol serialization
-- validation
-
-This is easier to test than one large prompt whose output has to be trusted directly.
-
-### 4. Retry is bounded
-
-The agent loop retries at most once by default.
-There is no open-ended agent loop.
-If validation fails, the next prompt includes a compact observation and asks the model to correct the plan.
-
-This prevents runaway cost and avoids hiding structural problems behind repeated model calls.
-
-## Main Code Areas
-
-- `moto/core/llm_agents/agent.py`
-  - public fallback handler
-  - request/session/world-state orchestration
-  - audit logging
-
-- `moto/core/llm_agents/runtime/runner.py`
-  - single agent loop
-  - calls provider
-  - builds response plan
-  - renders and validates response
-
-- `moto/core/llm_agents/runtime/planner.py`
-  - compact prompt construction
-  - model output parser
-  - default fallback output
-
-- `moto/core/llm_agents/runtime/provider.py`
-  - OpenAI Responses API direct call
-  - token usage and response id capture
-  - `.env` loading without printing secrets
-
-- `moto/core/llm_agents/shape_adapter.py`
-  - botocore output shape traversal
-  - deterministic fake field generation
-  - nested list/structure handling
-
-- `moto/core/llm_agents/tools/render_tools.py`
-  - Moto serializer integration
-  - protocol-correct JSON/XML body rendering
-
-- `scripts/benchmark_agentic_runtime.py`
-  - 40-command corpus runner
-  - AWS CLI reference URL check
-  - recursive output shape validation
-  - live OpenAI benchmark
-  - latency/token/quality summary
-
-## Benchmark Evidence
-
-Latest generated artifacts are under:
-
-```text
-artifacts/agentic_runtime/
-```
-
-Key results:
-
-```text
-AWS CLI reference check:
-  reference_found: 40/40
-  output_section_found: 40/40
-  reference_verified: 40/40
-
-Offline full 40:
-  quality_pass: 40/40
-  aws_output_shape_recursive_pass: 40/40
-
-Live full 40, max_output_tokens=80:
-  provider_call_ok: 40/40
-  aws_output_shape_recursive_pass: 40/40
-  under_3s: 22/40
-  under_4s: 37/40
-  total_tokens: 10,907
-  average latency: about 2.65s
-
-Live full 40, max_output_tokens=40 experiment:
-  provider_call_ok: 40/40
-  aws_output_shape_recursive_pass: 40/40
-  under_3s: 25/40
-  under_4s: 38/40
-  total_tokens: 9,307
-  average latency: about 2.38s
-```
-
-The architecture passes AWS structure validation, but it does not yet make every command complete under 3 seconds.
-The average latency is under 3 seconds, while the per-command p100 target is not met.
-
-## Current Performance Bottleneck
-
-The main remaining issue is tail latency from live model calls and some runtime overhead.
-
-Observed patterns:
-
-- some requests are dominated by OpenAI provider latency
-- some requests have runtime overhead around service model loading, serialization, validation, and audit work
-- reducing output tokens from 80 to 40 lowers total tokens and improves the number of under-3s commands, but does not solve all tail latency
-
-The most likely next improvements are:
-
-- deterministic fast paths for stable read/list operations
-- caching service model and serializer setup more aggressively
-- reducing live model calls when the deterministic plan is obvious
-- keeping recursive shape validation in benchmark mode rather than always paying the cost in hot paths
-
-## Design Tradeoff
-
-This runtime prioritizes AWS response correctness and auditability over raw speed.
-
-That tradeoff is intentional:
-
-- plain LLM output can be faster to prototype but produces unreliable AWS structures
-- deterministic rendering keeps shape correctness high
-- live model calls still create tail latency, so p100 under 3 seconds needs more fast-path work
-
-The current state is a good demonstration of a constrained single-agent runtime:
-
-```text
-agent decides intent and posture
-runtime owns AWS correctness
-validator proves the response shape
-benchmark records live cost and latency
-```
+현재 구현은 “LLM이 AWS 응답을 직접 쓰는 시스템”이 아니라, **LLM은 응답 계획만 만들고 deterministic runtime이 AWS-correct response를 생성하는 단일 agentic fallback runtime**입니다.

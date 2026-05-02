@@ -1,0 +1,522 @@
+{
+  "mode": "live",
+  "seed": 1,
+  "sample_size": 7,
+  "corpus_size": 40,
+  "sampled_ids": [
+    "ec2_create_spot_datafeed_subscription",
+    "iam_list_service_specific_credentials",
+    "ec2_describe_reserved_instances_listings",
+    "eks_list_addons",
+    "ec2_modify_volume_attribute",
+    "ecr_batch_check_layer_availability",
+    "codeguru_reviewer_list_repository_associations"
+  ],
+  "placeholder_experiments": [
+    {
+      "id": "resource_explorer_search",
+      "placeholders": [
+        "<view-arn>"
+      ],
+      "fake_values": [
+        "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      ],
+      "request_params": {
+        "QueryString": "*",
+        "ViewArn": "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      },
+      "target_identifiers": {
+        "ViewArn": "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_result",
+      "placeholders": [
+        "<check-id>"
+      ],
+      "fake_values": [
+        "eW7HH0l7J9"
+      ],
+      "request_params": {
+        "checkId": "eW7HH0l7J9",
+        "language": "en"
+      },
+      "target_identifiers": {
+        "checkId": "eW7HH0l7J9"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_summaries",
+      "placeholders": [
+        "<check-id>"
+      ],
+      "fake_values": [
+        "eW7HH0l7J9"
+      ],
+      "request_params": {
+        "checkIds": [
+          "eW7HH0l7J9"
+        ]
+      },
+      "target_identifiers": {
+        "checkIds": "eW7HH0l7J9",
+        "checkId": "eW7HH0l7J9"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "eks_list_addons",
+      "placeholders": [
+        "<cluster-name>"
+      ],
+      "fake_values": [
+        "prod-main"
+      ],
+      "request_params": {
+        "clusterName": "prod-main"
+      },
+      "target_identifiers": {
+        "clusterName": "prod-main"
+      },
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    },
+    {
+      "id": "ssm_start_session",
+      "placeholders": [
+        "<instance-id>"
+      ],
+      "fake_values": [
+        "i-1234567890abcdef0"
+      ],
+      "request_params": {
+        "Target": "i-1234567890abcdef0"
+      },
+      "target_identifiers": {},
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    },
+    {
+      "id": "ecs_execute_command",
+      "placeholders": [
+        "<cluster-name>",
+        "<task-id>",
+        "<container-name>"
+      ],
+      "fake_values": [
+        "prod-main",
+        "1234567890abcdef0123456789abcdef",
+        "app"
+      ],
+      "request_params": {
+        "cluster": "prod-main",
+        "task": "1234567890abcdef0123456789abcdef",
+        "container": "app",
+        "interactive": true,
+        "command": "/bin/sh"
+      },
+      "target_identifiers": {},
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    }
+  ],
+  "results": [
+    {
+      "id": "ec2_create_spot_datafeed_subscription",
+      "command": "aws ec2 create-spot-datafeed-subscription --bucket my-honeypot-bucket",
+      "service": "ec2",
+      "operation": "CreateSpotDatafeedSubscription",
+      "latency_ms": 4579.265,
+      "under_3s": false,
+      "under_4s": false,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "spotDatafeedSubscription"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "spotDatafeedSubscription"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/create-spot-datafeed-subscription.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "CreateSpotDatafeedSubscription",
+      "botocore_output_shape": "CreateSpotDatafeedSubscriptionResult",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2690.759,
+        "runtime_overhead_ms": 1888.506,
+        "input_tokens": 194,
+        "output_tokens": 80,
+        "total_tokens": 274,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 194,
+        "output_tokens": 80,
+        "total_tokens": 274,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0c8eea984d8bcc0e0069f60301ace481928de84bb509fb797b",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<CreateSpotDatafeedSubscriptionResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><spotDatafeedSubscription><bucket>my-honeypot-bucket</bucket><fault><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:CreateSpotDatafeedSubscription\"}</message></fault><ownerId>ec2-0142c723</ownerId><prefix>Prefix</prefix><state>Active</state></spotDatafeedSubscription><requestId>request-id</requestId></CreateSpotDatafeedSubscriptionResponse>"
+    },
+    {
+      "id": "iam_list_service_specific_credentials",
+      "command": "aws iam list-service-specific-credentials --user-name victim-admin",
+      "service": "iam",
+      "operation": "ListServiceSpecificCredentials",
+      "latency_ms": 4304.851,
+      "under_3s": false,
+      "under_4s": false,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "IsTruncated",
+        "Marker",
+        "ServiceSpecificCredentials"
+      ],
+      "aws_output_shape_observed": [
+        "IsTruncated",
+        "Marker",
+        "ResponseMetadata",
+        "ServiceSpecificCredentials"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/iam/list-service-specific-credentials.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "iam",
+      "botocore_operation": "ListServiceSpecificCredentials",
+      "botocore_output_shape": "ListServiceSpecificCredentialsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2472.163,
+        "runtime_overhead_ms": 1832.688,
+        "input_tokens": 195,
+        "output_tokens": 80,
+        "total_tokens": 275,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 195,
+        "output_tokens": 80,
+        "total_tokens": 275,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_094b6b80f3ee6c210069f60305dfa481979847dbb0e3ea01f9",
+        "error": ""
+      },
+      "response_body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>codecommit-828f59</ServiceCredentialAlias><CreateDate>2026-05-02T13:58:34Z</CreateDate><ExpirationDate>2026-05-02T13:58:34Z</ExpirationDate><ServiceSpecificCredentialId>iam-426d1a0d</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>"
+    },
+    {
+      "id": "ec2_describe_reserved_instances_listings",
+      "command": "aws ec2 describe-reserved-instances-listings",
+      "service": "ec2",
+      "operation": "DescribeReservedInstancesListings",
+      "latency_ms": 2496.7,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "reservedInstancesListingsSet"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "reservedInstancesListingsSet"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-listings.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "DescribeReservedInstancesListings",
+      "botocore_output_shape": "DescribeReservedInstancesListingsResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2488.495,
+        "runtime_overhead_ms": 8.205,
+        "input_tokens": 182,
+        "output_tokens": 80,
+        "total_tokens": 262,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 182,
+        "output_tokens": 80,
+        "total_tokens": 262,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_06eeffff421fde570069f603094b6c819cb48aa670b425de80",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeReservedInstancesListingsResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><reservedInstancesListingsSet><item><clientToken/><createDate>2026-05-02T13:58:37.000Z</createDate><instanceCounts><item><instanceCount>2</instanceCount><state>available</state></item><item><instanceCount>2</instanceCount><state>available</state></item></instanceCounts><priceSchedules><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item></priceSchedules><reservedInstancesId>ec2-e417ebd7</reservedInstancesId><reservedInstancesListingId>ec2-46ca80f5</reservedInstancesListingId><status>active</status><statusMessage>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeReservedInstancesListings\"}</statusMessage><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><updateDate>2026-05-02T13:58:37.000Z</updateDate></item><item><clientToken/><createDate>2026-05-02T13:58:37.000Z</createDate><instanceCounts><item><instanceCount>2</instanceCount><state>available</state></item><item><instanceCount>2</instanceCount><state>available</state></item></instanceCounts><priceSchedules><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item></priceSchedules><reservedInstancesId>ec2-c59446ab</reservedInstancesId><reservedInstancesListingId>ec2-45fa3d62</reservedInstancesListingId><status>active</status><statusMessage>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeReservedInstancesListings\"}</statusMessage><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><updateDate>2026-05-02T13:58:37.000Z</updateDate></item></reservedInstancesListingsSet><requestId>request-id</requestId></DescribeReservedInstancesListingsResponse>"
+    },
+    {
+      "id": "eks_list_addons",
+      "command": "aws eks list-addons --cluster-name prod-main",
+      "service": "eks",
+      "operation": "ListAddons",
+      "latency_ms": 2414.531,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/eks/list-addons.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "eks",
+      "botocore_operation": "ListAddons",
+      "botocore_output_shape": "ListAddonsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2405.78,
+        "runtime_overhead_ms": 8.751,
+        "input_tokens": 185,
+        "output_tokens": 80,
+        "total_tokens": 265,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 185,
+        "output_tokens": 80,
+        "total_tokens": 265,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_097f46c0da278a5e0069f6030c21cc8193a35863550a7c64db",
+        "error": ""
+      },
+      "response_body": "{\"addons\": [\"addon\", \"addon\"], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "ec2_modify_volume_attribute",
+      "command": "aws ec2 modify-volume-attribute --volume-id vol-1234567890abcdef0 --auto-enable-io",
+      "service": "ec2",
+      "operation": "ModifyVolumeAttribute",
+      "latency_ms": 1615.731,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "operation has an empty output shape",
+      "aws_output_shape_expected": [],
+      "aws_output_shape_observed": [],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-volume-attribute.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "ModifyVolumeAttribute",
+      "botocore_output_shape": "",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1607.908,
+        "runtime_overhead_ms": 7.823,
+        "input_tokens": 210,
+        "output_tokens": 80,
+        "total_tokens": 290,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 210,
+        "output_tokens": 80,
+        "total_tokens": 290,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0d7ff829914bf6d00069f6030e19e88197840b522ae8d4fa43",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModifyVolumeAttributeResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><requestId>request-id</requestId></ModifyVolumeAttributeResponse>"
+    },
+    {
+      "id": "ecr_batch_check_layer_availability",
+      "command": "aws ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+      "service": "ecr",
+      "operation": "BatchCheckLayerAvailability",
+      "latency_ms": 3237.739,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "failures",
+        "layers"
+      ],
+      "aws_output_shape_observed": [
+        "failures",
+        "layers"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/batch-check-layer-availability.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecr",
+      "botocore_operation": "BatchCheckLayerAvailability",
+      "botocore_output_shape": "BatchCheckLayerAvailabilityResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1364.346,
+        "runtime_overhead_ms": 1873.393,
+        "input_tokens": 211,
+        "output_tokens": 80,
+        "total_tokens": 291,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 211,
+        "output_tokens": 80,
+        "total_tokens": 291,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0644e7fd8f44f8a90069f6030f517081a180f8caa27f32d244",
+        "error": ""
+      },
+      "response_body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}, {\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}], \"failures\": []}"
+    },
+    {
+      "id": "codeguru_reviewer_list_repository_associations",
+      "command": "aws codeguru-reviewer list-repository-associations",
+      "service": "codeguru-reviewer",
+      "operation": "ListRepositoryAssociations",
+      "latency_ms": 3553.198,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "NextToken",
+        "RepositoryAssociationSummaries"
+      ],
+      "aws_output_shape_observed": [
+        "NextToken",
+        "RepositoryAssociationSummaries"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/codeguru-reviewer/list-repository-associations.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "codeguru-reviewer",
+      "botocore_operation": "ListRepositoryAssociations",
+      "botocore_output_shape": "ListRepositoryAssociationsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1637.969,
+        "runtime_overhead_ms": 1915.229,
+        "input_tokens": 177,
+        "output_tokens": 80,
+        "total_tokens": 257,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 177,
+        "output_tokens": 80,
+        "total_tokens": 257,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_09a1346ee1e59d280069f603124b148196bfaf72a89656e486",
+        "error": ""
+      },
+      "response_body": "{\"RepositoryAssociationSummaries\": [{\"AssociationArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/6b0726d2\", \"ConnectionArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/2dad56b8\", \"LastUpdatedTimeStamp\": 1777730325, \"AssociationId\": \"codeguru-reviewer-bb8b479d\", \"Name\": \"codeguru-reviewer-listrepositoryassociations\", \"Owner\": \"Owner\", \"ProviderType\": \"CodeCommit\", \"State\": \"Associated\"}, {\"AssociationArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/150de205\", \"ConnectionArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/f1ac64df\", \"LastUpdatedTimeStamp\": 1777730325, \"AssociationId\": \"codeguru-reviewer-e64c7761\", \"Name\": \"codeguru-reviewer-listrepositoryassociations\", \"Owner\": \"Owner\", \"ProviderType\": \"CodeCommit\", \"State\": \"Associated\"}], \"NextToken\": \"\"}"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "quality_pass": 3,
+    "quality_fail": 4,
+    "under_3s": 3,
+    "under_4s": 5,
+    "aws_output_shape_pass": 7,
+    "aws_output_shape_recursive_pass": 7,
+    "aws_cli_reference_verified": 7,
+    "provider_call_ok": 7,
+    "total_tokens": 1914
+  }
+}

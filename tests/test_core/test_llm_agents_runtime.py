@@ -2,12 +2,16 @@ from __future__ import annotations
 
 import json
 
-from moto.core.llm_agents.agent import _stabilize_decision, handle_aws_request
-from moto.core.llm_agents.runtime import DEFAULT_DECISION, DecisionOutput, call_gpt_api_with_meta, parse_decision_output
+from moto.core.llm_agents.agent import handle_aws_request
+from moto.core.llm_agents.runtime import DEFAULT_OUTPUT, call_gpt_api_with_meta, parse_agent_output
+from moto.core.llm_agents.shape_adapter import adapt_response_plan
 from moto.core.llm_agents.tools.planning_tools import build_response_plan_tool
-from moto.core.llm_agents.tools.render_tools import adapt_response_plan_tool, render_protocol_response_tool
+from moto.core.llm_agents.tools.render_tools import serialize_response_tool
 from moto.core.llm_agents.tools.request_tools import normalize_request_tool
-from moto.core.llm_agents.tools.validation_tools import build_comparison_points_tool, validate_rendered_response_tool
+from moto.core.llm_agents.tools.validation_tools import (
+    build_comparison_points_tool,
+    validate_rendered_response_tool,
+)
 
 
 def test_normalizer_canonicalizes_prefixed_action() -> None:
@@ -40,38 +44,31 @@ def test_normalizer_extracts_json_request_params_and_identifiers() -> None:
     assert req.target_identifiers["layerDigest"] == "sha256:abc"
 
 
-def test_parse_decision_output_falls_back_on_invalid_text() -> None:
-    decision = parse_decision_output("not-a-json")
-    assert decision == DEFAULT_DECISION
+def test_parse_agent_output_falls_back_on_invalid_text() -> None:
+    assert parse_agent_output("not-a-json") == DEFAULT_OUTPUT
 
 
-def test_handle_aws_request_renders_ec2_xml_from_decision(monkeypatch) -> None:
-    decision_json = {
-        "intent_phase": "recon",
-        "response_posture": "rich",
-        "error_mode": "none",
-        "decoy_bundle_id": "ec2_primary",
-        "risk_delta": 0.2,
-        "reason_tags": ["enum_pattern", "permission_test"],
-    }
-
-    monkeypatch.setattr(
-        "moto.core.llm_agents.agent.call_gpt_api_with_meta",
-        lambda _: (json.dumps(decision_json), {"provider": "openai", "duration_ms": 1.0}),
-    )
+def test_default_handle_aws_request_uses_agentic_runtime_without_mode_env(monkeypatch, tmp_path) -> None:
+    monkeypatch.delenv("MOTO_LLM_RUNTIME_MODE", raising=False)
+    monkeypatch.setenv("MOTO_LLM_OFFLINE_STUB", "1")
+    audit_file = tmp_path / "audit.json"
+    monkeypatch.setenv("MOTO_LLM_AUDIT_FILE", str(audit_file))
 
     response_body = handle_aws_request(
-        service="ec2",
-        action="DescribeInstances",
-        url="https://ec2.ap-northeast-2.amazonaws.com/",
-        headers={"X-Forwarded-For": "1.2.3.4"},
-        body="Action=DescribeInstances",
+        service="ssm",
+        action="DescribeInstanceInformation",
+        url="https://ssm.us-east-1.amazonaws.com/",
+        headers={"Authorization": "Credential=AKIAEXAMPLE/secret"},
+        body="Action=DescribeInstanceInformation&Version=2014-11-06",
         reason="test",
         source="unit_test",
     )
 
-    assert "<DescribeInstancesResponse" in response_body
-    assert "<instanceId>i-" in response_body
+    parsed = json.loads(response_body)
+    assert parsed["InstanceInformationList"][0]["InstanceId"].startswith("i-")
+    audit = json.loads(audit_file.read_text(encoding="utf-8"))
+    assert audit[-1]["metrics"]["llm"]["provider"] == "offline_stub"
+    assert audit[-1]["request"]["headers"]["Authorization"] == "<redacted>"
 
 
 def test_handle_aws_request_replans_after_validation_failure(monkeypatch) -> None:
@@ -117,7 +114,8 @@ def test_handle_aws_request_replans_after_validation_failure(monkeypatch) -> Non
         calls.append(prompt)
         return next(responses), {"provider": "openai", "duration_ms": 1.0}
 
-    monkeypatch.setattr("moto.core.llm_agents.agent.call_gpt_api_with_meta", fake_call)
+    monkeypatch.delenv("MOTO_LLM_OFFLINE_STUB", raising=False)
+    monkeypatch.setattr("moto.core.llm_agents.runtime.runner.call_gpt_api_with_meta", fake_call)
     monkeypatch.setenv("MOTO_LLM_AGENT_MAX_ATTEMPTS", "2")
 
     response_body = handle_aws_request(
@@ -134,7 +132,7 @@ def test_handle_aws_request_replans_after_validation_failure(monkeypatch) -> Non
     assert parsed["InstanceInformationList"][0]["InstanceId"].startswith("i-")
     assert len(calls) == 2
     assert "LATEST_OBSERVATION" in calls[1]
-    assert "tool=validate_rendered_response status=failed" in calls[1]
+    assert "validation_failed" in calls[1]
 
 
 def test_validator_blocks_public_url() -> None:
@@ -197,28 +195,7 @@ def test_comparison_points_capture_xml_parseability() -> None:
     assert points["xml_namespace_present"] is True
 
 
-def test_stabilize_decision_forces_success_for_benchmark_operations() -> None:
-    canonical = normalize_request_tool(
-        service="ssm",
-        action="DescribeInstanceInformation",
-        url="https://ssm.ap-northeast-2.amazonaws.com/",
-        headers={},
-        body="",
-    )
-    decision = DecisionOutput(
-        intent_phase="recon",
-        response_posture="normal",
-        error_mode="access_denied",
-        decoy_bundle_id="ssm_probe",
-        risk_delta=0.05,
-        reason_tags=["enum_pattern"],
-    )
-    stabilized = _stabilize_decision(canonical, decision)
-    assert stabilized.error_mode == "none"
-    assert stabilized.response_posture == "normal"
-
-
-def test_shape_adapter_and_protocol_renderer_for_iam_query() -> None:
+def test_shape_adapter_and_serializer_for_iam_query() -> None:
     canonical = normalize_request_tool(
         service="iam",
         action="GetContextKeysForPrincipalPolicy",
@@ -227,16 +204,16 @@ def test_shape_adapter_and_protocol_renderer_for_iam_query() -> None:
         body="Action=GetContextKeysForPrincipalPolicy",
     )
     world_state = {"consistency_locks": {"account_id": "123456789012"}, "exposed_assets": []}
-    plan = build_response_plan_tool(canonical, DEFAULT_DECISION, world_state, "")
-    payload, meta = adapt_response_plan_tool(canonical, plan, world_state)
-    body, render_meta = render_protocol_response_tool(canonical, payload, meta)
+    plan = build_response_plan_tool(canonical, DEFAULT_OUTPUT, world_state, "")
+    payload, _ = adapt_response_plan(canonical, plan, world_state)
+    body, render_meta = serialize_response_tool(canonical, payload)
 
     assert "GetContextKeysForPrincipalPolicyResponse" in body
     assert "<member>aws:RequestedRegion</member>" in body
-    assert render_meta["headers"]["Content-Type"] == "text/xml"
+    assert render_meta["protocol"] == "query"
 
 
-def test_shape_adapter_and_protocol_renderer_for_ecr_json() -> None:
+def test_shape_adapter_and_serializer_for_ecr_json() -> None:
     canonical = normalize_request_tool(
         service="ecr",
         action="InitiateLayerUpload",
@@ -245,14 +222,14 @@ def test_shape_adapter_and_protocol_renderer_for_ecr_json() -> None:
         body="{}",
     )
     world_state = {"consistency_locks": {"account_id": "123456789012"}, "exposed_assets": []}
-    plan = build_response_plan_tool(canonical, DEFAULT_DECISION, world_state, "")
-    payload, meta = adapt_response_plan_tool(canonical, plan, world_state)
-    body, render_meta = render_protocol_response_tool(canonical, payload, meta)
+    plan = build_response_plan_tool(canonical, DEFAULT_OUTPUT, world_state, "")
+    payload, _ = adapt_response_plan(canonical, plan, world_state)
+    body, render_meta = serialize_response_tool(canonical, payload)
     parsed = json.loads(body)
 
     assert parsed["uploadId"].startswith("upload-")
     assert parsed["partSize"] > 0
-    assert render_meta["headers"]["Content-Type"] == "application/x-amz-json-1.1"
+    assert render_meta["protocol"] == "json"
 
 
 def test_shape_adapter_echoes_request_identifiers_when_available() -> None:
@@ -264,8 +241,8 @@ def test_shape_adapter_echoes_request_identifiers_when_available() -> None:
         body='{"repositoryName":"demo","uploadId":"test","layerDigest":"sha256:abc"}',
     )
     world_state = {"consistency_locks": {"account_id": "123456789012"}, "exposed_assets": []}
-    plan = build_response_plan_tool(canonical, DEFAULT_DECISION, world_state, "")
-    payload, _ = adapt_response_plan_tool(canonical, plan, world_state)
+    plan = build_response_plan_tool(canonical, DEFAULT_OUTPUT, world_state, "")
+    payload, _ = adapt_response_plan(canonical, plan, world_state)
 
     assert payload["repositoryName"] == "demo"
     assert payload["uploadId"] == "test"
@@ -291,7 +268,7 @@ def test_call_gpt_api_uses_direct_openai_by_default(monkeypatch) -> None:
         captured["timeout"] = timeout
         return {
             "id": "resp_test",
-            "usage": {"total_tokens": 12},
+            "usage": {"input_tokens": 7, "output_tokens": 5, "total_tokens": 12},
             "output": [{"content": [{"type": "output_text", "text": '{"ok":true}'}]}],
         }
 
@@ -309,17 +286,18 @@ def test_call_gpt_api_uses_direct_openai_by_default(monkeypatch) -> None:
     assert isinstance(payload, dict)
     assert payload["input"][0]["content"] == "test-prompt"
     assert meta["provider"] == "openai"
+    assert meta["usage"]["total_tokens"] == 12
 
 
-def test_call_gpt_api_uses_direct_openai_for_invalid_transport(monkeypatch) -> None:
+def test_call_gpt_api_ignores_opencode_transport(monkeypatch) -> None:
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
-    monkeypatch.setenv("MOTO_LLM_OPENAI_TRANSPORT", "something-else")
+    monkeypatch.setenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode")
 
     monkeypatch.setattr(
         "moto.core.llm_agents.runtime.provider._post_json",
         lambda **_: {
             "id": "resp_test",
-            "usage": {"total_tokens": 10},
+            "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
             "output": [{"content": [{"type": "output_text", "text": '{"route":"api"}'}]}],
         },
     )
@@ -328,21 +306,3 @@ def test_call_gpt_api_uses_direct_openai_for_invalid_transport(monkeypatch) -> N
 
     assert text == '{"route":"api"}'
     assert meta["provider"] == "openai"
-
-
-def test_call_gpt_api_uses_opencode_only_when_explicit(monkeypatch) -> None:
-    monkeypatch.setenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode")
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-
-    monkeypatch.setattr(
-        "moto.core.llm_agents.runtime.provider._call_opencode_with_meta",
-        lambda prompt, model=None, timeout=20.0: (
-            '{"route":"opencode"}',
-            {"provider": "opencode", "duration_ms": 1.0, "prompt": prompt},
-        ),
-    )
-
-    text, meta = call_gpt_api_with_meta("test-prompt")
-
-    assert text == '{"route":"opencode"}'
-    assert meta["provider"] == "opencode"

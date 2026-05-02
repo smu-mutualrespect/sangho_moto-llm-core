@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 import time
 from pathlib import Path
 from typing import Any, Optional
@@ -18,15 +17,12 @@ def call_gpt_api(prompt: str, *, model: Optional[str] = None, timeout: float = 2
 
 def call_gpt_api_with_meta(prompt: str, *, model: Optional[str] = None, timeout: float = 20.0) -> tuple[str, dict[str, Any]]:
     _load_dotenv_if_present()
-    transport = _resolve_openai_transport()
-    if transport == "opencode":
-        return _call_opencode_with_meta(prompt, model=model, timeout=timeout)
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise ValueError("OPENAI_API_KEY is not set")
     payload = {
         "model": model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5-mini"),
-        "max_output_tokens": int(os.getenv("MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS", "1500")),
+        "max_output_tokens": int(os.getenv("MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS", "80")),
         "reasoning": {"effort": os.getenv("MOTO_LLM_OPENAI_REASONING_EFFORT", "minimal")},
         "input": [{"role": "user", "content": prompt}],
     }
@@ -41,56 +37,6 @@ def call_gpt_api_with_meta(prompt: str, *, model: Optional[str] = None, timeout:
                     parts.append(text)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
     return "\n".join(parts).strip(), {"provider": "openai", "model": payload["model"], "usage": response.get("usage"), "duration_ms": round(elapsed_ms, 3), "response_id": response.get("id")}
-
-
-def call_claude_api(prompt: str, *, model: Optional[str] = None, timeout: float = 20.0) -> str:
-    text, _ = call_claude_api_with_meta(prompt, model=model, timeout=timeout)
-    return text
-
-
-def call_claude_api_with_meta(prompt: str, *, model: Optional[str] = None, timeout: float = 20.0) -> tuple[str, dict[str, Any]]:
-    _load_dotenv_if_present()
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY is not set")
-    payload = {"model": model or os.getenv("MOTO_LLM_ANTHROPIC_MODEL", "claude-3-5-sonnet-latest"), "max_tokens": 2000, "messages": [{"role": "user", "content": prompt}]}
-    started = time.perf_counter()
-    response = _post_json(url="https://api.anthropic.com/v1/messages", headers={"x-api-key": api_key, "anthropic-version": "2023-06-01", "content-type": "application/json"}, payload=payload, timeout=timeout)
-    parts = [item.get("text") for item in response.get("content", []) if item.get("type") == "text" and item.get("text")]
-    elapsed_ms = (time.perf_counter() - started) * 1000.0
-    return "\n".join(parts).strip(), {"provider": "anthropic", "model": payload["model"], "usage": response.get("usage"), "duration_ms": round(elapsed_ms, 3), "response_id": response.get("id")}
-
-
-def _resolve_openai_transport() -> str:
-    return "opencode" if os.getenv("MOTO_LLM_OPENAI_TRANSPORT", "").strip().lower() == "opencode" else "api"
-
-
-def _call_opencode_with_meta(prompt: str, *, model: Optional[str] = None, timeout: float = 20.0) -> tuple[str, dict[str, Any]]:
-    effective_timeout = max(timeout, float(os.getenv("MOTO_LLM_OPENCODE_TIMEOUT", "30")))
-    repo_root = Path(__file__).resolve().parents[3]
-    command = [os.getenv("MOTO_LLM_OPENCODE_BIN", "opencode"), "run", "--agent", os.getenv("MOTO_LLM_OPENCODE_AGENT", "moto-fallback"), "--model", model or os.getenv("MOTO_LLM_OPENCODE_MODEL", "openai/gpt-5.4"), "--variant", os.getenv("MOTO_LLM_OPENCODE_VARIANT", "fast"), "--format", "json", prompt]
-    started = time.perf_counter()
-    completed = subprocess.run(command, cwd=repo_root, text=True, capture_output=True, timeout=effective_timeout, check=False, env=os.environ.copy())
-    elapsed_ms = (time.perf_counter() - started) * 1000.0
-    if completed.returncode != 0:
-        raise RuntimeError(completed.stderr.strip() or completed.stdout.strip() or "opencode failed")
-    parts: list[str] = []
-    for line in completed.stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            event = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if event.get("type") == "text":
-            text = event.get("part", {}).get("text")
-            if text:
-                parts.append(text)
-    output_text = "\n".join(parts).strip()
-    if not output_text:
-        raise ValueError("OpenCode returned no text")
-    return output_text, {"provider": "opencode", "model": command[5], "duration_ms": round(elapsed_ms, 3), "stderr": completed.stderr.strip(), "returncode": completed.returncode}
 
 
 def _post_json(*, url: str, headers: dict[str, str], payload: dict[str, Any], timeout: float) -> dict[str, Any]:

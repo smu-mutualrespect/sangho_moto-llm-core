@@ -1,0 +1,2328 @@
+{
+  "mode": "live",
+  "seed": 1,
+  "sample_size": 40,
+  "corpus_size": 40,
+  "sampled_ids": [
+    "bedrock_list_foundation_models",
+    "ec2_monitor_instances",
+    "ec2_unmonitor_instances",
+    "ec2_describe_reserved_instances",
+    "ec2_describe_reserved_instances_listings",
+    "ec2_purchase_reserved_instances_offering",
+    "ec2_describe_volume_status",
+    "ec2_modify_volume_attribute",
+    "ec2_create_spot_datafeed_subscription",
+    "ec2_describe_bundle_tasks",
+    "resource_explorer_list_indexes",
+    "resource_explorer_list_views",
+    "resource_explorer_search",
+    "support_describe_services",
+    "support_describe_trusted_advisor_check_result",
+    "support_describe_trusted_advisor_check_summaries",
+    "eks_list_addons",
+    "eks_describe_addon_versions",
+    "ssm_start_session",
+    "ecs_execute_command",
+    "billingconductor_list_billing_groups",
+    "frauddetector_get_detectors",
+    "detective_list_graphs",
+    "auditmanager_list_assessments",
+    "outposts_list_outposts",
+    "appflow_list_flows",
+    "omics_list_runs",
+    "mgn_describe_source_servers",
+    "codeguru_reviewer_list_repository_associations",
+    "backup_gateway_list_gateways",
+    "ssm_describe_instance_information",
+    "ecr_batch_check_layer_availability",
+    "ecr_get_download_url_for_layer",
+    "ecr_initiate_layer_upload",
+    "ecr_complete_layer_upload",
+    "iam_get_context_keys_for_principal_policy",
+    "iam_list_service_specific_credentials",
+    "iam_generate_service_last_accessed_details",
+    "secretsmanager_validate_resource_policy",
+    "sts_decode_authorization_message"
+  ],
+  "placeholder_experiments": [
+    {
+      "id": "resource_explorer_search",
+      "placeholders": [
+        "<view-arn>"
+      ],
+      "fake_values": [
+        "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      ],
+      "request_params": {
+        "QueryString": "*",
+        "ViewArn": "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      },
+      "target_identifiers": {
+        "ViewArn": "arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_result",
+      "placeholders": [
+        "<check-id>"
+      ],
+      "fake_values": [
+        "eW7HH0l7J9"
+      ],
+      "request_params": {
+        "checkId": "eW7HH0l7J9",
+        "language": "en"
+      },
+      "target_identifiers": {
+        "checkId": "eW7HH0l7J9"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_summaries",
+      "placeholders": [
+        "<check-id>"
+      ],
+      "fake_values": [
+        "eW7HH0l7J9"
+      ],
+      "request_params": {
+        "checkIds": [
+          "eW7HH0l7J9"
+        ]
+      },
+      "target_identifiers": {
+        "checkIds": "eW7HH0l7J9",
+        "checkId": "eW7HH0l7J9"
+      },
+      "response_mentions_any_fake_value": true,
+      "quality_pass": true
+    },
+    {
+      "id": "eks_list_addons",
+      "placeholders": [
+        "<cluster-name>"
+      ],
+      "fake_values": [
+        "prod-main"
+      ],
+      "request_params": {
+        "clusterName": "prod-main"
+      },
+      "target_identifiers": {
+        "clusterName": "prod-main"
+      },
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    },
+    {
+      "id": "ssm_start_session",
+      "placeholders": [
+        "<instance-id>"
+      ],
+      "fake_values": [
+        "i-1234567890abcdef0"
+      ],
+      "request_params": {
+        "Target": "i-1234567890abcdef0"
+      },
+      "target_identifiers": {},
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    },
+    {
+      "id": "ecs_execute_command",
+      "placeholders": [
+        "<cluster-name>",
+        "<task-id>",
+        "<container-name>"
+      ],
+      "fake_values": [
+        "prod-main",
+        "1234567890abcdef0123456789abcdef",
+        "app"
+      ],
+      "request_params": {
+        "cluster": "prod-main",
+        "task": "1234567890abcdef0123456789abcdef",
+        "container": "app",
+        "interactive": true,
+        "command": "/bin/sh"
+      },
+      "target_identifiers": {},
+      "response_mentions_any_fake_value": false,
+      "quality_pass": true
+    }
+  ],
+  "results": [
+    {
+      "id": "bedrock_list_foundation_models",
+      "command": "aws bedrock list-foundation-models",
+      "service": "bedrock",
+      "operation": "ListFoundationModels",
+      "latency_ms": 4352.001,
+      "under_3s": false,
+      "under_4s": false,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "modelSummaries"
+      ],
+      "aws_output_shape_observed": [
+        "modelSummaries"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/bedrock/list-foundation-models.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "bedrock",
+      "botocore_operation": "ListFoundationModels",
+      "botocore_output_shape": "ListFoundationModelsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2450.389,
+        "runtime_overhead_ms": 1901.612,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0138484ff51638fe0069f603b44fd8819d9a87f0260bb18b45",
+        "error": ""
+      },
+      "response_body": "{\"modelSummaries\": [{\"modelArn\": \"arn:aws:bedrock:us-east-1:123456789012:listfoundationmodels/0f82e00c\", \"modelId\": \"bedrock-286f0d37\", \"modelName\": \"modelName\", \"providerName\": \"providerName\", \"inputModalities\": [\"TEXT\", \"TEXT\"], \"outputModalities\": [\"TEXT\", \"TEXT\"], \"responseStreamingSupported\": false, \"customizationsSupported\": [\"FINE_TUNING\", \"FINE_TUNING\"], \"inferenceTypesSupported\": [\"ON_DEMAND\", \"ON_DEMAND\"], \"modelLifecycle\": {\"status\": \"ACTIVE\", \"startOfLifeTime\": \"2026-05-02T14:01:29Z\", \"endOfLifeTime\": \"2026-05-02T14:01:29Z\", \"legacyTime\": \"2026-05-02T14:01:29Z\", \"publicExtendedAccessTime\": \"2026-05-02T14:01:29Z\"}}, {\"modelArn\": \"arn:aws:bedrock:us-east-1:123456789012:listfoundationmodels/5d8a2dc7\", \"modelId\": \"bedrock-2a24b180\", \"modelName\": \"modelName\", \"providerName\": \"providerName\", \"inputModalities\": [\"TEXT\", \"TEXT\"], \"outputModalities\": [\"TEXT\", \"TEXT\"], \"responseStreamingSupported\": false, \"customizationsSupported\": [\"FINE_TUNING\", \"FINE_TUNING\"], \"inferenceTypesSupported\": [\"ON_DEMAND\", \"ON_DEMAND\"], \"modelLifecycle\": {\"status\": \"ACTIVE\", \"startOfLifeTime\": \"2026-05-02T14:01:29Z\", \"endOfLifeTime\": \"2026-05-02T14:01:29Z\", \"legacyTime\": \"2026-05-02T14:01:29Z\", \"publicExtendedAccessTime\": \"2026-05-02T14:01:29Z\"}}]}"
+    },
+    {
+      "id": "ec2_monitor_instances",
+      "command": "aws ec2 monitor-instances --instance-ids i-1234567890abcdef0",
+      "service": "ec2",
+      "operation": "MonitorInstances",
+      "latency_ms": 3068.67,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "instancesSet"
+      ],
+      "aws_output_shape_observed": [
+        "instancesSet",
+        "requestId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/monitor-instances.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "MonitorInstances",
+      "botocore_output_shape": "MonitorInstancesResult",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1119.429,
+        "runtime_overhead_ms": 1949.241,
+        "input_tokens": 192,
+        "output_tokens": 40,
+        "total_tokens": 232,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 192,
+        "output_tokens": 40,
+        "total_tokens": 232,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_01115e93913a5c540069f603b84ff4819d8c0d1df8470c132c",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<MonitorInstancesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><instancesSet><item><instanceId>i-e64d0e84e5ac54e27</instanceId><monitoring><state>disabled</state></monitoring></item><item><instanceId>i-f684dc2825cdb56b4</instanceId><monitoring><state>disabled</state></monitoring></item></instancesSet><requestId>request-id</requestId></MonitorInstancesResponse>"
+    },
+    {
+      "id": "ec2_unmonitor_instances",
+      "command": "aws ec2 unmonitor-instances --instance-ids i-1234567890abcdef0",
+      "service": "ec2",
+      "operation": "UnmonitorInstances",
+      "latency_ms": 2095.607,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "instancesSet"
+      ],
+      "aws_output_shape_observed": [
+        "instancesSet",
+        "requestId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/unmonitor-instances.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "UnmonitorInstances",
+      "botocore_output_shape": "UnmonitorInstancesResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2086.417,
+        "runtime_overhead_ms": 9.19,
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_033df9417b19fb640069f603bb76388191be2047399d2936e7",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<UnmonitorInstancesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><instancesSet><item><instanceId>i-618ba7a569ab73073</instanceId><monitoring><state>disabled</state></monitoring></item><item><instanceId>i-6a949e7c23f49f063</instanceId><monitoring><state>disabled</state></monitoring></item></instancesSet><requestId>request-id</requestId></UnmonitorInstancesResponse>"
+    },
+    {
+      "id": "ec2_describe_reserved_instances",
+      "command": "aws ec2 describe-reserved-instances",
+      "service": "ec2",
+      "operation": "DescribeReservedInstances",
+      "latency_ms": 1180.235,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "reservedInstancesSet"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "reservedInstancesSet"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "DescribeReservedInstances",
+      "botocore_output_shape": "DescribeReservedInstancesResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1171.528,
+        "runtime_overhead_ms": 8.707,
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "total_tokens": 220,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "total_tokens": 220,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_03302c3dbb8f5ee00069f603bd2438819fab4da0b06b7b4c6b",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeReservedInstancesResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><reservedInstancesSet><item><currencyCode>USD</currencyCode><instanceTenancy>default</instanceTenancy><offeringClass>standard</offeringClass><offeringType>Heavy Utilization</offeringType><recurringCharges><item><amount>1.0</amount><frequency>Hourly</frequency></item><item><amount>1.0</amount><frequency>Hourly</frequency></item></recurringCharges><scope>Availability Zone</scope><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><availabilityZoneId>ec2-4b5c71ae</availabilityZoneId><reservedInstancesId>ec2-1e27c03e</reservedInstancesId><instanceType>a1.medium</instanceType><availabilityZone>us-east-1a</availabilityZone><start>2026-05-02T14:01:35.000Z</start><end>2026-05-02T14:01:35.000Z</end><duration>1</duration><usagePrice>1.0</usagePrice><fixedPrice>1.0</fixedPrice><instanceCount>2</instanceCount><productDescription>Linux/UNIX</productDescription><state>payment-pending</state></item><item><currencyCode>USD</currencyCode><instanceTenancy>default</instanceTenancy><offeringClass>standard</offeringClass><offeringType>Heavy Utilization</offeringType><recurringCharges><item><amount>1.0</amount><frequency>Hourly</frequency></item><item><amount>1.0</amount><frequency>Hourly</frequency></item></recurringCharges><scope>Availability Zone</scope><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><availabilityZoneId>ec2-d40dc29d</availabilityZoneId><reservedInstancesId>ec2-d125dfbb</reservedInstancesId><instanceType>a1.medium</instanceType><availabilityZone>us-east-1a</availabilityZone><start>2026-05-02T14:01:35.000Z</start><end>2026-05-02T14:01:35.000Z</end><duration>1</duration><usagePrice>1.0</usagePrice><fixedPrice>1.0</fixedPrice><instanceCount>2</instanceCount><productDescription>Linux/UNIX</productDescription><state>payment-pending</state></item></reservedInstancesSet><requestId>request-id</requestId></DescribeReservedInstancesResponse>"
+    },
+    {
+      "id": "ec2_describe_reserved_instances_listings",
+      "command": "aws ec2 describe-reserved-instances-listings",
+      "service": "ec2",
+      "operation": "DescribeReservedInstancesListings",
+      "latency_ms": 1341.492,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "reservedInstancesListingsSet"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "reservedInstancesListingsSet"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-reserved-instances-listings.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "DescribeReservedInstancesListings",
+      "botocore_output_shape": "DescribeReservedInstancesListingsResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1331.148,
+        "runtime_overhead_ms": 10.344,
+        "input_tokens": 182,
+        "output_tokens": 40,
+        "total_tokens": 222,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 182,
+        "output_tokens": 40,
+        "total_tokens": 222,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0e3d06345d38ee840069f603be333881959d0540489de7097f",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeReservedInstancesListingsResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><reservedInstancesListingsSet><item><clientToken/><createDate>2026-05-02T14:01:37.000Z</createDate><instanceCounts><item><instanceCount>2</instanceCount><state>available</state></item><item><instanceCount>2</instanceCount><state>available</state></item></instanceCounts><priceSchedules><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item></priceSchedules><reservedInstancesId>ec2-b06d2d8f</reservedInstancesId><reservedInstancesListingId>ec2-9ec46886</reservedInstancesListingId><status>active</status><statusMessage>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeReservedInstancesListings\"}</statusMessage><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><updateDate>2026-05-02T14:01:37.000Z</updateDate></item><item><clientToken/><createDate>2026-05-02T14:01:37.000Z</createDate><instanceCounts><item><instanceCount>2</instanceCount><state>available</state></item><item><instanceCount>2</instanceCount><state>available</state></item></instanceCounts><priceSchedules><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item><item><active>false</active><currencyCode>USD</currencyCode><price>1.0</price><term>1</term></item></priceSchedules><reservedInstancesId>ec2-9bd690b4</reservedInstancesId><reservedInstancesListingId>ec2-0bdcace3</reservedInstancesListingId><status>active</status><statusMessage>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeReservedInstancesListings\"}</statusMessage><tagSet><item><key>Key</key><value>Value</value></item><item><key>Key</key><value>Value</value></item></tagSet><updateDate>2026-05-02T14:01:37.000Z</updateDate></item></reservedInstancesListingsSet><requestId>request-id</requestId></DescribeReservedInstancesListingsResponse>"
+    },
+    {
+      "id": "ec2_purchase_reserved_instances_offering",
+      "command": "aws ec2 purchase-reserved-instances-offering --reserved-instances-offering-id aaaaaa11-bbbb-cccc-ddd-example1 --instance-count 1",
+      "service": "ec2",
+      "operation": "PurchaseReservedInstancesOffering",
+      "latency_ms": 1166.797,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "reservedInstancesId"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "reservedInstancesId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/purchase-reserved-instances-offering.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "PurchaseReservedInstancesOffering",
+      "botocore_output_shape": "PurchaseReservedInstancesOfferingResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1158.394,
+        "runtime_overhead_ms": 8.403,
+        "input_tokens": 221,
+        "output_tokens": 40,
+        "total_tokens": 261,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 221,
+        "output_tokens": 40,
+        "total_tokens": 261,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0766c961926f7bcd0069f603bf709c8193af7cc0a9e567aef6",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<PurchaseReservedInstancesOfferingResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><reservedInstancesId>ec2-e68ffc17</reservedInstancesId><requestId>request-id</requestId></PurchaseReservedInstancesOfferingResponse>"
+    },
+    {
+      "id": "ec2_describe_volume_status",
+      "command": "aws ec2 describe-volume-status --volume-ids vol-1234567890abcdef0",
+      "service": "ec2",
+      "operation": "DescribeVolumeStatus",
+      "latency_ms": 2714.962,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "nextToken",
+        "volumeStatusSet"
+      ],
+      "aws_output_shape_observed": [
+        "nextToken",
+        "requestId",
+        "volumeStatusSet"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-volume-status.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "DescribeVolumeStatus",
+      "botocore_output_shape": "DescribeVolumeStatusResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2680.904,
+        "runtime_overhead_ms": 34.058,
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_01410e7c4a74c19c0069f603c0890081a191fbc5b3b9d05281",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeVolumeStatusResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><nextToken/><volumeStatusSet><item><actionsSet><item><code>Code</code><description>Description</description><eventId>ec2-43f77189</eventId><eventType>EventType</eventType></item><item><code>Code</code><description>Description</description><eventId>ec2-4ad1f9a7</eventId><eventType>EventType</eventType></item></actionsSet><availabilityZone>us-east-1a</availabilityZone><outpostArn>arn:aws:ec2:us-east-1:123456789012:describevolumestatus/5ea327d8</outpostArn><eventsSet><item><description>Description</description><eventId>ec2-caff3a66</eventId><eventType>EventType</eventType><notAfter>2026-05-02T14:01:40.000Z</notAfter><notBefore>2026-05-02T14:01:40.000Z</notBefore><instanceId>i-a9296722392ea1bcb</instanceId></item><item><description>Description</description><eventId>ec2-2d115a19</eventId><eventType>EventType</eventType><notAfter>2026-05-02T14:01:40.000Z</notAfter><notBefore>2026-05-02T14:01:40.000Z</notBefore><instanceId>i-7d80b3145890852f8</instanceId></item></eventsSet><volumeId>ec2-e8221ed5</volumeId><volumeStatus><details><item><name>io-enabled</name><status>Status</status></item><item><name>io-enabled</name><status>Status</status></item></details><status>ok</status></volumeStatus><attachmentStatuses><item><ioPerformance>IoPerformance</ioPerformance><instanceId>i-c3bb46d188300ef8e</instanceId></item><item><ioPerformance>IoPerformance</ioPerformance><instanceId>i-eb614cf9551f2bba4</instanceId></item></attachmentStatuses><initializationStatusDetails><initializationType>default</initializationType><progress>1</progress><estimatedTimeToCompleteInSeconds>1</estimatedTimeToCompleteInSeconds></initializationStatusDetails><availabilityZoneId>ec2-4bb56ca1</availabilityZoneId></item><item><actionsSet><item><code>Code</code><description>Description</description><eventId>ec2-8e75bd78</eventId><eventType>EventType</eventType></item><item><code>Code</code><description>Description</description><eventId>ec2-4b30c9ca</eventId><eventType>EventType</eventType></item></actionsSet><availabilityZone>us-east-1a</availabilityZone><outpostArn>arn:aws:ec2:us-east-1:123456789012:describevolumestatus/da0e15f6</outpostArn><eventsSet><item><description>Description</description><eventId>ec2-df9fdf16</eventId><eventType>EventType</eventType><notAfter>2026-05-02T14:01:40.000Z</notAfter><notBefore>2026-05-02T14:01:40.000Z</notBefore><instanceId>i-2007e9af4393d5bf4</instanceId></item><item><description>Description</description><eventId>ec2-0db5a4fe</eventId><eventType>EventType</eventType><notAfter>2026-05-02T14:01:40.000Z</notAfter><notBefore>2026-05-02T14:01:40.000Z</notBefore><instanceId>i-9190ea187bb146b52</instanceId></item></eventsSet><volumeId>ec2-0028dacf</volumeId><volumeStatus><details><item><name>io-enabled</name><status>Status</status></item><item><name>io-enabled</name><status>Status</status></item></details><status>ok</status></volumeStatus><attachmentStatuses><item><ioPerformance>IoPerformance</ioPerformance><instanceId>i-4e1f21405a1c7b4a4</instanceId></item><item><ioPerformance>IoPerformance</ioPerformance><instanceId>i-758e43c59315e2129</instanceId></item></attachmentStatuses><initializationStatusDetails><initializationType>default</initializationType><progress>1</progress><estimatedTimeToCompleteInSeconds>1</estimatedTimeToCompleteInSeconds></initializationStatusDetails><availabilityZoneId>ec2-12bc019c</availabilityZoneId></item></volumeStatusSet><requestId>request-id</requestId></DescribeVolumeStatusResponse>"
+    },
+    {
+      "id": "ec2_modify_volume_attribute",
+      "command": "aws ec2 modify-volume-attribute --volume-id vol-1234567890abcdef0 --auto-enable-io",
+      "service": "ec2",
+      "operation": "ModifyVolumeAttribute",
+      "latency_ms": 1181.687,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "operation has an empty output shape",
+      "aws_output_shape_expected": [],
+      "aws_output_shape_observed": [],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-volume-attribute.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "ModifyVolumeAttribute",
+      "botocore_output_shape": "",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1173.057,
+        "runtime_overhead_ms": 8.63,
+        "input_tokens": 210,
+        "output_tokens": 40,
+        "total_tokens": 250,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 210,
+        "output_tokens": 40,
+        "total_tokens": 250,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_00b528fc332db4500069f603c312588191856f8bda0bedb496",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ModifyVolumeAttributeResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><requestId>request-id</requestId></ModifyVolumeAttributeResponse>"
+    },
+    {
+      "id": "ec2_create_spot_datafeed_subscription",
+      "command": "aws ec2 create-spot-datafeed-subscription --bucket my-honeypot-bucket",
+      "service": "ec2",
+      "operation": "CreateSpotDatafeedSubscription",
+      "latency_ms": 1608.714,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "spotDatafeedSubscription"
+      ],
+      "aws_output_shape_observed": [
+        "requestId",
+        "spotDatafeedSubscription"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/create-spot-datafeed-subscription.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "CreateSpotDatafeedSubscription",
+      "botocore_output_shape": "CreateSpotDatafeedSubscriptionResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1599.943,
+        "runtime_overhead_ms": 8.771,
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0e690ba99c29ce430069f603c4749081978b491a9f048ae7b0",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<CreateSpotDatafeedSubscriptionResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><spotDatafeedSubscription><bucket>my-honeypot-bucket</bucket><fault><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:CreateSpotDatafeedSubscription\"}</message></fault><ownerId>ec2-395e7190</ownerId><prefix>Prefix</prefix><state>Active</state></spotDatafeedSubscription><requestId>request-id</requestId></CreateSpotDatafeedSubscriptionResponse>"
+    },
+    {
+      "id": "ec2_describe_bundle_tasks",
+      "command": "aws ec2 describe-bundle-tasks",
+      "service": "ec2",
+      "operation": "DescribeBundleTasks",
+      "latency_ms": 2155.12,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "bundleInstanceTasksSet"
+      ],
+      "aws_output_shape_observed": [
+        "bundleInstanceTasksSet",
+        "requestId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-bundle-tasks.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ec2",
+      "botocore_operation": "DescribeBundleTasks",
+      "botocore_output_shape": "DescribeBundleTasksResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2144.51,
+        "runtime_overhead_ms": 10.61,
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "total_tokens": 220,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "total_tokens": 220,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0c9cfba56c8f784d0069f603c5e9c0819c9cbb700ae6caf782",
+        "error": ""
+      },
+      "response_body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<DescribeBundleTasksResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15\"><bundleInstanceTasksSet><item><instanceId>i-d784f8b3d7a1ac5f2</instanceId><bundleId>ec2-923364bb</bundleId><state>pending</state><startTime>2026-05-02T14:01:45.000Z</startTime><updateTime>2026-05-02T14:01:45.000Z</updateTime><storage><S3><AWSAccessKeyId>ec2-77e0637a</AWSAccessKeyId><bucket>Bucket</bucket><prefix>Prefix</prefix><uploadPolicySignature>UploadPolicySignature</uploadPolicySignature></S3></storage><progress>Progress</progress><error><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeBundleTasks\"}</message></error></item><item><instanceId>i-b7266d34f036c6cfe</instanceId><bundleId>ec2-d3b26d1d</bundleId><state>pending</state><startTime>2026-05-02T14:01:45.000Z</startTime><updateTime>2026-05-02T14:01:45.000Z</updateTime><storage><S3><AWSAccessKeyId>ec2-6bcb38f8</AWSAccessKeyId><bucket>Bucket</bucket><prefix>Prefix</prefix><uploadPolicySignature>UploadPolicySignature</uploadPolicySignature></S3></storage><progress>Progress</progress><error><code>Code</code><message>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic ec2:DescribeBundleTasks\"}</message></error></item></bundleInstanceTasksSet><requestId>request-id</requestId></DescribeBundleTasksResponse>"
+    },
+    {
+      "id": "resource_explorer_list_indexes",
+      "command": "aws resource-explorer-2 list-indexes",
+      "service": "resource-explorer-2",
+      "operation": "ListIndexes",
+      "latency_ms": 1606.693,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "Indexes",
+        "NextToken"
+      ],
+      "aws_output_shape_observed": [
+        "Indexes",
+        "NextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/resource-explorer-2/list-indexes.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "resource-explorer-2",
+      "botocore_operation": "ListIndexes",
+      "botocore_output_shape": "ListIndexesOutput",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1596.72,
+        "runtime_overhead_ms": 9.973,
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_00d66f25239934230069f603c79aec81978a59424a6b3e499f",
+        "error": ""
+      },
+      "response_body": "{\"Indexes\": [{\"Region\": \"us-east-1\", \"Arn\": \"arn:aws:resource-explorer-2:us-east-1:123456789012:listindexes/c00ece59\", \"Type\": \"LOCAL\"}, {\"Region\": \"us-east-1\", \"Arn\": \"arn:aws:resource-explorer-2:us-east-1:123456789012:listindexes/ac7a449a\", \"Type\": \"LOCAL\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "resource_explorer_list_views",
+      "command": "aws resource-explorer-2 list-views",
+      "service": "resource-explorer-2",
+      "operation": "ListViews",
+      "latency_ms": 1413.793,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "NextToken",
+        "Views"
+      ],
+      "aws_output_shape_observed": [
+        "NextToken",
+        "Views"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/resource-explorer-2/list-views.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "resource-explorer-2",
+      "botocore_operation": "ListViews",
+      "botocore_output_shape": "ListViewsOutput",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1403.554,
+        "runtime_overhead_ms": 10.239,
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0273e6090f7aaa750069f603c920e8819e956f64e6321fbf34",
+        "error": ""
+      },
+      "response_body": "{\"Views\": [\"View\", \"View\"], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "resource_explorer_search",
+      "command": "aws resource-explorer-2 search --query-string \"*\" --view-arn arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000",
+      "service": "resource-explorer-2",
+      "operation": "Search",
+      "latency_ms": 1207.8,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "Count",
+        "NextToken",
+        "Resources",
+        "ViewArn"
+      ],
+      "aws_output_shape_observed": [
+        "Count",
+        "NextToken",
+        "Resources",
+        "ViewArn"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/resource-explorer-2/search.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "resource-explorer-2",
+      "botocore_operation": "Search",
+      "botocore_output_shape": "SearchOutput",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1198.9,
+        "runtime_overhead_ms": 8.9,
+        "input_tokens": 266,
+        "output_tokens": 40,
+        "total_tokens": 306,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 266,
+        "output_tokens": 40,
+        "total_tokens": 306,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0669a09c8bea9ef50069f603ca6b30819cb1f0f12433abd194",
+        "error": ""
+      },
+      "response_body": "{\"Resources\": [{\"Arn\": \"arn:aws:resource-explorer-2:us-east-1:123456789012:search/8d04888d\", \"OwningAccountId\": \"resource-explorer-2-ce0237be\", \"Region\": \"us-east-1\", \"ResourceType\": \"AWS::EC2::Instance\", \"Service\": \"Service\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Properties\": [{\"Name\": \"resource-explorer-2-search\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Data\": {}}, {\"Name\": \"resource-explorer-2-search\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Data\": {}}]}, {\"Arn\": \"arn:aws:resource-explorer-2:us-east-1:123456789012:search/0d3720a9\", \"OwningAccountId\": \"resource-explorer-2-0781acef\", \"Region\": \"us-east-1\", \"ResourceType\": \"AWS::EC2::Instance\", \"Service\": \"Service\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Properties\": [{\"Name\": \"resource-explorer-2-search\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Data\": {}}, {\"Name\": \"resource-explorer-2-search\", \"LastReportedAt\": \"2026-05-02T14:01:47Z\", \"Data\": {}}]}], \"NextToken\": \"\", \"ViewArn\": \"arn:aws:resource-explorer-2:us-east-1:123456789012:view/default/00000000-0000-0000-0000-000000000000\", \"Count\": {\"TotalResources\": 1, \"Complete\": false}}"
+    },
+    {
+      "id": "support_describe_services",
+      "command": "aws support describe-services --region us-east-1",
+      "service": "support",
+      "operation": "DescribeServices",
+      "latency_ms": 1673.304,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "services"
+      ],
+      "aws_output_shape_observed": [
+        "services"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/support/describe-services.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "support",
+      "botocore_operation": "DescribeServices",
+      "botocore_output_shape": "DescribeServicesResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1663.755,
+        "runtime_overhead_ms": 9.549,
+        "input_tokens": 172,
+        "output_tokens": 40,
+        "total_tokens": 212,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 172,
+        "output_tokens": 40,
+        "total_tokens": 212,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0f5e93f28e3222080069f603cbd4e08193911aa5c6e8446038",
+        "error": ""
+      },
+      "response_body": "{\"services\": [{\"code\": \"code\", \"name\": \"support-describeservices\", \"categories\": [{\"code\": \"code\", \"name\": \"support-describeservices\"}, {\"code\": \"code\", \"name\": \"support-describeservices\"}]}, {\"code\": \"code\", \"name\": \"support-describeservices\", \"categories\": [{\"code\": \"code\", \"name\": \"support-describeservices\"}, {\"code\": \"code\", \"name\": \"support-describeservices\"}]}]}"
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_result",
+      "command": "aws support describe-trusted-advisor-check-result --check-id eW7HH0l7J9 --language en --region us-east-1",
+      "service": "support",
+      "operation": "DescribeTrustedAdvisorCheckResult",
+      "latency_ms": 1610.882,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "result"
+      ],
+      "aws_output_shape_observed": [
+        "result"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/support/describe-trusted-advisor-check-result.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "support",
+      "botocore_operation": "DescribeTrustedAdvisorCheckResult",
+      "botocore_output_shape": "DescribeTrustedAdvisorCheckResultResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1601.925,
+        "runtime_overhead_ms": 8.957,
+        "input_tokens": 205,
+        "output_tokens": 40,
+        "total_tokens": 245,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 205,
+        "output_tokens": 40,
+        "total_tokens": 245,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_058e74d016be876a0069f603cd64648193b748618d002588c1",
+        "error": ""
+      },
+      "response_body": "{\"result\": {\"checkId\": \"eW7HH0l7J9\", \"timestamp\": \"timestamp\", \"status\": \"status\", \"resourcesSummary\": {\"resourcesProcessed\": 1, \"resourcesFlagged\": 1, \"resourcesIgnored\": 1, \"resourcesSuppressed\": 1}, \"categorySpecificSummary\": {\"costOptimizing\": {\"estimatedMonthlySavings\": 1.0, \"estimatedPercentMonthlySavings\": 1.0}}, \"flaggedResources\": [{\"status\": \"status\", \"region\": \"us-east-1\", \"resourceId\": \"support-aa49fa6c\", \"isSuppressed\": false, \"metadata\": [\"metadata\", \"metadata\"]}, {\"status\": \"status\", \"region\": \"us-east-1\", \"resourceId\": \"support-9366953c\", \"isSuppressed\": false, \"metadata\": [\"metadata\", \"metadata\"]}]}}"
+    },
+    {
+      "id": "support_describe_trusted_advisor_check_summaries",
+      "command": "aws support describe-trusted-advisor-check-summaries --check-ids eW7HH0l7J9 --region us-east-1",
+      "service": "support",
+      "operation": "DescribeTrustedAdvisorCheckSummaries",
+      "latency_ms": 1357.807,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "summaries"
+      ],
+      "aws_output_shape_observed": [
+        "summaries"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/support/describe-trusted-advisor-check-summaries.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "support",
+      "botocore_operation": "DescribeTrustedAdvisorCheckSummaries",
+      "botocore_output_shape": "DescribeTrustedAdvisorCheckSummariesResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1346.955,
+        "runtime_overhead_ms": 10.852,
+        "input_tokens": 216,
+        "output_tokens": 40,
+        "total_tokens": 256,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 216,
+        "output_tokens": 40,
+        "total_tokens": 256,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0198f24891d4bf180069f603ce99cc81a1bc93715e35f01236",
+        "error": ""
+      },
+      "response_body": "{\"summaries\": [{\"checkId\": \"eW7HH0l7J9\", \"timestamp\": \"timestamp\", \"status\": \"status\", \"hasFlaggedResources\": false, \"resourcesSummary\": {\"resourcesProcessed\": 1, \"resourcesFlagged\": 1, \"resourcesIgnored\": 1, \"resourcesSuppressed\": 1}, \"categorySpecificSummary\": {\"costOptimizing\": {\"estimatedMonthlySavings\": 1.0, \"estimatedPercentMonthlySavings\": 1.0}}}, {\"checkId\": \"eW7HH0l7J9\", \"timestamp\": \"timestamp\", \"status\": \"status\", \"hasFlaggedResources\": false, \"resourcesSummary\": {\"resourcesProcessed\": 1, \"resourcesFlagged\": 1, \"resourcesIgnored\": 1, \"resourcesSuppressed\": 1}, \"categorySpecificSummary\": {\"costOptimizing\": {\"estimatedMonthlySavings\": 1.0, \"estimatedPercentMonthlySavings\": 1.0}}}]}"
+    },
+    {
+      "id": "eks_list_addons",
+      "command": "aws eks list-addons --cluster-name prod-main",
+      "service": "eks",
+      "operation": "ListAddons",
+      "latency_ms": 1061.236,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/eks/list-addons.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "eks",
+      "botocore_operation": "ListAddons",
+      "botocore_output_shape": "ListAddonsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1051.562,
+        "runtime_overhead_ms": 9.674,
+        "input_tokens": 185,
+        "output_tokens": 40,
+        "total_tokens": 225,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 185,
+        "output_tokens": 40,
+        "total_tokens": 225,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_07c13c16adfe1f210069f603cfd0208193b567e67960d59570",
+        "error": ""
+      },
+      "response_body": "{\"addons\": [\"addon\", \"addon\"], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "eks_describe_addon_versions",
+      "command": "aws eks describe-addon-versions",
+      "service": "eks",
+      "operation": "DescribeAddonVersions",
+      "latency_ms": 1318.994,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "addons",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/eks/describe-addon-versions.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "eks",
+      "botocore_operation": "DescribeAddonVersions",
+      "botocore_output_shape": "DescribeAddonVersionsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1308.914,
+        "runtime_overhead_ms": 10.08,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0def6a726c965e480069f603d0ce1081938e425c94cd0897a4",
+        "error": ""
+      },
+      "response_body": "{\"addons\": [{\"addonName\": \"addonName\", \"type\": \"type\", \"addonVersions\": [{\"addonVersion\": \"1\", \"architecture\": [\"architecture\", \"architecture\"], \"computeTypes\": [\"computeType\", \"computeType\"], \"compatibilities\": [{\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}, {\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}], \"requiresConfiguration\": false, \"requiresIamPermissions\": false}, {\"addonVersion\": \"1\", \"architecture\": [\"architecture\", \"architecture\"], \"computeTypes\": [\"computeType\", \"computeType\"], \"compatibilities\": [{\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}, {\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}], \"requiresConfiguration\": false, \"requiresIamPermissions\": false}], \"publisher\": \"publisher\", \"owner\": \"owner\", \"marketplaceInformation\": {\"productId\": \"eks-0c237bd6\", \"productUrl\": \"mock://eks/describeaddonversions/67b339bda224\"}, \"defaultNamespace\": \"defaultNamespace\"}, {\"addonName\": \"addonName\", \"type\": \"type\", \"addonVersions\": [{\"addonVersion\": \"1\", \"architecture\": [\"architecture\", \"architecture\"], \"computeTypes\": [\"computeType\", \"computeType\"], \"compatibilities\": [{\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}, {\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}], \"requiresConfiguration\": false, \"requiresIamPermissions\": false}, {\"addonVersion\": \"1\", \"architecture\": [\"architecture\", \"architecture\"], \"computeTypes\": [\"computeType\", \"computeType\"], \"compatibilities\": [{\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}, {\"clusterVersion\": \"1\", \"platformVersions\": [\"2\", \"2\"], \"defaultVersion\": false}], \"requiresConfiguration\": false, \"requiresIamPermissions\": false}], \"publisher\": \"publisher\", \"owner\": \"owner\", \"marketplaceInformation\": {\"productId\": \"eks-2539915d\", \"productUrl\": \"mock://eks/describeaddonversions/ea91e5562811\"}, \"defaultNamespace\": \"defaultNamespace\"}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "ssm_start_session",
+      "command": "aws ssm start-session --target i-1234567890abcdef0",
+      "service": "ssm",
+      "operation": "StartSession",
+      "latency_ms": 1155.556,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "SessionId",
+        "StreamUrl",
+        "TokenValue"
+      ],
+      "aws_output_shape_observed": [
+        "SessionId",
+        "StreamUrl",
+        "TokenValue"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/start-session.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ssm",
+      "botocore_operation": "StartSession",
+      "botocore_output_shape": "StartSessionResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1145.625,
+        "runtime_overhead_ms": 9.931,
+        "input_tokens": 183,
+        "output_tokens": 40,
+        "total_tokens": 223,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 183,
+        "output_tokens": 40,
+        "total_tokens": 223,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0f68c1a02599d6010069f603d2039c819381186b7fed817d89",
+        "error": ""
+      },
+      "response_body": "{\"SessionId\": \"ssm-be195739\", \"TokenValue\": \"\", \"StreamUrl\": \"mock://ssm/startsession/d33e058f8e64\"}"
+    },
+    {
+      "id": "ecs_execute_command",
+      "command": "aws ecs execute-command --cluster prod-main --task 1234567890abcdef0123456789abcdef --container app --interactive --command \"/bin/sh\"",
+      "service": "ecs",
+      "operation": "ExecuteCommand",
+      "latency_ms": 1764.792,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "clusterArn",
+        "containerArn",
+        "containerName",
+        "interactive",
+        "session",
+        "taskArn"
+      ],
+      "aws_output_shape_observed": [
+        "clusterArn",
+        "containerArn",
+        "containerName",
+        "interactive",
+        "session",
+        "taskArn"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecs/execute-command.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecs",
+      "botocore_operation": "ExecuteCommand",
+      "botocore_output_shape": "ExecuteCommandResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1753.901,
+        "runtime_overhead_ms": 10.891,
+        "input_tokens": 204,
+        "output_tokens": 40,
+        "total_tokens": 244,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 204,
+        "output_tokens": 40,
+        "total_tokens": 244,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0d403fe5db1fa6560069f603d318ac8192be53520b3440ded8",
+        "error": ""
+      },
+      "response_body": "{\"clusterArn\": \"arn:aws:ecs:us-east-1:123456789012:executecommand/131188ed\", \"containerArn\": \"arn:aws:ecs:us-east-1:123456789012:executecommand/b2950ae7\", \"containerName\": \"containerName\", \"interactive\": true, \"session\": {\"sessionId\": \"ecs-af6fe4a2\", \"streamUrl\": \"mock://ecs/executecommand/a8324bacdc1f\", \"tokenValue\": \"\"}, \"taskArn\": \"arn:aws:ecs:us-east-1:123456789012:executecommand/2b7320eb\"}"
+    },
+    {
+      "id": "billingconductor_list_billing_groups",
+      "command": "aws billingconductor list-billing-groups",
+      "service": "billingconductor",
+      "operation": "ListBillingGroups",
+      "latency_ms": 3439.772,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "BillingGroups",
+        "NextToken"
+      ],
+      "aws_output_shape_observed": [
+        "BillingGroups",
+        "NextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/billingconductor/list-billing-groups.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "billingconductor",
+      "botocore_operation": "ListBillingGroups",
+      "botocore_output_shape": "ListBillingGroupsOutput",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1649.622,
+        "runtime_overhead_ms": 1790.15,
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_04af46a960b168340069f603d4d2b8819e979d9dbde57d22d7",
+        "error": ""
+      },
+      "response_body": "{\"BillingGroups\": [{\"Name\": \"billingconductor-listbillinggroups\", \"Arn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/72ea633f\", \"Description\": \"Description\", \"PrimaryAccountId\": \"billingconductor-7fa41a5e\", \"ComputationPreference\": {\"PricingPlanArn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/59a283c4\"}, \"Size\": 1, \"CreationTime\": 1, \"LastModifiedTime\": 1, \"Status\": \"ACTIVE\", \"StatusReason\": \"StatusReason\", \"AccountGrouping\": {\"AutoAssociate\": false, \"ResponsibilityTransferArn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/a0559593\"}, \"BillingGroupType\": \"STANDARD\"}, {\"Name\": \"billingconductor-listbillinggroups\", \"Arn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/e4372545\", \"Description\": \"Description\", \"PrimaryAccountId\": \"billingconductor-5e06ecff\", \"ComputationPreference\": {\"PricingPlanArn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/a1a1a6f5\"}, \"Size\": 1, \"CreationTime\": 1, \"LastModifiedTime\": 1, \"Status\": \"ACTIVE\", \"StatusReason\": \"StatusReason\", \"AccountGrouping\": {\"AutoAssociate\": false, \"ResponsibilityTransferArn\": \"arn:aws:billingconductor:us-east-1:123456789012:listbillinggroups/aad6846f\"}, \"BillingGroupType\": \"STANDARD\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "frauddetector_get_detectors",
+      "command": "aws frauddetector get-detectors",
+      "service": "frauddetector",
+      "operation": "GetDetectors",
+      "latency_ms": 3106.898,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "detectors",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "detectors",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/frauddetector/get-detectors.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "frauddetector",
+      "botocore_operation": "GetDetectors",
+      "botocore_output_shape": "GetDetectorsResult",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1109.988,
+        "runtime_overhead_ms": 1996.91,
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_04b4d80012ecbcd20069f603d7e6148196ac219cb4763c486d",
+        "error": ""
+      },
+      "response_body": "{\"detectors\": [{\"detectorId\": \"frauddetector-127370b4\", \"description\": \"description\", \"eventTypeName\": \"eventTypeName\", \"lastUpdatedTime\": \"lastUpdatedTime\", \"createdTime\": \"createdTime\", \"arn\": \"arn:aws:frauddetector:us-east-1:123456789012:getdetectors/f898215e\"}, {\"detectorId\": \"frauddetector-4f76ccde\", \"description\": \"description\", \"eventTypeName\": \"eventTypeName\", \"lastUpdatedTime\": \"lastUpdatedTime\", \"createdTime\": \"createdTime\", \"arn\": \"arn:aws:frauddetector:us-east-1:123456789012:getdetectors/767e3ebc\"}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "detective_list_graphs",
+      "command": "aws detective list-graphs",
+      "service": "detective",
+      "operation": "ListGraphs",
+      "latency_ms": 3810.183,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "GraphList",
+        "NextToken"
+      ],
+      "aws_output_shape_observed": [
+        "GraphList",
+        "NextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/detective/list-graphs.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "detective",
+      "botocore_operation": "ListGraphs",
+      "botocore_output_shape": "ListGraphsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1932.341,
+        "runtime_overhead_ms": 1877.842,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_048d995f7c34e1790069f603daccbc81a28d1d5f4281a6bab3",
+        "error": ""
+      },
+      "response_body": "{\"GraphList\": [{\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/4fe80c28\", \"CreatedTime\": \"2026-05-02T14:02:08Z\"}, {\"Arn\": \"arn:aws:detective:us-east-1:123456789012:listgraphs/c17ef816\", \"CreatedTime\": \"2026-05-02T14:02:08Z\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "auditmanager_list_assessments",
+      "command": "aws auditmanager list-assessments",
+      "service": "auditmanager",
+      "operation": "ListAssessments",
+      "latency_ms": 2966.94,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "assessmentMetadata",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "assessmentMetadata",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/auditmanager/list-assessments.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "auditmanager",
+      "botocore_operation": "ListAssessments",
+      "botocore_output_shape": "ListAssessmentsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1143.002,
+        "runtime_overhead_ms": 1823.938,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0cddf814b8ee1a730069f603de48a48197ac509d00ddb8a0a3",
+        "error": ""
+      },
+      "response_body": "{\"assessmentMetadata\": [{\"name\": \"auditmanager-listassessments\", \"id\": \"auditmanager-fb83d5fd\", \"complianceType\": \"complianceType\", \"status\": \"ACTIVE\", \"roles\": [{\"roleType\": \"PROCESS_OWNER\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/bf21ab70\"}, {\"roleType\": \"PROCESS_OWNER\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/c8f3cae4\"}], \"delegations\": [{\"id\": \"auditmanager-acfe4f29\", \"assessmentName\": \"assessmentName\", \"assessmentId\": \"auditmanager-e9da46ac\", \"status\": \"IN_PROGRESS\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/2228266f\", \"roleType\": \"PROCESS_OWNER\", \"creationTime\": 1777730530, \"lastUpdated\": 1777730530, \"controlSetId\": \"auditmanager-2fda09ac\", \"comment\": \"comment\", \"createdBy\": \"createdBy\"}, {\"id\": \"auditmanager-3ab9256a\", \"assessmentName\": \"assessmentName\", \"assessmentId\": \"auditmanager-93667242\", \"status\": \"IN_PROGRESS\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/dafbf660\", \"roleType\": \"PROCESS_OWNER\", \"creationTime\": 1777730530, \"lastUpdated\": 1777730530, \"controlSetId\": \"auditmanager-53a086e1\", \"comment\": \"comment\", \"createdBy\": \"createdBy\"}], \"creationTime\": 1777730530, \"lastUpdated\": 1777730530}, {\"name\": \"auditmanager-listassessments\", \"id\": \"auditmanager-bace8089\", \"complianceType\": \"complianceType\", \"status\": \"ACTIVE\", \"roles\": [{\"roleType\": \"PROCESS_OWNER\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/c0b1e540\"}, {\"roleType\": \"PROCESS_OWNER\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/ee4d29c8\"}], \"delegations\": [{\"id\": \"auditmanager-a312a47c\", \"assessmentName\": \"assessmentName\", \"assessmentId\": \"auditmanager-3092b278\", \"status\": \"IN_PROGRESS\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/f8d37b0e\", \"roleType\": \"PROCESS_OWNER\", \"creationTime\": 1777730530, \"lastUpdated\": 1777730530, \"controlSetId\": \"auditmanager-126a39ea\", \"comment\": \"comment\", \"createdBy\": \"createdBy\"}, {\"id\": \"auditmanager-31fa93d7\", \"assessmentName\": \"assessmentName\", \"assessmentId\": \"auditmanager-b6c0ad5c\", \"status\": \"IN_PROGRESS\", \"roleArn\": \"arn:aws:auditmanager:us-east-1:123456789012:listassessments/19d51269\", \"roleType\": \"PROCESS_OWNER\", \"creationTime\": 1777730530, \"lastUpdated\": 1777730530, \"controlSetId\": \"auditmanager-9640be8d\", \"comment\": \"comment\", \"createdBy\": \"createdBy\"}], \"creationTime\": 1777730530, \"lastUpdated\": 1777730530}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "outposts_list_outposts",
+      "command": "aws outposts list-outposts",
+      "service": "outposts",
+      "operation": "ListOutposts",
+      "latency_ms": 3444.108,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "NextToken",
+        "Outposts"
+      ],
+      "aws_output_shape_observed": [
+        "NextToken",
+        "Outposts"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/outposts/list-outposts.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "outposts",
+      "botocore_operation": "ListOutposts",
+      "botocore_output_shape": "ListOutpostsOutput",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1605.405,
+        "runtime_overhead_ms": 1838.703,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_007686799ef15aef0069f603e15ef4819e95bbdb0b03601070",
+        "error": ""
+      },
+      "response_body": "{\"Outposts\": [{\"OutpostId\": \"outposts-6fbfa790\", \"OwnerId\": \"outposts-41077877\", \"OutpostArn\": \"arn:aws:outposts:us-east-1:123456789012:listoutposts/2c832857\", \"SiteId\": \"outposts-cebe2d4e\", \"Name\": \"outposts-listoutposts\", \"Description\": \"Description\", \"LifeCycleStatus\": \"LifeCycleStatus\", \"AvailabilityZone\": \"us-east-1a\", \"AvailabilityZoneId\": \"outposts-4236bb49\", \"Tags\": {}, \"SiteArn\": \"arn:aws:outposts:us-east-1:123456789012:listoutposts/46e8e16f\", \"SupportedHardwareType\": \"RACK\"}, {\"OutpostId\": \"outposts-0139ba54\", \"OwnerId\": \"outposts-7130bf2f\", \"OutpostArn\": \"arn:aws:outposts:us-east-1:123456789012:listoutposts/3ea829d2\", \"SiteId\": \"outposts-237ebe53\", \"Name\": \"outposts-listoutposts\", \"Description\": \"Description\", \"LifeCycleStatus\": \"LifeCycleStatus\", \"AvailabilityZone\": \"us-east-1a\", \"AvailabilityZoneId\": \"outposts-00c3ec89\", \"Tags\": {}, \"SiteArn\": \"arn:aws:outposts:us-east-1:123456789012:listoutposts/d862f1d0\", \"SupportedHardwareType\": \"RACK\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "appflow_list_flows",
+      "command": "aws appflow list-flows",
+      "service": "appflow",
+      "operation": "ListFlows",
+      "latency_ms": 3556.209,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "flows",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "flows",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/appflow/list-flows.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "appflow",
+      "botocore_operation": "ListFlows",
+      "botocore_output_shape": "ListFlowsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1623.414,
+        "runtime_overhead_ms": 1932.795,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0b464c7172a1f9ec0069f603e4897881959ac9753a5654269d",
+        "error": ""
+      },
+      "response_body": "{\"flows\": [{\"flowArn\": \"arn:aws:appflow:us-east-1:123456789012:listflows/bdd88a1a\", \"description\": \"description\", \"flowName\": \"flowName\", \"flowStatus\": \"Active\", \"sourceConnectorType\": \"Salesforce\", \"sourceConnectorLabel\": \"sourceConnectorLabel\", \"destinationConnectorType\": \"Salesforce\", \"destinationConnectorLabel\": \"destinationConnectorLabel\", \"triggerType\": \"Scheduled\", \"createdAt\": 1777730535, \"lastUpdatedAt\": 1777730535, \"createdBy\": \"createdBy\", \"lastUpdatedBy\": \"lastUpdatedBy\", \"tags\": {}, \"lastRunExecutionDetails\": {\"mostRecentExecutionMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic appflow:ListFlows\\\"}\", \"mostRecentExecutionTime\": 1777730535, \"mostRecentExecutionStatus\": \"InProgress\"}}, {\"flowArn\": \"arn:aws:appflow:us-east-1:123456789012:listflows/6cd257bc\", \"description\": \"description\", \"flowName\": \"flowName\", \"flowStatus\": \"Active\", \"sourceConnectorType\": \"Salesforce\", \"sourceConnectorLabel\": \"sourceConnectorLabel\", \"destinationConnectorType\": \"Salesforce\", \"destinationConnectorLabel\": \"destinationConnectorLabel\", \"triggerType\": \"Scheduled\", \"createdAt\": 1777730535, \"lastUpdatedAt\": 1777730535, \"createdBy\": \"createdBy\", \"lastUpdatedBy\": \"lastUpdatedBy\", \"tags\": {}, \"lastRunExecutionDetails\": {\"mostRecentExecutionMessage\": \"{\\\"allowed\\\":false,\\\"matchedStatements\\\":[],\\\"context\\\":\\\"synthetic appflow:ListFlows\\\"}\", \"mostRecentExecutionTime\": 1777730535, \"mostRecentExecutionStatus\": \"InProgress\"}}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "omics_list_runs",
+      "command": "aws omics list-runs",
+      "service": "omics",
+      "operation": "ListRuns",
+      "latency_ms": 3001.06,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "items",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "items",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/omics/list-runs.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "omics",
+      "botocore_operation": "ListRuns",
+      "botocore_output_shape": "ListRunsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1143.546,
+        "runtime_overhead_ms": 1857.514,
+        "input_tokens": 172,
+        "output_tokens": 40,
+        "total_tokens": 212,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 172,
+        "output_tokens": 40,
+        "total_tokens": 212,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0d4bc542a3b671cb0069f603e77fa0819580af83a77cadcac9",
+        "error": ""
+      },
+      "response_body": "{\"items\": [{\"arn\": \"arn:aws:omics:us-east-1:123456789012:listruns/46ca62b0\", \"id\": \"omics-fcf1d689\", \"status\": \"PENDING\", \"workflowId\": \"omics-d00c140b\", \"batchId\": \"omics-630c3aa4\", \"name\": \"omics-listruns\", \"priority\": 1, \"storageCapacity\": 1, \"creationTime\": \"2026-05-02T14:02:18Z\", \"startTime\": \"2026-05-02T14:02:18Z\", \"stopTime\": \"2026-05-02T14:02:18Z\", \"storageType\": \"STATIC\", \"workflowVersionName\": \"1\"}, {\"arn\": \"arn:aws:omics:us-east-1:123456789012:listruns/d5998666\", \"id\": \"omics-a13e8dcf\", \"status\": \"PENDING\", \"workflowId\": \"omics-3e175f5d\", \"batchId\": \"omics-ab48fff2\", \"name\": \"omics-listruns\", \"priority\": 1, \"storageCapacity\": 1, \"creationTime\": \"2026-05-02T14:02:18Z\", \"startTime\": \"2026-05-02T14:02:18Z\", \"stopTime\": \"2026-05-02T14:02:18Z\", \"storageType\": \"STATIC\", \"workflowVersionName\": \"1\"}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "mgn_describe_source_servers",
+      "command": "aws mgn describe-source-servers",
+      "service": "mgn",
+      "operation": "DescribeSourceServers",
+      "latency_ms": 3214.256,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "items",
+        "nextToken"
+      ],
+      "aws_output_shape_observed": [
+        "items",
+        "nextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/mgn/describe-source-servers.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "mgn",
+      "botocore_operation": "DescribeSourceServers",
+      "botocore_output_shape": "DescribeSourceServersResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1354.921,
+        "runtime_overhead_ms": 1859.335,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_047a45e488fbba260069f603ea545481908b3702b756ac9d58",
+        "error": ""
+      },
+      "response_body": "{\"items\": [{\"sourceServerID\": \"mgn-8dc9e228\", \"arn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/edb96b74\", \"isArchived\": false, \"tags\": {}, \"launchedInstance\": {\"ec2InstanceID\": \"mgn-d2848503\", \"jobID\": \"job-ec30440a2e\", \"firstBoot\": \"WAITING\"}, \"dataReplicationInfo\": {\"lagDuration\": \"lagDuration\", \"etaDateTime\": \"etaDateTime\", \"replicatedDisks\": [{\"deviceName\": \"deviceName\", \"totalStorageBytes\": 1, \"replicatedStorageBytes\": 1, \"rescannedStorageBytes\": 1, \"backloggedStorageBytes\": 1}, {\"deviceName\": \"deviceName\", \"totalStorageBytes\": 1, \"replicatedStorageBytes\": 1, \"rescannedStorageBytes\": 1, \"backloggedStorageBytes\": 1}], \"dataReplicationState\": \"STOPPED\", \"dataReplicationInitiation\": {\"startDateTime\": \"startDateTime\", \"nextAttemptDateTime\": \"nextAttemptDateTime\", \"steps\": [{\"name\": \"WAIT\", \"status\": \"NOT_STARTED\"}, {\"name\": \"WAIT\", \"status\": \"NOT_STARTED\"}]}, \"dataReplicationError\": {\"error\": \"AGENT_NOT_SEEN\", \"rawError\": \"rawError\"}, \"lastSnapshotDateTime\": \"lastSnapshotDateTime\", \"replicatorId\": \"mgn-efd6413e\"}, \"lifeCycle\": {\"addedToServiceDateTime\": \"addedToServiceDateTime\", \"firstByteDateTime\": \"firstByteDateTime\", \"elapsedReplicationDuration\": \"elapsedReplicationDuration\", \"lastSeenByServiceDateTime\": \"lastSeenByServiceDateTime\", \"lastTest\": {\"initiated\": {\"apiCallDateTime\": \"apiCallDateTime\", \"jobID\": \"job-b7248bc9d7\"}, \"reverted\": {\"apiCallDateTime\": \"apiCallDateTime\"}, \"finalized\": {\"apiCallDateTime\": \"apiCallDateTime\"}}, \"lastCutover\": {\"initiated\": {\"apiCallDateTime\": \"apiCallDateTime\", \"jobID\": \"job-f8f424d24c\"}, \"reverted\": {\"apiCallDateTime\": \"apiCallDateTime\"}, \"finalized\": {\"apiCallDateTime\": \"apiCallDateTime\"}}, \"state\": \"STOPPED\"}, \"sourceProperties\": {\"lastUpdatedDateTime\": \"lastUpdatedDateTime\", \"recommendedInstanceType\": \"t3.medium\", \"identificationHints\": {\"fqdn\": \"fqdn\", \"hostname\": \"hostname\", \"vmWareUuid\": \"mgn-fccd7d83\", \"awsInstanceID\": \"mgn-1c1ab403\", \"vmPath\": \"vmPath\"}, \"networkInterfaces\": [{\"macAddress\": \"macAddress\", \"ips\": [\"ip\", \"ip\"], \"isPrimary\": false}, {\"macAddress\": \"macAddress\", \"ips\": [\"ip\", \"ip\"], \"isPrimary\": false}], \"disks\": [{\"deviceName\": \"deviceName\", \"bytes\": 1}, {\"deviceName\": \"deviceName\", \"bytes\": 1}], \"cpus\": [{\"cores\": 1, \"modelName\": \"modelName\"}, {\"cores\": 1, \"modelName\": \"modelName\"}], \"ramBytes\": 1, \"os\": {\"fullString\": \"fullString\"}}, \"replicationType\": \"AGENT_BASED\", \"vcenterClientID\": \"mgn-b1ee842d\", \"applicationID\": \"mgn-794ba0ec\", \"userProvidedID\": \"mgn-935e9a9f\", \"fqdnForActionFramework\": \"fqdnForActionFramework\", \"connectorAction\": {\"credentialsSecretArn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/cdb96a29\", \"connectorArn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/244f4ff9\"}}, {\"sourceServerID\": \"mgn-6f4beec6\", \"arn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/073b7d79\", \"isArchived\": false, \"tags\": {}, \"launchedInstance\": {\"ec2InstanceID\": \"mgn-bce27935\", \"jobID\": \"job-ef0663db57\", \"firstBoot\": \"WAITING\"}, \"dataReplicationInfo\": {\"lagDuration\": \"lagDuration\", \"etaDateTime\": \"etaDateTime\", \"replicatedDisks\": [{\"deviceName\": \"deviceName\", \"totalStorageBytes\": 1, \"replicatedStorageBytes\": 1, \"rescannedStorageBytes\": 1, \"backloggedStorageBytes\": 1}, {\"deviceName\": \"deviceName\", \"totalStorageBytes\": 1, \"replicatedStorageBytes\": 1, \"rescannedStorageBytes\": 1, \"backloggedStorageBytes\": 1}], \"dataReplicationState\": \"STOPPED\", \"dataReplicationInitiation\": {\"startDateTime\": \"startDateTime\", \"nextAttemptDateTime\": \"nextAttemptDateTime\", \"steps\": [{\"name\": \"WAIT\", \"status\": \"NOT_STARTED\"}, {\"name\": \"WAIT\", \"status\": \"NOT_STARTED\"}]}, \"dataReplicationError\": {\"error\": \"AGENT_NOT_SEEN\", \"rawError\": \"rawError\"}, \"lastSnapshotDateTime\": \"lastSnapshotDateTime\", \"replicatorId\": \"mgn-2fc87546\"}, \"lifeCycle\": {\"addedToServiceDateTime\": \"addedToServiceDateTime\", \"firstByteDateTime\": \"firstByteDateTime\", \"elapsedReplicationDuration\": \"elapsedReplicationDuration\", \"lastSeenByServiceDateTime\": \"lastSeenByServiceDateTime\", \"lastTest\": {\"initiated\": {\"apiCallDateTime\": \"apiCallDateTime\", \"jobID\": \"job-69a8f09d76\"}, \"reverted\": {\"apiCallDateTime\": \"apiCallDateTime\"}, \"finalized\": {\"apiCallDateTime\": \"apiCallDateTime\"}}, \"lastCutover\": {\"initiated\": {\"apiCallDateTime\": \"apiCallDateTime\", \"jobID\": \"job-e9007a7091\"}, \"reverted\": {\"apiCallDateTime\": \"apiCallDateTime\"}, \"finalized\": {\"apiCallDateTime\": \"apiCallDateTime\"}}, \"state\": \"STOPPED\"}, \"sourceProperties\": {\"lastUpdatedDateTime\": \"lastUpdatedDateTime\", \"recommendedInstanceType\": \"t3.medium\", \"identificationHints\": {\"fqdn\": \"fqdn\", \"hostname\": \"hostname\", \"vmWareUuid\": \"mgn-7f0c9433\", \"awsInstanceID\": \"mgn-6fe14e3f\", \"vmPath\": \"vmPath\"}, \"networkInterfaces\": [{\"macAddress\": \"macAddress\", \"ips\": [\"ip\", \"ip\"], \"isPrimary\": false}, {\"macAddress\": \"macAddress\", \"ips\": [\"ip\", \"ip\"], \"isPrimary\": false}], \"disks\": [{\"deviceName\": \"deviceName\", \"bytes\": 1}, {\"deviceName\": \"deviceName\", \"bytes\": 1}], \"cpus\": [{\"cores\": 1, \"modelName\": \"modelName\"}, {\"cores\": 1, \"modelName\": \"modelName\"}], \"ramBytes\": 1, \"os\": {\"fullString\": \"fullString\"}}, \"replicationType\": \"AGENT_BASED\", \"vcenterClientID\": \"mgn-961e6e35\", \"applicationID\": \"mgn-02ef58ac\", \"userProvidedID\": \"mgn-1e49bc85\", \"fqdnForActionFramework\": \"fqdnForActionFramework\", \"connectorAction\": {\"credentialsSecretArn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/8e1fbdee\", \"connectorArn\": \"arn:aws:mgn:us-east-1:123456789012:describesourceservers/0f1ff73d\"}}], \"nextToken\": \"\"}"
+    },
+    {
+      "id": "codeguru_reviewer_list_repository_associations",
+      "command": "aws codeguru-reviewer list-repository-associations",
+      "service": "codeguru-reviewer",
+      "operation": "ListRepositoryAssociations",
+      "latency_ms": 3170.576,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "NextToken",
+        "RepositoryAssociationSummaries"
+      ],
+      "aws_output_shape_observed": [
+        "NextToken",
+        "RepositoryAssociationSummaries"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/codeguru-reviewer/list-repository-associations.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "codeguru-reviewer",
+      "botocore_operation": "ListRepositoryAssociations",
+      "botocore_output_shape": "ListRepositoryAssociationsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1308.439,
+        "runtime_overhead_ms": 1862.137,
+        "input_tokens": 177,
+        "output_tokens": 40,
+        "total_tokens": 217,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 177,
+        "output_tokens": 40,
+        "total_tokens": 217,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_020cb6903e61b18b0069f603ed451881a2816e58169b09e6e7",
+        "error": ""
+      },
+      "response_body": "{\"RepositoryAssociationSummaries\": [{\"AssociationArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/b5a789c0\", \"ConnectionArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/823407ba\", \"LastUpdatedTimeStamp\": 1777730544, \"AssociationId\": \"codeguru-reviewer-aef2825a\", \"Name\": \"codeguru-reviewer-listrepositoryassociations\", \"Owner\": \"Owner\", \"ProviderType\": \"CodeCommit\", \"State\": \"Associated\"}, {\"AssociationArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/b93ad45b\", \"ConnectionArn\": \"arn:aws:codeguru-reviewer:us-east-1:123456789012:listrepositoryassociations/2f5b2110\", \"LastUpdatedTimeStamp\": 1777730544, \"AssociationId\": \"codeguru-reviewer-9d0f2f1b\", \"Name\": \"codeguru-reviewer-listrepositoryassociations\", \"Owner\": \"Owner\", \"ProviderType\": \"CodeCommit\", \"State\": \"Associated\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "backup_gateway_list_gateways",
+      "command": "aws backup-gateway list-gateways",
+      "service": "backup-gateway",
+      "operation": "ListGateways",
+      "latency_ms": 5289.984,
+      "under_3s": false,
+      "under_4s": false,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "Gateways",
+        "NextToken"
+      ],
+      "aws_output_shape_observed": [
+        "Gateways",
+        "NextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/backup-gateway/list-gateways.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "backup-gateway",
+      "botocore_operation": "ListGateways",
+      "botocore_output_shape": "ListGatewaysOutput",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 3488.853,
+        "runtime_overhead_ms": 1801.131,
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "suggested_actions": [
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_013b168c66562ac60069f603f086bc8197af89fb000163a843",
+        "error": ""
+      },
+      "response_body": "{\"Gateways\": [{\"GatewayArn\": \"arn:aws:backup-gateway:us-east-1:123456789012:listgateways/2b618fae\", \"GatewayDisplayName\": \"GatewayDisplayName\", \"GatewayType\": \"BACKUP_VM\", \"HypervisorId\": \"backup-gateway-64ca435b\", \"LastSeenTime\": 1777730550}, {\"GatewayArn\": \"arn:aws:backup-gateway:us-east-1:123456789012:listgateways/60d5e6fb\", \"GatewayDisplayName\": \"GatewayDisplayName\", \"GatewayType\": \"BACKUP_VM\", \"HypervisorId\": \"backup-gateway-acbd8144\", \"LastSeenTime\": 1777730550}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "ssm_describe_instance_information",
+      "command": "aws ssm describe-instance-information",
+      "service": "ssm",
+      "operation": "DescribeInstanceInformation",
+      "latency_ms": 1613.662,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "InstanceInformationList",
+        "NextToken"
+      ],
+      "aws_output_shape_observed": [
+        "InstanceInformationList",
+        "NextToken"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ssm",
+      "botocore_operation": "DescribeInstanceInformation",
+      "botocore_output_shape": "DescribeInstanceInformationResult",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1601.292,
+        "runtime_overhead_ms": 12.37,
+        "input_tokens": 189,
+        "output_tokens": 40,
+        "total_tokens": 229,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 189,
+        "output_tokens": 40,
+        "total_tokens": 229,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_060dd0cfdfe9a6a00069f603f568c4819e9e7d6d9f6ec163e3",
+        "error": ""
+      },
+      "response_body": "{\"InstanceInformationList\": [{\"InstanceId\": \"i-bed753e2f7ebc118e\", \"PingStatus\": \"Online\", \"LastPingDateTime\": 1777730551, \"AgentVersion\": \"3.2.700.0\", \"IsLatestVersion\": false, \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"ActivationId\": \"ssm-2cc3183d\", \"IamRole\": \"ReadOnlyOpsRole\", \"RegistrationDate\": 1777730551, \"ResourceType\": \"ManagedInstance\", \"Name\": \"ip-10-42-0-234\", \"IPAddress\": \"10.42.0.212\", \"ComputerName\": \"ip-10-42-1-144\", \"AssociationStatus\": \"Success\", \"LastAssociationExecutionDate\": 1777730551, \"LastSuccessfulAssociationExecutionDate\": 1777730551, \"AssociationOverview\": {\"DetailedStatus\": \"Success\", \"InstanceAssociationStatusAggregatedCount\": {}}, \"SourceId\": \"ssm-37a8bf9a\", \"SourceType\": \"AWS::EC2::Instance\"}, {\"InstanceId\": \"i-ec49b862197d06ebb\", \"PingStatus\": \"Online\", \"LastPingDateTime\": 1777730551, \"AgentVersion\": \"3.2.700.0\", \"IsLatestVersion\": false, \"PlatformType\": \"Linux\", \"PlatformName\": \"Amazon Linux\", \"PlatformVersion\": \"2\", \"ActivationId\": \"ssm-c36c2dda\", \"IamRole\": \"ReadOnlyOpsRole\", \"RegistrationDate\": 1777730551, \"ResourceType\": \"ManagedInstance\", \"Name\": \"ip-10-42-4-176\", \"IPAddress\": \"10.42.4.124\", \"ComputerName\": \"ip-10-42-3-68-1\", \"AssociationStatus\": \"Success\", \"LastAssociationExecutionDate\": 1777730551, \"LastSuccessfulAssociationExecutionDate\": 1777730551, \"AssociationOverview\": {\"DetailedStatus\": \"Success\", \"InstanceAssociationStatusAggregatedCount\": {}}, \"SourceId\": \"ssm-dda290ab\", \"SourceType\": \"AWS::EC2::Instance\"}], \"NextToken\": \"\"}"
+    },
+    {
+      "id": "ecr_batch_check_layer_availability",
+      "command": "aws ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+      "service": "ecr",
+      "operation": "BatchCheckLayerAvailability",
+      "latency_ms": 3221.634,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "failures",
+        "layers"
+      ],
+      "aws_output_shape_observed": [
+        "failures",
+        "layers"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/batch-check-layer-availability.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecr",
+      "botocore_operation": "BatchCheckLayerAvailability",
+      "botocore_output_shape": "BatchCheckLayerAvailabilityResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1117.713,
+        "runtime_overhead_ms": 2103.921,
+        "input_tokens": 211,
+        "output_tokens": 40,
+        "total_tokens": 251,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 211,
+        "output_tokens": 40,
+        "total_tokens": 251,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0648117c18e507fb0069f603f69a4c8197bdefa879732aa571",
+        "error": ""
+      },
+      "response_body": "{\"layers\": [{\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}, {\"layerDigest\": \"sha256:abc\", \"layerAvailability\": \"AVAILABLE\", \"layerSize\": 5242880, \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar\"}], \"failures\": []}"
+    },
+    {
+      "id": "ecr_get_download_url_for_layer",
+      "command": "aws ecr get-download-url-for-layer --repository-name demo --layer-digest sha256:abc",
+      "service": "ecr",
+      "operation": "GetDownloadUrlForLayer",
+      "latency_ms": 1251.735,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "downloadUrl",
+        "layerDigest"
+      ],
+      "aws_output_shape_observed": [
+        "downloadUrl",
+        "layerDigest"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/get-download-url-for-layer.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecr",
+      "botocore_operation": "GetDownloadUrlForLayer",
+      "botocore_output_shape": "GetDownloadUrlForLayerResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1236.854,
+        "runtime_overhead_ms": 14.881,
+        "input_tokens": 201,
+        "output_tokens": 40,
+        "total_tokens": 241,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 201,
+        "output_tokens": 40,
+        "total_tokens": 241,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_07b982d94e63ae5b0069f603f98f1c81979e1789f70fa824b2",
+        "error": ""
+      },
+      "response_body": "{\"downloadUrl\": \"mock://ecr/getdownloadurlforlayer/ec76c638251b\", \"layerDigest\": \"sha256:abc\"}"
+    },
+    {
+      "id": "ecr_initiate_layer_upload",
+      "command": "aws ecr initiate-layer-upload --repository-name demo",
+      "service": "ecr",
+      "operation": "InitiateLayerUpload",
+      "latency_ms": 1746.702,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "partSize",
+        "uploadId"
+      ],
+      "aws_output_shape_observed": [
+        "partSize",
+        "uploadId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/initiate-layer-upload.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecr",
+      "botocore_operation": "InitiateLayerUpload",
+      "botocore_output_shape": "InitiateLayerUploadResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1732.532,
+        "runtime_overhead_ms": 14.17,
+        "input_tokens": 184,
+        "output_tokens": 40,
+        "total_tokens": 224,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 184,
+        "output_tokens": 40,
+        "total_tokens": 224,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_01af9e21e92e28fd0069f603fabbd0819d8d34b259d3a7f976",
+        "error": ""
+      },
+      "response_body": "{\"uploadId\": \"upload-df66faa7b239\", \"partSize\": 20971520}"
+    },
+    {
+      "id": "ecr_complete_layer_upload",
+      "command": "aws ecr complete-layer-upload --repository-name demo --upload-id test --layer-digests sha256:abc",
+      "service": "ecr",
+      "operation": "CompleteLayerUpload",
+      "latency_ms": 1801.861,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "layerDigest",
+        "registryId",
+        "repositoryName",
+        "uploadId"
+      ],
+      "aws_output_shape_observed": [
+        "layerDigest",
+        "registryId",
+        "repositoryName",
+        "uploadId"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/complete-layer-upload.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "ecr",
+      "botocore_operation": "CompleteLayerUpload",
+      "botocore_output_shape": "CompleteLayerUploadResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1789.913,
+        "runtime_overhead_ms": 11.948,
+        "input_tokens": 228,
+        "output_tokens": 40,
+        "total_tokens": 268,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 228,
+        "output_tokens": 40,
+        "total_tokens": 268,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_06bb22e67e9813510069f603fc571081a2ae8881e52983051d",
+        "error": ""
+      },
+      "response_body": "{\"registryId\": \"123456789012\", \"repositoryName\": \"demo\", \"uploadId\": \"test\", \"layerDigest\": \"sha256:abc\"}"
+    },
+    {
+      "id": "iam_get_context_keys_for_principal_policy",
+      "command": "aws iam get-context-keys-for-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin",
+      "service": "iam",
+      "operation": "GetContextKeysForPrincipalPolicy",
+      "latency_ms": 3704.812,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "ContextKeyNames"
+      ],
+      "aws_output_shape_observed": [
+        "ContextKeyNames",
+        "ResponseMetadata"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/iam/get-context-keys-for-principal-policy.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "iam",
+      "botocore_operation": "GetContextKeysForPrincipalPolicy",
+      "botocore_output_shape": "GetContextKeysForPolicyResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1367.428,
+        "runtime_overhead_ms": 2337.384,
+        "input_tokens": 223,
+        "output_tokens": 40,
+        "total_tokens": 263,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 223,
+        "output_tokens": 40,
+        "total_tokens": 263,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0515ffa1d1035a990069f603fe00208195b29d81e1a8ce76c5",
+        "error": ""
+      },
+      "response_body": "<GetContextKeysForPrincipalPolicyResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GetContextKeysForPrincipalPolicyResult><ContextKeyNames><member>aws:RequestedRegion</member><member>aws:RequestedRegion</member><member>aws:RequestedRegion</member></ContextKeyNames></GetContextKeysForPrincipalPolicyResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GetContextKeysForPrincipalPolicyResponse>"
+    },
+    {
+      "id": "iam_list_service_specific_credentials",
+      "command": "aws iam list-service-specific-credentials --user-name victim-admin",
+      "service": "iam",
+      "operation": "ListServiceSpecificCredentials",
+      "latency_ms": 2326.336,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "IsTruncated",
+        "Marker",
+        "ServiceSpecificCredentials"
+      ],
+      "aws_output_shape_observed": [
+        "IsTruncated",
+        "Marker",
+        "ResponseMetadata",
+        "ServiceSpecificCredentials"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/iam/list-service-specific-credentials.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "iam",
+      "botocore_operation": "ListServiceSpecificCredentials",
+      "botocore_output_shape": "ListServiceSpecificCredentialsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2309.908,
+        "runtime_overhead_ms": 16.428,
+        "input_tokens": 195,
+        "output_tokens": 40,
+        "total_tokens": 235,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 195,
+        "output_tokens": 40,
+        "total_tokens": 235,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_03cc52724536f0520069f604023cb481938fc50d09d074f919",
+        "error": ""
+      },
+      "response_body": "<ListServiceSpecificCredentialsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><ListServiceSpecificCredentialsResult><ServiceSpecificCredentials><member><UserName>victim-admin</UserName><Status>Active</Status><ServiceUserName>victim-admin</ServiceUserName><ServiceCredentialAlias>codecommit-282a45</ServiceCredentialAlias><CreateDate>2026-05-02T14:02:45Z</CreateDate><ExpirationDate>2026-05-02T14:02:45Z</ExpirationDate><ServiceSpecificCredentialId>iam-7da2be46</ServiceSpecificCredentialId><ServiceName>codecommit.amazonaws.com</ServiceName></member></ServiceSpecificCredentials><Marker/><IsTruncated>false</IsTruncated></ListServiceSpecificCredentialsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></ListServiceSpecificCredentialsResponse>"
+    },
+    {
+      "id": "iam_generate_service_last_accessed_details",
+      "command": "aws iam generate-service-last-accessed-details --arn arn:aws:iam::123456789012:user/victim-admin",
+      "service": "iam",
+      "operation": "GenerateServiceLastAccessedDetails",
+      "latency_ms": 1753.396,
+      "under_3s": true,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "JobId"
+      ],
+      "aws_output_shape_observed": [
+        "JobId",
+        "ResponseMetadata"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/iam/generate-service-last-accessed-details.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "iam",
+      "botocore_operation": "GenerateServiceLastAccessedDetails",
+      "botocore_output_shape": "GenerateServiceLastAccessedDetailsResponse",
+      "latency_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1738.911,
+        "runtime_overhead_ms": 14.485,
+        "input_tokens": 219,
+        "output_tokens": 40,
+        "total_tokens": 259,
+        "suggested_actions": []
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": true,
+      "token_usage": {
+        "input_tokens": 219,
+        "output_tokens": 40,
+        "total_tokens": 259,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_0d3937373b48ac880069f60403e0d481959261c76639b59fe4",
+        "error": ""
+      },
+      "response_body": "<GenerateServiceLastAccessedDetailsResponse xmlns=\"https://iam.amazonaws.com/doc/2010-05-08/\"><GenerateServiceLastAccessedDetailsResult><JobId>job-31a21c7106</JobId></GenerateServiceLastAccessedDetailsResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></GenerateServiceLastAccessedDetailsResponse>"
+    },
+    {
+      "id": "secretsmanager_validate_resource_policy",
+      "command": "aws secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"secretsmanager:GetSecretValue\",\"Resource\":\"*\"}]}'",
+      "service": "secretsmanager",
+      "operation": "ValidateResourcePolicy",
+      "latency_ms": 3992.605,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "PolicyValidationPassed",
+        "ValidationErrors"
+      ],
+      "aws_output_shape_observed": [
+        "PolicyValidationPassed",
+        "ValidationErrors"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/validate-resource-policy.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "secretsmanager",
+      "botocore_operation": "ValidateResourcePolicy",
+      "botocore_output_shape": "ValidateResourcePolicyResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1619.405,
+        "runtime_overhead_ms": 2373.2,
+        "input_tokens": 230,
+        "output_tokens": 40,
+        "total_tokens": 270,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 230,
+        "output_tokens": 40,
+        "total_tokens": 270,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_04d2d97d71fcb1890069f60405377c8192b7cafdf66c8a73fc",
+        "error": ""
+      },
+      "response_body": "{\"PolicyValidationPassed\": true, \"ValidationErrors\": []}"
+    },
+    {
+      "id": "sts_decode_authorization_message",
+      "command": "aws sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=",
+      "service": "sts",
+      "operation": "DecodeAuthorizationMessage",
+      "latency_ms": 3762.607,
+      "under_3s": false,
+      "under_4s": true,
+      "parseable": true,
+      "protocol_match": true,
+      "required_core_fields_present": true,
+      "safety_pass": true,
+      "provider_call_ok": true,
+      "aws_output_shape_pass": true,
+      "aws_output_shape_reason": "top-level output fields match botocore output shape",
+      "aws_output_shape_expected": [
+        "DecodedMessage"
+      ],
+      "aws_output_shape_observed": [
+        "DecodedMessage",
+        "ResponseMetadata"
+      ],
+      "aws_output_shape_recursive_pass": true,
+      "aws_output_shape_mismatches": [],
+      "aws_cli_reference_url": "https://docs.aws.amazon.com/cli/latest/reference/sts/decode-authorization-message.html",
+      "aws_cli_reference_verified": true,
+      "botocore_service": "sts",
+      "botocore_operation": "DecodeAuthorizationMessage",
+      "botocore_output_shape": "DecodeAuthorizationMessageResponse",
+      "latency_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1398.208,
+        "runtime_overhead_ms": 2364.399,
+        "input_tokens": 208,
+        "output_tokens": 40,
+        "total_tokens": 248,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "validation_passed": true,
+      "validation_reason": "ok",
+      "quality_pass": false,
+      "token_usage": {
+        "input_tokens": 208,
+        "output_tokens": 40,
+        "total_tokens": 248,
+        "provider": "openai",
+        "model": "gpt-5-nano",
+        "response_id": "resp_01b2073f31a5a8990069f60408e23c819496dc57077a6c0294",
+        "error": ""
+      },
+      "response_body": "<DecodeAuthorizationMessageResponse xmlns=\"https://sts.amazonaws.com/doc/2011-06-15/\"><DecodeAuthorizationMessageResult><DecodedMessage>{\"allowed\":false,\"matchedStatements\":[],\"context\":\"synthetic sts:DecodeAuthorizationMessage\"}</DecodedMessage></DecodeAuthorizationMessageResult><ResponseMetadata><RequestId>request-id</RequestId></ResponseMetadata></DecodeAuthorizationMessageResponse>"
+    }
+  ],
+  "summary": {
+    "total": 40,
+    "quality_pass": 25,
+    "quality_fail": 15,
+    "under_3s": 25,
+    "under_4s": 38,
+    "aws_output_shape_pass": 40,
+    "aws_output_shape_recursive_pass": 40,
+    "aws_cli_reference_verified": 40,
+    "provider_call_ok": 40,
+    "total_tokens": 9307
+  }
+}

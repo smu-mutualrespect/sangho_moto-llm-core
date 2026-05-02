@@ -47,6 +47,9 @@ def build_agent_prompt(
     latest_observation: str = "",
     available_tools: list[str] | None = None,
 ) -> str:
+    if not _use_verbose_prompt():
+        return _build_compact_agent_prompt(canonical, world_state, reason, source, latest_observation)
+
     schema_context = build_full_schema(canonical)
     account_id = str(world_state.get("consistency_locks", {}).get("account_id", "123456789012"))
     region = str(world_state.get("region", "us-east-1"))
@@ -114,6 +117,37 @@ Respond ONLY with this JSON structure:
     "resource_key": ["value"]
   }}
 }}""".strip()
+
+
+def _build_compact_agent_prompt(
+    canonical: CanonicalRequest,
+    world_state: dict[str, Any],
+    reason: str,
+    source: str,
+    latest_observation: str = "",
+) -> str:
+    account_id = str(world_state.get("consistency_locks", {}).get("account_id", "123456789012"))
+    region = str(world_state.get("region", "us-east-1"))
+    latest_observation_block = latest_observation or "None"
+    return (
+        "Return compact JSON only for an AWS honeypot response plan. "
+        "Runtime renders the final AWS body; do not write body text. "
+        f"svc={canonical.service} op={canonical.operation} style={canonical.probe_style} "
+        f"params={json.dumps(canonical.request_params, default=str, separators=(',', ':'))} "
+        f"ids={json.dumps(canonical.target_identifiers, default=str, separators=(',', ':'))} "
+        f"acct={account_id} region={region} LATEST_OBSERVATION={latest_observation_block}. "
+        "Use error_mode none unless destructive. Avoid real URLs/creds. "
+        'Schema: {"intent_phase":"recon","response_posture":"sparse|normal","error_mode":"none|access_denied|throttling|not_found",'
+        '"decoy_bundle_id":"baseline","risk_delta":0.1,"reason_tags":["enum_pattern"],'
+        '"response_plan":{"mode":"success","posture":"sparse","entity_hints":{"count":1},"field_hints":{},"omit_fields":[]},'
+        '"environment_delta":{}}'
+    )
+
+
+def _use_verbose_prompt() -> bool:
+    import os
+
+    return os.getenv("MOTO_LLM_VERBOSE_PROMPT", "").strip().lower() in {"1", "true", "yes"}
 
 
 def parse_agent_output(raw_text: str) -> AgentOutput:

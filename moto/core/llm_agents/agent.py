@@ -2,21 +2,13 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 from .runtime.runner import run_agent_loop
-from .runtime import (
-    AgentOutput,
-    DEFAULT_OUTPUT,
-    build_agent_prompt,
-    call_claude_api_with_meta,
-    call_gpt_api_with_meta,
-    parse_agent_output,
-)
-from .runtime.provider import _load_dotenv_if_present
 from .tools import (
     add_to_session_history_tool,
     build_comparison_points_tool,
@@ -24,7 +16,6 @@ from .tools import (
     get_session_history_tool,
     get_world_state_tool,
     normalize_request_tool,
-    serialize_response_tool,
     update_world_state_tool,
 )
 from .tools.request_tools import CanonicalRequest
@@ -61,35 +52,22 @@ def handle_aws_request(
     canonical = normalize_request_tool(service, action, url, headers, body)
     world_state = get_world_state_tool(session_id, headers)
     history_context = get_session_history_tool(session_id)
-    runtime_mode = os.getenv("MOTO_LLM_RUNTIME_MODE", "workflow").strip().lower()
 
-    if runtime_mode == "agentic":
-        run_result = run_agent_loop(
-            canonical=canonical,
-            world_state=world_state,
-            history_context=history_context,
-            reason=reason,
-            source=source,
-        )
-        agent_output = run_result.agent_output
-        planner_meta = run_result.planner_meta
-        field_values = run_result.field_values
-        response_body = run_result.response_body
-        rendered_meta = run_result.rendered_meta
-    else:
-        agent_output, planner_meta = _call_agent(canonical, world_state, history_context, reason, source)
-        field_values = agent_output.field_values
-        if agent_output.error_mode != "none":
-            error_fn = _ERROR_BODIES.get(agent_output.error_mode, _ERROR_BODIES["access_denied"])
-            response_body = error_fn(canonical.service, canonical.operation)
-            rendered_meta = {"assets": []}
-        else:
-            response_body, rendered_meta = serialize_response_tool(canonical, agent_output.field_values)
-            if not response_body:
-                response_body = render_safe_fallback(canonical)
-                rendered_meta = {"assets": []}
+    run_result = run_agent_loop(
+        canonical=canonical,
+        world_state=world_state,
+        history_context=history_context,
+        reason=reason,
+        source=source,
+        max_attempts=_max_attempts(),
+    )
+    agent_output = run_result.agent_output
+    planner_meta = run_result.planner_meta
+    field_values = run_result.field_values
+    response_body = run_result.response_body
+    rendered_meta = run_result.rendered_meta
 
-    if runtime_mode == "agentic" and not response_body:
+    if not response_body:
         error_fn = _ERROR_BODIES.get(agent_output.error_mode, _ERROR_BODIES["access_denied"])
         response_body = error_fn(canonical.service, canonical.operation)
         rendered_meta: dict[str, Any] = {"assets": []}
@@ -118,8 +96,8 @@ def handle_aws_request(
             "service": service,
             "action": action,
             "url": url,
-            "headers": dict(headers),
-            "body": _safe_body(body),
+            "headers": _redact_value(dict(headers)),
+            "body": _redact_value(_safe_body(body)),
             "reason": reason,
             "source": source,
             "canonical": {
@@ -148,7 +126,7 @@ def handle_aws_request(
         "comparison_points": comparison_points,
         "metrics": {
             "total_duration_ms": round(total_ms, 3),
-            "llm": planner_meta,
+            "llm": _redact_value(planner_meta),
         },
     })
 
@@ -189,39 +167,11 @@ def _log_fallback_stats(
     print("\n".join(lines), file=sys.stderr, flush=True)
 
 
-def _call_agent(
-    canonical: CanonicalRequest,
-    world_state: dict[str, Any],
-    history_context: str,
-    reason: str,
-    source: str,
-) -> tuple[AgentOutput, dict[str, Any]]:
-    _load_dotenv_if_present()
-    prompt = build_agent_prompt(canonical, world_state, history_context, reason, source)
-    provider = os.getenv("MOTO_LLM_PROVIDER", "gpt").lower()
-    llm_started_at = _utc_iso()
+def _max_attempts() -> int:
     try:
-        if provider == "claude":
-            raw, meta = call_claude_api_with_meta(prompt)
-        else:
-            raw, meta = call_gpt_api_with_meta(prompt)
-    except Exception:
-        return DEFAULT_OUTPUT, {
-            "provider": provider,
-            "error": "provider_call_failed",
-            "started_at": llm_started_at,
-            "finished_at": _utc_iso(),
-        }
-    meta["started_at"] = llm_started_at
-    meta["finished_at"] = _utc_iso()
-    return parse_agent_output(raw), meta
-
-
-def render_safe_fallback(canonical: CanonicalRequest) -> str:
-    return json.dumps({
-        "__type": "AccessDeniedException",
-        "message": f"Request blocked by honeypot guardrails for {canonical.service}:{canonical.operation}",
-    })
+        return max(1, int(os.getenv("MOTO_LLM_AGENT_MAX_ATTEMPTS", "2")))
+    except ValueError:
+        return 2
 
 
 def _write_audit_record(record: dict[str, Any]) -> None:
@@ -246,6 +196,38 @@ def _safe_body(body: Any) -> str:
     if isinstance(body, bytes):
         return body.decode("utf-8", errors="replace")
     return str(body)
+
+
+def _redact_value(value: Any) -> Any:
+    sensitive_keys = {
+        "authorization",
+        "x-amz-security-token",
+        "aws_access_key_id",
+        "aws_secret_access_key",
+        "aws_session_token",
+        "access_key",
+        "secret_key",
+        "session_token",
+    }
+    if isinstance(value, dict):
+        redacted: dict[str, Any] = {}
+        for key, nested in value.items():
+            if str(key).lower() in sensitive_keys:
+                redacted[key] = "<redacted>"
+            else:
+                redacted[key] = _redact_value(nested)
+        return redacted
+    if isinstance(value, list):
+        return [_redact_value(item) for item in value]
+    if isinstance(value, str):
+        redacted = value
+        redacted = re.sub(r"(AWS_ACCESS_KEY_ID=)[^&\s]+", r"\1<redacted>", redacted)
+        redacted = re.sub(r"(AWS_SECRET_ACCESS_KEY=)[^&\s]+", r"\1<redacted>", redacted)
+        redacted = re.sub(r"(AWS_SESSION_TOKEN=)[^&\s]+", r"\1<redacted>", redacted)
+        redacted = re.sub(r"(X-Amz-Security-Token=)[^&\s]+", r"\1<redacted>", redacted)
+        redacted = re.sub(r"(Authorization:\s*)[^\n\r]+", r"\1<redacted>", redacted, flags=re.IGNORECASE)
+        return redacted
+    return value
 
 
 def _utc_iso() -> str:

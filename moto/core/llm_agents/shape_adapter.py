@@ -12,7 +12,7 @@ from moto.core.utils import get_service_model
 from .tools.planning_tools import ResponsePlan
 from .tools.request_tools import CanonicalRequest
 
-_MAX_DEPTH = 4
+_MAX_DEPTH = 6
 
 
 def adapt_response_plan(
@@ -92,7 +92,7 @@ def _generate_value(
     protected_members: set[str],
 ) -> Any:
     explicit = _lookup_explicit_hint(member_name, canonical, response_plan)
-    if explicit is not None:
+    if explicit is not None and _explicit_hint_is_compatible(shape, explicit):
         return _coerce_explicit_hint(shape, explicit, canonical, world_state, member_name)
 
     if shape.type_name == "structure":
@@ -151,7 +151,13 @@ def _generate_list(
         ):
             explicit = None
         else:
-            return explicit
+            coerced_items = [
+                _coerce_explicit_hint(shape.member, item, canonical, world_state, member_name)
+                for item in explicit
+            ]
+            coerced_items = [item for item in coerced_items if item is not None]
+            if coerced_items:
+                return coerced_items
 
     if member_name in protected_members and response_plan.mode == "empty":
         count = 1
@@ -201,6 +207,17 @@ def _lookup_explicit_hint(
     return None
 
 
+def _explicit_hint_is_compatible(shape: Any, explicit: Any) -> bool:
+    type_name = getattr(shape, "type_name", "")
+    if type_name == "structure":
+        return isinstance(explicit, dict)
+    if type_name == "list":
+        return isinstance(explicit, list)
+    if type_name == "map":
+        return isinstance(explicit, dict)
+    return True
+
+
 def _coerce_explicit_hint(
     shape: Any,
     explicit: Any,
@@ -211,7 +228,9 @@ def _coerce_explicit_hint(
     type_name = getattr(shape, "type_name", "")
     if explicit is None:
         return None
-    if type_name == "structure" and isinstance(explicit, dict):
+    if type_name == "structure":
+        if not isinstance(explicit, dict):
+            return None
         coerced: dict[str, Any] = {}
         for key, value in explicit.items():
             nested_shape = shape.members.get(key)
@@ -399,6 +418,8 @@ def _generate_scalar_string(
             },
             separators=(",", ":"),
         )
+    if "contextkey" in combined or "context key" in combined:
+        return "aws:RequestedRegion"
     if "platformtype" in combined:
         return "Linux"
     if "platformname" in combined:

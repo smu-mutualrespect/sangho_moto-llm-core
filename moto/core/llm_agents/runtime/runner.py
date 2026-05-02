@@ -9,7 +9,7 @@ from ..tools import build_response_plan_tool, validate_rendered_response_tool
 from ..tools.request_tools import CanonicalRequest
 from ..tools.render_tools import serialize_response_tool
 from .planner import AgentOutput, DEFAULT_OUTPUT, build_agent_prompt, parse_agent_output
-from .provider import _load_dotenv_if_present, call_claude_api_with_meta, call_gpt_api_with_meta
+from .provider import _load_dotenv_if_present, call_gpt_api_with_meta
 from .tool_registry import get_available_tool_names
 
 
@@ -117,6 +117,13 @@ def _call_agent_once(
     latest_observation: str,
     available_tools: list[str],
 ) -> tuple[AgentOutput, str, dict[str, Any]]:
+    if os.getenv("MOTO_LLM_OFFLINE_STUB", "").strip().lower() in {"1", "true", "yes"}:
+        return DEFAULT_OUTPUT, "", {
+            "provider": "offline_stub",
+            "model": "deterministic_response_plan",
+            "usage": {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0},
+        }
+
     _load_dotenv_if_present()
     prompt = build_agent_prompt(
         canonical,
@@ -127,12 +134,8 @@ def _call_agent_once(
         latest_observation=latest_observation,
         available_tools=available_tools,
     )
-    provider = os.getenv("MOTO_LLM_PROVIDER", "gpt").lower()
     try:
-        if provider == "claude":
-            raw, meta = call_claude_api_with_meta(prompt)
-        else:
-            raw, meta = call_gpt_api_with_meta(prompt)
+        raw, meta = call_gpt_api_with_meta(prompt)
     except Exception:
-        return DEFAULT_OUTPUT, "", {"provider": provider, "error": "provider_call_failed"}
+        return DEFAULT_OUTPUT, "", {"provider": "openai", "error": "provider_call_failed"}
     return parse_agent_output(raw), raw, meta

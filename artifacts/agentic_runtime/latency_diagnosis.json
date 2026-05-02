@@ -1,0 +1,685 @@
+{
+  "summary": {
+    "base_under_3s": 22,
+    "base_under_4s": 37,
+    "base_total_tokens": 10907,
+    "tokens40_under_3s": 25,
+    "tokens40_under_4s": 38,
+    "tokens40_total_tokens": 9307,
+    "conclusion": "max_output_tokens=40 reduced tokens but did not make all 40 commands under 3 seconds"
+  },
+  "items": [
+    {
+      "id": "bedrock_list_foundation_models",
+      "command": "aws bedrock list-foundation-models",
+      "base_latency_ms": 4249.759,
+      "base_under_3s": false,
+      "base_under_4s": false,
+      "base_total_tokens": 254,
+      "tokens40_latency_ms": 4352.001,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": false,
+      "tokens40_total_tokens": 214,
+      "latency_delta_ms": 102.242,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2396.054,
+        "runtime_overhead_ms": 1853.705,
+        "input_tokens": 174,
+        "output_tokens": 80,
+        "total_tokens": 254,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2450.389,
+        "runtime_overhead_ms": 1901.612,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "ec2_monitor_instances",
+      "command": "aws ec2 monitor-instances --instance-ids i-1234567890abcdef0",
+      "base_latency_ms": 3601.85,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 272,
+      "tokens40_latency_ms": 3068.67,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 232,
+      "latency_delta_ms": -533.18,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1602.338,
+        "runtime_overhead_ms": 1999.512,
+        "input_tokens": 192,
+        "output_tokens": 80,
+        "total_tokens": 272,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1119.429,
+        "runtime_overhead_ms": 1949.241,
+        "input_tokens": 192,
+        "output_tokens": 40,
+        "total_tokens": 232,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "ec2_describe_reserved_instances",
+      "command": "aws ec2 describe-reserved-instances",
+      "base_latency_ms": 3214.116,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 260,
+      "tokens40_latency_ms": 1180.235,
+      "tokens40_under_3s": true,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 220,
+      "latency_delta_ms": -2033.881,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "provider_latency",
+        "llm_duration_ms": 3204.586,
+        "runtime_overhead_ms": 9.53,
+        "input_tokens": 180,
+        "output_tokens": 80,
+        "total_tokens": 260,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1171.528,
+        "runtime_overhead_ms": 8.707,
+        "input_tokens": 180,
+        "output_tokens": 40,
+        "total_tokens": 220,
+        "suggested_actions": []
+      }
+    },
+    {
+      "id": "ec2_describe_volume_status",
+      "command": "aws ec2 describe-volume-status --volume-ids vol-1234567890abcdef0",
+      "base_latency_ms": 3104.389,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 274,
+      "tokens40_latency_ms": 2714.962,
+      "tokens40_under_3s": true,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 234,
+      "latency_delta_ms": -389.427,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "provider_latency",
+        "llm_duration_ms": 3072.603,
+        "runtime_overhead_ms": 31.786,
+        "input_tokens": 194,
+        "output_tokens": 80,
+        "total_tokens": 274,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 2680.904,
+        "runtime_overhead_ms": 34.058,
+        "input_tokens": 194,
+        "output_tokens": 40,
+        "total_tokens": 234,
+        "suggested_actions": []
+      }
+    },
+    {
+      "id": "billingconductor_list_billing_groups",
+      "command": "aws billingconductor list-billing-groups",
+      "base_latency_ms": 3392.332,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 255,
+      "tokens40_latency_ms": 3439.772,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 215,
+      "latency_delta_ms": 47.44,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1519.351,
+        "runtime_overhead_ms": 1872.981,
+        "input_tokens": 175,
+        "output_tokens": 80,
+        "total_tokens": 255,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1649.622,
+        "runtime_overhead_ms": 1790.15,
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "frauddetector_get_detectors",
+      "command": "aws frauddetector get-detectors",
+      "base_latency_ms": 3644.341,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 256,
+      "tokens40_latency_ms": 3106.898,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 216,
+      "latency_delta_ms": -537.443,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1895.29,
+        "runtime_overhead_ms": 1749.051,
+        "input_tokens": 176,
+        "output_tokens": 80,
+        "total_tokens": 256,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1109.988,
+        "runtime_overhead_ms": 1996.91,
+        "input_tokens": 176,
+        "output_tokens": 40,
+        "total_tokens": 216,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "detective_list_graphs",
+      "command": "aws detective list-graphs",
+      "base_latency_ms": 3370.504,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 253,
+      "tokens40_latency_ms": 3810.183,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 213,
+      "latency_delta_ms": 439.679,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1508.164,
+        "runtime_overhead_ms": 1862.34,
+        "input_tokens": 173,
+        "output_tokens": 80,
+        "total_tokens": 253,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1932.341,
+        "runtime_overhead_ms": 1877.842,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "auditmanager_list_assessments",
+      "command": "aws auditmanager list-assessments",
+      "base_latency_ms": 3965.128,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 254,
+      "tokens40_latency_ms": 2966.94,
+      "tokens40_under_3s": true,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 214,
+      "latency_delta_ms": -998.188,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2102.884,
+        "runtime_overhead_ms": 1862.244,
+        "input_tokens": 174,
+        "output_tokens": 80,
+        "total_tokens": 254,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "under_3s",
+        "llm_duration_ms": 1143.002,
+        "runtime_overhead_ms": 1823.938,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": []
+      }
+    },
+    {
+      "id": "outposts_list_outposts",
+      "command": "aws outposts list-outposts",
+      "base_latency_ms": 3259.228,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 254,
+      "tokens40_latency_ms": 3444.108,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 214,
+      "latency_delta_ms": 184.88,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1397.899,
+        "runtime_overhead_ms": 1861.329,
+        "input_tokens": 174,
+        "output_tokens": 80,
+        "total_tokens": 254,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1605.405,
+        "runtime_overhead_ms": 1838.703,
+        "input_tokens": 174,
+        "output_tokens": 40,
+        "total_tokens": 214,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "appflow_list_flows",
+      "command": "aws appflow list-flows",
+      "base_latency_ms": 3770.978,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 253,
+      "tokens40_latency_ms": 3556.209,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 213,
+      "latency_delta_ms": -214.769,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1921.493,
+        "runtime_overhead_ms": 1849.485,
+        "input_tokens": 173,
+        "output_tokens": 80,
+        "total_tokens": 253,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1623.414,
+        "runtime_overhead_ms": 1932.795,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "omics_list_runs",
+      "command": "aws omics list-runs",
+      "base_latency_ms": 3686.797,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 252,
+      "tokens40_latency_ms": 3001.06,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 212,
+      "latency_delta_ms": -685.737,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1770.558,
+        "runtime_overhead_ms": 1916.239,
+        "input_tokens": 172,
+        "output_tokens": 80,
+        "total_tokens": 252,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1143.546,
+        "runtime_overhead_ms": 1857.514,
+        "input_tokens": 172,
+        "output_tokens": 40,
+        "total_tokens": 212,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "mgn_describe_source_servers",
+      "command": "aws mgn describe-source-servers",
+      "base_latency_ms": 3846.87,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 253,
+      "tokens40_latency_ms": 3214.256,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 213,
+      "latency_delta_ms": -632.614,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2000.969,
+        "runtime_overhead_ms": 1845.901,
+        "input_tokens": 173,
+        "output_tokens": 80,
+        "total_tokens": 253,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1354.921,
+        "runtime_overhead_ms": 1859.335,
+        "input_tokens": 173,
+        "output_tokens": 40,
+        "total_tokens": 213,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "codeguru_reviewer_list_repository_associations",
+      "command": "aws codeguru-reviewer list-repository-associations",
+      "base_latency_ms": 3139.286,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 257,
+      "tokens40_latency_ms": 3170.576,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 217,
+      "latency_delta_ms": 31.29,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1168.659,
+        "runtime_overhead_ms": 1970.627,
+        "input_tokens": 177,
+        "output_tokens": 80,
+        "total_tokens": 257,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1308.439,
+        "runtime_overhead_ms": 1862.137,
+        "input_tokens": 177,
+        "output_tokens": 40,
+        "total_tokens": 217,
+        "suggested_actions": [
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "backup_gateway_list_gateways",
+      "command": "aws backup-gateway list-gateways",
+      "base_latency_ms": 3664.287,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 255,
+      "tokens40_latency_ms": 5289.984,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": false,
+      "tokens40_total_tokens": 215,
+      "latency_delta_ms": 1625.697,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1841.363,
+        "runtime_overhead_ms": 1822.924,
+        "input_tokens": 175,
+        "output_tokens": 80,
+        "total_tokens": 255,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 3488.853,
+        "runtime_overhead_ms": 1801.131,
+        "input_tokens": 175,
+        "output_tokens": 40,
+        "total_tokens": 215,
+        "suggested_actions": [
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "ecr_batch_check_layer_availability",
+      "command": "aws ecr batch-check-layer-availability --repository-name demo --layer-digests sha256:abc",
+      "base_latency_ms": 3268.06,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 291,
+      "tokens40_latency_ms": 3221.634,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 251,
+      "latency_delta_ms": -46.426,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1388.629,
+        "runtime_overhead_ms": 1879.431,
+        "input_tokens": 211,
+        "output_tokens": 80,
+        "total_tokens": 291,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1117.713,
+        "runtime_overhead_ms": 2103.921,
+        "input_tokens": 211,
+        "output_tokens": 40,
+        "total_tokens": 251,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "iam_get_context_keys_for_principal_policy",
+      "command": "aws iam get-context-keys-for-principal-policy --policy-source-arn arn:aws:iam::123456789012:user/victim-admin",
+      "base_latency_ms": 4027.804,
+      "base_under_3s": false,
+      "base_under_4s": false,
+      "base_total_tokens": 303,
+      "tokens40_latency_ms": 3704.812,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 263,
+      "latency_delta_ms": -322.992,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 2224.47,
+        "runtime_overhead_ms": 1803.334,
+        "input_tokens": 223,
+        "output_tokens": 80,
+        "total_tokens": 303,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1367.428,
+        "runtime_overhead_ms": 2337.384,
+        "input_tokens": 223,
+        "output_tokens": 40,
+        "total_tokens": 263,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "secretsmanager_validate_resource_policy",
+      "command": "aws secretsmanager validate-resource-policy --secret-id prod/db/password --resource-policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"secretsmanager:GetSecretValue\",\"Resource\":\"*\"}]}'",
+      "base_latency_ms": 3560.828,
+      "base_under_3s": false,
+      "base_under_4s": true,
+      "base_total_tokens": 310,
+      "tokens40_latency_ms": 3992.605,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 270,
+      "latency_delta_ms": 431.777,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1680.338,
+        "runtime_overhead_ms": 1880.49,
+        "input_tokens": 230,
+        "output_tokens": 80,
+        "total_tokens": 310,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1619.405,
+        "runtime_overhead_ms": 2373.2,
+        "input_tokens": 230,
+        "output_tokens": 40,
+        "total_tokens": 270,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    },
+    {
+      "id": "sts_decode_authorization_message",
+      "command": "aws sts decode-authorization-message --encoded-message ZmFrZS1hdXRob3JpemF0aW9uLW1lc3NhZ2U=",
+      "base_latency_ms": 5280.574,
+      "base_under_3s": false,
+      "base_under_4s": false,
+      "base_total_tokens": 288,
+      "tokens40_latency_ms": 3762.607,
+      "tokens40_under_3s": false,
+      "tokens40_under_4s": true,
+      "tokens40_total_tokens": 248,
+      "latency_delta_ms": -1517.967,
+      "token_delta": -40,
+      "base_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 3435.417,
+        "runtime_overhead_ms": 1845.157,
+        "input_tokens": 208,
+        "output_tokens": 80,
+        "total_tokens": 288,
+        "suggested_actions": [
+          "test lower max_output_tokens only if recursive shape quality remains green",
+          "reduce compact prompt fields for this operation",
+          "consider deterministic fast path for stable output-shape operations",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      },
+      "tokens40_diagnosis": {
+        "primary_cause": "runtime_overhead",
+        "llm_duration_ms": 1398.208,
+        "runtime_overhead_ms": 2364.399,
+        "input_tokens": 208,
+        "output_tokens": 40,
+        "total_tokens": 248,
+        "suggested_actions": [
+          "reduce compact prompt fields for this operation",
+          "confirm no validation retry occurred before optimizing serializer/runtime overhead"
+        ]
+      }
+    }
+  ]
+}

@@ -46,3 +46,20 @@ other_langs/terraform/awslambda/lambda_function_payload.zip
 other_langs/tests_dotnet/ebs/obj/Debug/*
 other_langs/tests_js/node_modules
 other_langs/tests_js/package-lock.json
+
+# Agentic runtime benchmark scratch artifacts.
+# Curated benchmark summaries/results may still be force-added intentionally.
+artifacts/**/*.audit.json
+artifacts/agentic_runtime/latest_*
+artifacts/agentic_runtime/sample_7_*
+artifacts/agentic_runtime/full_40_*
+artifacts/agentic_runtime/offline_sample_7_*
+artifacts/agentic_runtime/live_sample_7_gpt*
+artifacts/agentic_runtime/live_sample_7_tokens40_*
+artifacts/agentic_runtime_cli_20_*
+artifacts/remaining_20_*
+artifacts/runtime_cli_*
+artifacts/agentic_probe_*.json
+artifacts/workflow_probe_*.json
+artifacts/single_probe_*.json
+artifacts/reasoning_models_comparison.json

@@ -4,6 +4,8 @@ import json
 
 from moto.core.llm_agents.agent import handle_aws_request
 from moto.core.llm_agents.runtime import DEFAULT_OUTPUT, call_gpt_api_with_meta, parse_agent_output
+from moto.core.llm_agents.runtime.tool_executor import execute_agent_tool_requests
+from moto.core.llm_agents.runtime.tool_registry import get_available_tool_names
 from moto.core.llm_agents.shape_adapter import adapt_response_plan
 from moto.core.llm_agents.tools.planning_tools import build_response_plan_tool
 from moto.core.llm_agents.tools.render_tools import serialize_response_tool
@@ -195,6 +197,50 @@ def test_handle_aws_request_executes_agent_tool_request(monkeypatch) -> None:
     assert "recon_skill" in calls[1]
 
 
+def test_agent_tool_executor_exposes_honeypot_tools() -> None:
+    canonical = normalize_request_tool(
+        service="ecr",
+        action="BatchCheckLayerAvailability",
+        url="https://api.ecr.us-east-1.amazonaws.com/",
+        headers={"X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability"},
+        body='{"repositoryName":"demo","layerDigests":["sha256:abc"]}',
+    )
+    world_state = {
+        "region": "us-east-1",
+        "phase": "recon",
+        "risk_score": 0.2,
+        "last_actions": ["ecr:GetDownloadUrlForLayer"],
+        "consistency_locks": {"account_id": "123456789012"},
+    }
+
+    observation = execute_agent_tool_requests(
+        [
+            {"tool": "aws_cli.inspect_reference_output", "args": {}},
+            {"tool": "state.inspect_consistency", "args": {}},
+            {"tool": "latency.estimate_budget", "args": {"target_ms": 3000}},
+        ],
+        canonical=canonical,
+        world_state=world_state,
+        history_context="previous ecr response",
+    )
+
+    assert observation.startswith("TOOL_OBSERVATIONS=")
+    assert "batch-check-layer-availability.html" in observation
+    assert "top_level_members" in observation
+    assert "123456789012" in observation
+    assert "should_call_more_tools" in observation
+
+
+def test_tool_registry_lists_only_agent_callable_tools() -> None:
+    tools = get_available_tool_names()
+
+    assert "skills.load_skill_document" in tools
+    assert "aws_cli.inspect_reference_output" in tools
+    assert "validator.explain_last_failure" in tools
+    assert "shape_adapter.adapt_response_plan" not in tools
+    assert "render_tools.serialize_response_tool" not in tools
+
+
 def test_validator_blocks_public_url() -> None:
     canonical = normalize_request_tool(
         service="ssm",
@@ -345,6 +391,7 @@ def test_call_gpt_api_uses_direct_openai_by_default(monkeypatch) -> None:
     payload = captured["payload"]
     assert isinstance(payload, dict)
     assert payload["input"][0]["content"] == "test-prompt"
+    assert payload["max_output_tokens"] == 60
     assert meta["provider"] == "openai"
     assert meta["usage"]["total_tokens"] == 12
 

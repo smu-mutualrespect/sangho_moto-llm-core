@@ -13,12 +13,13 @@
 | live full 40, max_output_tokens=80 | 40 | 2649.933ms | 2482.343ms | 4027.804ms | 5280.574ms | 22/40 | 37/40 | 10907 | 272.7 | 40/40 | 40/40 |
 | live full 40, max_output_tokens=40 | 40 | 2380.287ms | 1948.734ms | 3992.605ms | 5289.984ms | 25/40 | 38/40 | 9307 | 232.7 | 40/40 | 40/40 |
 | live full 40, agent.md + tool_requests, max_output_tokens=80 | 40 | 2310.177ms | 2190.462ms | 4318.843ms | 4406.252ms | 30/40 | 37/40 | 30497 | 762.4 | 40/40 | 40/40 |
+| live full 40, honeypot tools/skills, max_output_tokens=60 | 40 | 2290.343ms | 1804.342ms | 3668.693ms | 4783.348ms | 25/40 | 39/40 | 30769 | 769.2 | 40/40 | 40/40 |
 
 해석:
 
 - 평균 latency는 3초 이내입니다.
 - 하지만 목표였던 “40개 각각이 모두 3초 이내”는 아직 아닙니다.
-- 최신 `agent.md + tool_requests` 구조는 평균 latency 2.31초로 3초 이내입니다. 다만 tail latency 때문에 3개 command는 4초를 넘었습니다.
+- 최신 honeypot tool/skill 구조는 평균 latency 2.29초로 3초 이내입니다. 다만 tail latency 때문에 `bedrock_list_foundation_models` 1개 command는 4초를 넘었습니다.
 - `max_output_tokens=40`은 이전 compact prompt에서는 token 사용량과 평균 latency를 줄였지만, 최신 agent.md 구조에서 `max_output_tokens=60` 샘플은 tail latency 개선이 일관적이지 않았습니다.
 - AWS CLI reference와 botocore recursive output shape 기준 구조 품질은 live 40개 모두 통과했습니다.
 
@@ -164,7 +165,11 @@ single planner-agent + deterministic AWS shape adapter + deterministic serialize
 | --- | --- |
 | `skills.load_skill_document` | `moto/core/llm_agents/skills/*.md`에서 필요한 skill 문서를 읽어 다음 attempt에 전달 |
 | `schema.inspect_output_shape` | 현재 AWS operation의 botocore output shape 요약을 전달 |
+| `aws_cli.inspect_reference_output` | AWS CLI command reference URL과 botocore output shape/top-level members를 전달 |
 | `runtime.summarize_request_context` | service/operation/params/identifiers/history를 짧게 요약 |
+| `state.inspect_consistency` | account/region/session/action consistency lock을 요약 |
+| `latency.estimate_budget` | 3~4초 목표에서 추가 tool round를 써도 되는지 판단 |
+| `validator.explain_last_failure` | validation 실패 이유를 repair 가능한 짧은 guidance로 변환 |
 
 흐름은 아래와 같습니다.
 

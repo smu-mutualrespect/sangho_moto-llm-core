@@ -22,7 +22,7 @@ def call_gpt_api_with_meta(prompt: str, *, model: Optional[str] = None, timeout:
         raise ValueError("OPENAI_API_KEY is not set")
     payload = {
         "model": model or os.getenv("MOTO_LLM_OPENAI_MODEL", "gpt-5-mini"),
-        "max_output_tokens": int(os.getenv("MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS", "80")),
+        "max_output_tokens": int(os.getenv("MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS", "60")),
         "reasoning": {"effort": os.getenv("MOTO_LLM_OPENAI_REASONING_EFFORT", "minimal")},
         "input": [{"role": "user", "content": prompt}],
     }

@@ -29,6 +29,11 @@ from moto.core.common_types import TYPE_IF_NONE, TYPE_RESPONSE
 from moto.core.exceptions import ServiceException
 from moto.core.llm_fallback import build_llm_fallback_json
 from moto.core.llm_agents import handle_aws_request
+from moto.core.llm_agents.tools import (
+    extract_session_id_tool,
+    normalize_request_tool,
+    record_native_interaction_tool,
+)
 from moto.core.model import OperationModel, ServiceModel
 from moto.core.parse import PROTOCOL_PARSERS, XFormedDict
 from moto.core.request import determine_request_protocol, normalize_request
@@ -588,6 +593,7 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
             response = http_error.description, {"status": http_error.code}
             status, headers, body = self._transform_response(headers, response)
             headers, body = self._enrich_response(headers, body)
+            self._record_native_history_if_enabled(status, body)
 
             return status, headers, body
 
@@ -636,6 +642,7 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
                 status, headers, body = self._transform_response(headers, response)
 
             headers, body = self._enrich_response(headers, body)
+            self._record_native_history_if_enabled(status, body)
 
             return status, headers, body
 
@@ -676,6 +683,42 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
             headers.update(fallback_headers)
             return 200, headers, fallback_body
         raise NotImplementedError(f"The {action} action has not been implemented")
+
+    def _record_native_history_if_enabled(self, status: int, body: Any) -> None:
+        if os.getenv("MOTO_LLM_RECORD_NATIVE_HISTORY", "").strip().lower() not in {
+            "1",
+            "true",
+            "yes",
+        }:
+            return
+        if not self.service_name:
+            return
+        try:
+            action = self._get_action()
+            if not action:
+                return
+            headers = dict(self.headers)
+            session_id = extract_session_id_tool(headers)
+            canonical = normalize_request_tool(
+                self.service_name,
+                action,
+                self.uri,
+                headers,
+                self.body,
+            )
+            response_body = (
+                body.decode("utf-8", errors="replace")
+                if isinstance(body, bytes)
+                else str(body)
+            )
+            record_native_interaction_tool(
+                session_id,
+                canonical,
+                response_body,
+                status_code=int(status),
+            )
+        except Exception:
+            return
 
     @staticmethod
     def _transform_response(headers: dict[str, str], response: Any) -> TYPE_RESPONSE:  # type: ignore[misc]

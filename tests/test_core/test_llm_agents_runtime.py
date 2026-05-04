@@ -357,7 +357,8 @@ def test_shape_adapter_echoes_request_identifiers_when_available() -> None:
 
 def test_call_gpt_api_uses_direct_openai_by_default(monkeypatch) -> None:
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
-    monkeypatch.delenv("MOTO_LLM_OPENAI_TRANSPORT", raising=False)
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("MOTO_LLM_PROVIDER", raising=False)
 
     captured: dict[str, object] = {}
 
@@ -396,20 +397,70 @@ def test_call_gpt_api_uses_direct_openai_by_default(monkeypatch) -> None:
     assert meta["usage"]["total_tokens"] == 12
 
 
-def test_call_gpt_api_ignores_opencode_transport(monkeypatch) -> None:
-    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
-    monkeypatch.setenv("MOTO_LLM_OPENAI_TRANSPORT", "opencode")
+def test_call_gpt_api_uses_anthropic_when_only_anthropic_key(monkeypatch) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("MOTO_LLM_PROVIDER", raising=False)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "anthropic-test-key")
+    monkeypatch.setenv("MOTO_LLM_ANTHROPIC_MAX_OUTPUT_TOKENS", "42")
+
+    captured: dict[str, object] = {}
+
+    def fake_post_json(
+        *,
+        url: str,
+        headers: dict[str, str],
+        payload: dict[str, object],
+        timeout: float,
+    ) -> dict[str, object]:
+        captured["url"] = url
+        captured["headers"] = headers
+        captured["payload"] = payload
+        captured["timeout"] = timeout
+        return {
+            "id": "msg_test",
+            "model": "claude-test",
+            "usage": {"input_tokens": 9, "output_tokens": 4},
+            "content": [{"type": "text", "text": '{"ok":true}'}],
+        }
+
+    monkeypatch.setattr("moto.core.llm_agents.runtime.provider._post_json", fake_post_json)
+
+    text, meta = call_gpt_api_with_meta("test-prompt", model="claude-test", timeout=8.0)
+
+    assert text == '{"ok":true}'
+    assert captured["url"] == "https://api.anthropic.com/v1/messages"
+    assert captured["timeout"] == 8.0
+    headers = captured["headers"]
+    assert isinstance(headers, dict)
+    assert headers["x-api-key"] == "anthropic-test-key"
+    assert headers["anthropic-version"] == "2023-06-01"
+    payload = captured["payload"]
+    assert isinstance(payload, dict)
+    assert payload["model"] == "claude-test"
+    assert payload["max_tokens"] == 42
+    assert payload["messages"][0]["content"] == "test-prompt"
+    assert meta["provider"] == "anthropic"
+    assert meta["model"] == "claude-test"
+    assert meta["usage"]["total_tokens"] == 13
+
+
+def test_call_gpt_api_respects_explicit_anthropic_provider(monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "openai-test-key")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "anthropic-test-key")
+    monkeypatch.setenv("MOTO_LLM_PROVIDER", "anthropic")
 
     monkeypatch.setattr(
         "moto.core.llm_agents.runtime.provider._post_json",
         lambda **_: {
-            "id": "resp_test",
-            "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
-            "output": [{"content": [{"type": "output_text", "text": '{"route":"api"}'}]}],
+            "id": "msg_test",
+            "model": "claude-test",
+            "usage": {"input_tokens": 1, "output_tokens": 2},
+            "content": [{"type": "text", "text": '{"route":"anthropic"}'}],
         },
     )
 
-    text, meta = call_gpt_api_with_meta("test-prompt")
+    text, meta = call_gpt_api_with_meta("test-prompt", model="claude-test")
 
-    assert text == '{"route":"api"}'
-    assert meta["provider"] == "openai"
+    assert text == '{"route":"anthropic"}'
+    assert meta["provider"] == "anthropic"
+    assert meta["usage"]["total_tokens"] == 3

@@ -6,6 +6,7 @@ from .state_tools import (
     extract_session_id_tool,
     get_session_history_tool,
     get_world_state_tool,
+    record_native_interaction_tool,
     update_world_state_tool,
 )
 from .validation_tools import build_comparison_points_tool, validate_rendered_response_tool
@@ -18,6 +19,7 @@ __all__ = [
     "get_session_history_tool",
     "get_world_state_tool",
     "normalize_request_tool",
+    "record_native_interaction_tool",
     "serialize_response_tool",
     "update_world_state_tool",
     "validate_rendered_response_tool",

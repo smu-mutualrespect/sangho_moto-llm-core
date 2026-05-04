@@ -1,6 +1,6 @@
 # moto-llm-core
 
-`moto`의 미구현 AWS API 경로를 허니팟 응답기로 전환하기 위한 LLM fallback 실험 저장소다. 지금 상태는 단순한 `"llm_fallback!!"` 수준을 넘어서, `single agent -> response plan -> shape adapter -> protocol renderer -> validator` 흐름으로 응답을 생성하고, 기본 경로는 direct OpenAI Responses API 호출이며 `opencode`는 호환용 opt-in transport로 남겨둔 상태다.
+`moto`의 미구현 AWS API 경로를 허니팟 응답기로 전환하기 위한 LLM fallback 실험 저장소다. 지금 상태는 단순한 `"llm_fallback!!"` 수준을 넘어서, `single agent -> response plan -> shape adapter -> protocol renderer -> validator` 흐름으로 응답을 생성하고, 기본 경로는 direct OpenAI Responses API 또는 Anthropic Claude Messages API 호출이다.
 
 ## 이번에 바꾼 것
 
@@ -18,9 +18,9 @@
 - `response_plan` 단계에서 핵심 field omit 금지, 빈 reconnaissance 응답 금지 같은 안정화 로직을 넣었다.
 
 3. 실제 모델 경로 연결 및 튜닝
-- `providers.py`에 direct OpenAI Responses API fast path를 기본 경로로 두고, `opencode` transport는 선택적으로 유지했다.
+- `provider.py`에 OpenAI Responses API와 Anthropic Claude Messages API wrapper를 두고, `.env`에 있는 키 기준으로 provider를 자동 선택하게 했다.
 - `TUNING_PLAN.md`, `artifacts/tuning/command_corpus.json`, `scripts/run_honeypot_tuning_batches.py`를 추가해서 50개 공격성 높은 명령 corpus를 batch로 돌릴 수 있게 했다.
-- live `opencode` 기준으로 튜닝하면서 timestamp 자연어 힌트, 공용 URL, account-id 불일치 ARN, 빈 SSM inventory 같은 문제를 잡았다.
+- live 모델 호출 기준으로 튜닝하면서 timestamp 자연어 힌트, 공용 URL, account-id 불일치 ARN, 빈 SSM inventory 같은 문제를 잡았다.
 
 ## 핵심 파일
 
@@ -36,10 +36,19 @@
   - AWS protocol 직렬화
 - `moto/core/llm_agents/validator.py`
   - safety/quality/world-state 검증
-- `moto/core/llm_agents/providers.py`
-  - OpenAI / Claude 호출, optional `opencode` transport
+- `moto/core/llm_agents/runtime/provider.py`
+  - OpenAI / Claude 호출 및 `.env` 기반 provider 자동 선택
 - `scripts/run_honeypot_tuning_batches.py`
   - tuning corpus batch runner
+
+## LLM provider 설정
+
+`.env`에 `OPENAI_API_KEY`가 있으면 OpenAI를 사용하고, OpenAI 키 없이 `ANTHROPIC_API_KEY`만 있으면 Claude를 자동으로 사용한다. 둘 다 있을 때 Claude를 강제로 쓰려면 `MOTO_LLM_PROVIDER=anthropic`을 넣으면 된다.
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+MOTO_LLM_ANTHROPIC_MODEL=claude-sonnet-4-20250514
+```
 
 ## 현재 응답 흐름
 
@@ -53,7 +62,7 @@
 
 ## live tuning 결과
 
-`opencode` live 실행으로 50개 공격성 높은 corpus를 5개씩 10 batch로 돌렸다.
+live API 실행으로 50개 공격성 높은 corpus를 5개씩 10 batch로 돌렸다.
 
 - 1차 full run
   - 50 scenarios
@@ -75,9 +84,7 @@
 관련 기록:
 - `TUNING_PLAN.md`
 - `artifacts/tuning/tuning_log.md`
-- `artifacts/tuning/opencode_runs`
-- `artifacts/tuning/opencode_reruns`
-- `artifacts/tuning/opencode_reruns2`
+- `artifacts/tuning`
 
 ## 실제 API 10개 실측
 
@@ -86,13 +93,8 @@
 서버 실행 예시:
 
 ```bash
-XDG_DATA_HOME=/tmp/opencode-data \
-XDG_CONFIG_HOME=/tmp/opencode-config \
-XDG_CACHE_HOME=/tmp/opencode-cache \
 PYTHONPATH=. \
 MOTO_LLM_ENV_FILE=.env \
-MOTO_LLM_OPENAI_TRANSPORT=opencode \
-MOTO_LLM_OPENCODE_TIMEOUT=35 \
 python3 -m moto.server -H 127.0.0.1 -p 5001
 ```
 

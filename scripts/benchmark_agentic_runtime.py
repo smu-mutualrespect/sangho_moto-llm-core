@@ -130,13 +130,11 @@ def _set_runtime_env(live: bool, max_output_tokens: int | None = None) -> dict[s
         "MOTO_LLM_OFFLINE_STUB",
         "MOTO_LLM_AUDIT_FILE",
         "MOTO_LLM_RUNTIME_MODE",
-        "MOTO_LLM_OPENAI_TRANSPORT",
         "MOTO_LLM_OPENAI_MAX_OUTPUT_TOKENS",
     ]
     previous = {key: os.environ.get(key) for key in keys}
     os.environ["MOTO_LLM_AUDIT_FILE"] = str(CURRENT_AUDIT)
     os.environ["MOTO_LLM_RUNTIME_MODE"] = "agentic"
-    os.environ.pop("MOTO_LLM_OPENAI_TRANSPORT", None)
     if live:
         os.environ.pop("MOTO_LLM_OFFLINE_STUB", None)
     else:

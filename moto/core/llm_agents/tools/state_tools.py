@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import re
 from typing import Any
 
 from .request_tools import CanonicalRequest
@@ -93,3 +94,66 @@ def update_world_state_tool(
     next_state["exposed_assets"] = exposed_assets
 
     _session_state[session_id] = next_state
+
+
+def record_native_interaction_tool(
+    session_id: str,
+    canonical: CanonicalRequest,
+    response_body: str,
+    *,
+    status_code: int = 200,
+) -> None:
+    add_to_session_history_tool(
+        session_id,
+        (
+            f"service={canonical.service}, operation={canonical.operation}, "
+            f"source=moto_native, status={status_code}"
+        ),
+        response_body,
+    )
+
+    current = _session_state.get(session_id, {})
+    next_state = deepcopy(current)
+    next_state.setdefault("session_id", session_id)
+    next_state.setdefault("persona", "mid-size-prod-account")
+    next_state.setdefault("region", "us-east-1")
+    next_state.setdefault("phase", "recon")
+    next_state.setdefault("exposed_roles", ["ReadOnlyOpsRole"])
+    next_state.setdefault("credibility_level", "medium")
+    next_state.setdefault("risk_score", 0.2)
+    next_state.setdefault(
+        "consistency_locks",
+        {"account_id": "123456789012", "os_family": "Amazon Linux 2"},
+    )
+
+    action_key = f"{canonical.service}:{canonical.operation}"
+    last_actions = list(next_state.get("last_actions", []))
+    last_actions.append(action_key)
+    next_state["last_actions"] = last_actions[-10:]
+
+    exposed_assets = list(next_state.get("exposed_assets", []))
+    for asset in _extract_assets_from_response(response_body):
+        if asset not in exposed_assets:
+            exposed_assets.append(asset)
+    next_state["exposed_assets"] = exposed_assets[-50:]
+
+    _session_state[session_id] = next_state
+
+
+def _extract_assets_from_response(response_body: str) -> list[str]:
+    patterns = [
+        r"arn:aws:[A-Za-z0-9-]+:[^\s\"',<]+",
+        r"\bi-[0-9a-f]{8,17}\b",
+        r"\bvol-[0-9a-f]{8,17}\b",
+        r"\bsha256:[0-9a-fA-F]{3,64}\b",
+        r"\bupload-[A-Za-z0-9-]+\b",
+    ]
+    assets: list[str] = []
+    for pattern in patterns:
+        for match in re.findall(pattern, response_body):
+            cleaned = match.rstrip(".,)]}")
+            if cleaned and cleaned not in assets:
+                assets.append(cleaned)
+            if len(assets) >= 50:
+                return assets
+    return assets

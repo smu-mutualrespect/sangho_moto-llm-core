@@ -9,7 +9,7 @@ from ..tools import build_response_plan_tool, validate_rendered_response_tool
 from ..tools.request_tools import CanonicalRequest
 from ..tools.render_tools import serialize_response_tool
 from .planner import AgentOutput, DEFAULT_OUTPUT, build_agent_prompt, parse_agent_output
-from .provider import _load_dotenv_if_present, call_gpt_api_with_meta
+from .provider import _load_dotenv_if_present, call_gpt_api_with_meta, select_provider
 from .tool_executor import execute_agent_tool_requests
 from .tool_registry import get_available_tool_names
 
@@ -153,5 +153,8 @@ def _call_agent_once(
     try:
         raw, meta = call_gpt_api_with_meta(prompt)
     except Exception:
-        return DEFAULT_OUTPUT, "", {"provider": "openai", "error": "provider_call_failed"}
+        return DEFAULT_OUTPUT, "", {
+            "provider": select_provider(),
+            "error": "provider_call_failed",
+        }
     return parse_agent_output(raw), raw, meta

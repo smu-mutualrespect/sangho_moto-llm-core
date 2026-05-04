@@ -17,6 +17,7 @@ values for use by Moto.
 """
 
 import os
+from functools import cache
 
 from botocore.loaders import Loader as BotocoreLoader
 
@@ -29,5 +30,6 @@ class Loader(BotocoreLoader):
     BUILTIN_EXTRAS_TYPES = ["moto"]
 
 
+@cache
 def create_loader() -> Loader:
     return Loader(extra_search_paths=[moto_root])
